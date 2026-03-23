@@ -54,65 +54,80 @@ const PV_ETAPES = [
 ];
 
 // ═══════════════════════════════════════════════════════════════
-// STYLES
+// STYLES — DSFR-INSPIRED (Bleu France / Rouge Marianne)
 // ═══════════════════════════════════════════════════════════════
 
-const FONT_DISPLAY = "'Outfit', sans-serif";
-const FONT_BODY = "'Nunito Sans', sans-serif";
+const FONT = "'Source Sans 3', 'Segoe UI', sans-serif";
 
-const COLORS = {
-  bg: "#0a1628",
-  bgCard: "rgba(255,255,255,0.03)",
-  bgCardHover: "rgba(255,255,255,0.06)",
-  border: "rgba(255,255,255,0.07)",
-  borderActive: "rgba(52,211,153,0.35)",
-  text: "#e2e8f0",
-  textMuted: "#64748b",
-  textDim: "#475569",
-  accent: "#34d399",
-  accentBlue: "#38bdf8",
-  accentAmber: "#fbbf24",
-  accentRed: "#f87171",
-  success: "#34d399",
-  warning: "#fbbf24",
-  danger: "#f87171",
-  gradient: "linear-gradient(135deg, #34d399 0%, #38bdf8 100%)",
+const C = {
+  bleuFrance: "#000091",
+  bleuFranceLight: "#E3E3FD",
+  bleuFranceMid: "#6A6AF4",
+  rougeMarianne: "#E1000F",
+  bg: "#F6F6F6",
+  bgWhite: "#FFFFFF",
+  bgAlt: "#F0F0F0",
+  border: "#DDDDDD",
+  borderActive: "#000091",
+  text: "#161616",
+  textMuted: "#666666",
+  textLight: "#929292",
+  success: "#18753C",
+  successBg: "#B8FEC9",
+  warning: "#B34000",
+  warningBg: "#FFE9E6",
+  info: "#0063CB",
+  infoBg: "#E8EDFF",
+  white: "#FFFFFF",
 };
 
 const fmt = (n) => new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
 const fmtN = (n) => new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(n);
 
 const inputBase = {
-  width: "100%", padding: "13px 16px", background: "rgba(255,255,255,0.04)",
-  border: `1px solid ${COLORS.border}`, borderRadius: 10, color: COLORS.text,
-  fontSize: 15, fontFamily: FONT_BODY, outline: "none", boxSizing: "border-box",
+  width: "100%", padding: "12px 16px", background: C.bgAlt,
+  border: `2px solid ${C.border}`, borderRadius: 4, color: C.text,
+  fontSize: 15, fontFamily: FONT, outline: "none", boxSizing: "border-box",
   transition: "border-color 0.2s",
 };
 
 const labelBase = {
-  display: "block", color: COLORS.textMuted, fontSize: 12, fontWeight: 700,
-  marginBottom: 6, fontFamily: FONT_BODY, textTransform: "uppercase",
-  letterSpacing: "0.06em",
+  display: "block", color: C.text, fontSize: 13, fontWeight: 700,
+  marginBottom: 6, fontFamily: FONT,
 };
 
 const btnPrimary = {
-  padding: "16px 32px", background: COLORS.gradient, border: "none",
-  borderRadius: 12, color: "#0a1628", fontSize: 16, fontWeight: 800,
-  cursor: "pointer", fontFamily: FONT_BODY, letterSpacing: "0.01em",
-  boxShadow: "0 4px 20px rgba(52,211,153,0.25)", transition: "all 0.2s",
+  padding: "14px 32px", background: C.bleuFrance, border: "none",
+  borderRadius: 4, color: C.white, fontSize: 16, fontWeight: 700,
+  cursor: "pointer", fontFamily: FONT, letterSpacing: "0.01em",
+  transition: "all 0.2s",
 };
 
 const btnSecondary = {
-  padding: "14px 28px", background: "rgba(255,255,255,0.05)",
-  border: `1px solid ${COLORS.border}`, borderRadius: 12, color: COLORS.text,
-  fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: FONT_BODY,
+  padding: "12px 24px", background: C.white,
+  border: `2px solid ${C.bleuFrance}`, borderRadius: 4, color: C.bleuFrance,
+  fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: FONT,
   transition: "all 0.2s",
 };
 
 const cardStyle = {
-  background: COLORS.bgCard, borderRadius: 16, padding: 24,
-  border: `1px solid ${COLORS.border}`,
+  background: C.bgWhite, borderRadius: 8, padding: 24,
+  border: `1px solid ${C.border}`, boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
 };
+
+// ═══════════════════════════════════════════════════════════════
+// TRICOLORE BANNER
+// ═══════════════════════════════════════════════════════════════
+
+function TricoloreBanner() {
+  return (
+    <div style={{ display: "flex", height: 5 }}>
+      <div style={{ flex: 1, background: "#000091" }} />
+      <div style={{ flex: 1, background: "#FFFFFF" }} />
+      <div style={{ flex: 1, background: "#E1000F" }} />
+    </div>
+  );
+}
 
 // ═══════════════════════════════════════════════════════════════
 // LOGIN
@@ -129,27 +144,35 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: COLORS.bg, padding: 24 }}>
-      <div style={{ width: "100%", maxWidth: 420, ...cardStyle, padding: 40 }}>
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>🏡</div>
-          <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: 26, color: COLORS.text, fontWeight: 800, marginBottom: 8 }}>Espace Commercial</h1>
-          <p style={{ color: COLORS.textMuted, fontSize: 14, fontFamily: FONT_BODY }}>Simulateur de pré-candidature — Programme de rénovation énergétique 2026</p>
-        </div>
-        <div style={{ marginBottom: 20 }}>
-          <label style={labelBase}>Email</label>
-          <input type="email" value={email} onChange={e => { setEmail(e.target.value); setErr(""); }} placeholder="commercial@renov.fr" style={inputBase} onKeyDown={e => e.key === "Enter" && submit()} />
-        </div>
-        <div style={{ marginBottom: 24 }}>
-          <label style={labelBase}>Mot de passe</label>
-          <input type="password" value={pwd} onChange={e => { setPwd(e.target.value); setErr(""); }} placeholder="••••••••" style={inputBase} onKeyDown={e => e.key === "Enter" && submit()} />
-        </div>
-        {err && <div style={{ color: COLORS.danger, fontSize: 13, fontFamily: FONT_BODY, marginBottom: 16, textAlign: "center" }}>{err}</div>}
-        <button onClick={submit} style={{ ...btnPrimary, width: "100%" }}>Se connecter</button>
-        <div style={{ marginTop: 20, padding: 14, background: "rgba(52,211,153,0.06)", borderRadius: 10, border: "1px solid rgba(52,211,153,0.12)" }}>
-          <p style={{ color: COLORS.textMuted, fontSize: 12, fontFamily: FONT_BODY, margin: 0, lineHeight: 1.6 }}>
-            Démo : commercial@renov.fr / renov2026
-          </p>
+    <div style={{ minHeight: "100vh", background: C.bg }}>
+      <TricoloreBanner />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 5px)", padding: 24 }}>
+        <div style={{ width: "100%", maxWidth: 440, ...cardStyle, padding: 40 }}>
+          <div style={{ textAlign: "center", marginBottom: 32 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>
+              <div style={{ width: 48, height: 48, background: C.bleuFrance, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ fontSize: 24, filter: "grayscale(0)" }}>🏛️</span>
+              </div>
+            </div>
+            <h1 style={{ fontFamily: FONT, fontSize: 24, color: C.bleuFrance, fontWeight: 800, marginBottom: 4 }}>Espace Commercial</h1>
+            <p style={{ color: C.textMuted, fontSize: 14, fontFamily: FONT }}>Simulateur de pré-candidature</p>
+            <p style={{ color: C.bleuFrance, fontSize: 13, fontFamily: FONT, fontWeight: 700, marginTop: 4 }}>Programme de rénovation énergétique 2026</p>
+          </div>
+          <div style={{ marginBottom: 20 }}>
+            <label style={labelBase}>Adresse email</label>
+            <input type="email" value={email} onChange={e => { setEmail(e.target.value); setErr(""); }} placeholder="commercial@renov.fr" style={inputBase} autoComplete="off" data-lpignore="true" onKeyDown={e => e.key === "Enter" && submit()} />
+          </div>
+          <div style={{ marginBottom: 24 }}>
+            <label style={labelBase}>Mot de passe</label>
+            <input type="password" value={pwd} onChange={e => { setPwd(e.target.value); setErr(""); }} placeholder="••••••••" style={inputBase} autoComplete="new-password" data-lpignore="true" onKeyDown={e => e.key === "Enter" && submit()} />
+          </div>
+          {err && <div style={{ color: C.rougeMarianne, fontSize: 13, fontFamily: FONT, marginBottom: 16, textAlign: "center", padding: "10px 16px", background: C.warningBg, borderRadius: 4, border: `1px solid ${C.rougeMarianne}30` }}>{err}</div>}
+          <button onClick={submit} style={{ ...btnPrimary, width: "100%" }}>Se connecter</button>
+          <div style={{ marginTop: 20, padding: 14, background: C.infoBg, borderRadius: 4, borderLeft: `4px solid ${C.bleuFrance}` }}>
+            <p style={{ color: C.bleuFrance, fontSize: 12, fontFamily: FONT, margin: 0, lineHeight: 1.6, fontWeight: 600 }}>
+              Démo : commercial@renov.fr / renov2026
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -167,44 +190,47 @@ function Sidebar({ active, setActive, onLogout, sidebarOpen, setSidebarOpen }) {
     { id: "dossiers", icon: "📁", label: "Dossiers" },
     { id: "demo-ite", icon: "🧱", label: "Démo ITE" },
     { id: "demo-pv", icon: "☀️", label: "Démo Solaire PV" },
-    { id: "fiche-ite", icon: "📋", label: "Subventions ITE 2026" },
-    { id: "fiche-pv", icon: "📋", label: "Subventions PV 2026" },
+    { id: "fiche-ite", icon: "📋", label: "Subventions ITE" },
+    { id: "fiche-pv", icon: "📋", label: "Subventions PV" },
   ];
 
   return (
     <>
-      {sidebarOpen && <div onClick={() => setSidebarOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 199 }} />}
+      {sidebarOpen && <div onClick={() => setSidebarOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 199 }} />}
       <aside style={{
-        position: "fixed", top: 0, left: sidebarOpen ? 0 : -280, width: 270, height: "100vh",
-        background: "linear-gradient(180deg, #0d1f3c 0%, #0a1628 100%)", borderRight: `1px solid ${COLORS.border}`,
+        position: "fixed", top: 0, left: sidebarOpen ? 0 : -300, width: 280, height: "100vh",
+        background: C.bgWhite, borderRight: `1px solid ${C.border}`,
         zIndex: 200, transition: "left 0.3s ease", display: "flex", flexDirection: "column", overflow: "hidden",
       }}>
-        <div style={{ padding: "24px 20px 16px", borderBottom: `1px solid ${COLORS.border}` }}>
+        <TricoloreBanner />
+        <div style={{ padding: "20px 20px 16px", borderBottom: `1px solid ${C.border}` }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{ fontSize: 28 }}>🏡</span>
+            <div style={{ width: 36, height: 36, background: C.bleuFrance, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ fontSize: 18 }}>🏛️</span>
+            </div>
             <div>
-              <div style={{ fontFamily: FONT_DISPLAY, fontSize: 16, fontWeight: 800, color: COLORS.text }}>RénovÉnergie</div>
-              <div style={{ fontFamily: FONT_BODY, fontSize: 11, color: COLORS.textMuted }}>Programme 2026</div>
+              <div style={{ fontFamily: FONT, fontSize: 15, fontWeight: 800, color: C.bleuFrance }}>RénovÉnergie</div>
+              <div style={{ fontFamily: FONT, fontSize: 11, color: C.textMuted }}>Programme d'État 2026</div>
             </div>
           </div>
         </div>
-        <nav style={{ flex: 1, padding: "12px 10px", overflowY: "auto" }}>
+        <nav style={{ flex: 1, padding: "8px 10px", overflowY: "auto" }}>
           {sections.map(s => (
             <button key={s.id} onClick={() => { setActive(s.id); setSidebarOpen(false); }} style={{
-              width: "100%", padding: "12px 14px", background: active === s.id ? "rgba(52,211,153,0.1)" : "transparent",
-              border: "none", borderRadius: 10, color: active === s.id ? COLORS.accent : COLORS.textMuted,
-              fontSize: 14, fontFamily: FONT_BODY, fontWeight: active === s.id ? 700 : 500,
+              width: "100%", padding: "11px 14px", background: active === s.id ? C.bleuFranceLight : "transparent",
+              border: "none", borderRadius: 4, color: active === s.id ? C.bleuFrance : C.text,
+              fontSize: 14, fontFamily: FONT, fontWeight: active === s.id ? 700 : 500,
               cursor: "pointer", display: "flex", alignItems: "center", gap: 10, textAlign: "left",
-              transition: "all 0.2s", marginBottom: 2,
-              borderLeft: active === s.id ? `3px solid ${COLORS.accent}` : "3px solid transparent",
+              transition: "all 0.15s", marginBottom: 2,
+              borderLeft: active === s.id ? `3px solid ${C.bleuFrance}` : "3px solid transparent",
             }}>
-              <span style={{ fontSize: 18, width: 24, textAlign: "center" }}>{s.icon}</span>{s.label}
+              <span style={{ fontSize: 16, width: 24, textAlign: "center" }}>{s.icon}</span>{s.label}
             </button>
           ))}
         </nav>
-        <div style={{ padding: "16px 14px", borderTop: `1px solid ${COLORS.border}` }}>
-          <button onClick={onLogout} style={{ ...btnSecondary, width: "100%", padding: "10px", fontSize: 13, color: COLORS.textMuted }}>
-            🚪 Déconnexion
+        <div style={{ padding: "14px", borderTop: `1px solid ${C.border}` }}>
+          <button onClick={onLogout} style={{ ...btnSecondary, width: "100%", padding: "10px", fontSize: 13, borderWidth: 1 }}>
+            Déconnexion
           </button>
         </div>
       </aside>
@@ -214,10 +240,19 @@ function Sidebar({ active, setActive, onLogout, sidebarOpen, setSidebarOpen }) {
 
 function TopBar({ setSidebarOpen, title }) {
   return (
-    <header style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(10,22,40,0.92)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${COLORS.border}`, padding: "12px 20px", display: "flex", alignItems: "center", gap: 14 }}>
-      <button onClick={() => setSidebarOpen(true)} style={{ background: "none", border: "none", color: COLORS.text, fontSize: 22, cursor: "pointer", padding: 4 }}>☰</button>
-      <span style={{ fontFamily: FONT_DISPLAY, fontSize: 17, fontWeight: 700, color: COLORS.text }}>{title}</span>
-    </header>
+    <>
+      <TricoloreBanner />
+      <header style={{ position: "sticky", top: 0, zIndex: 100, background: C.bgWhite, borderBottom: `2px solid ${C.bleuFrance}`, padding: "10px 20px", display: "flex", alignItems: "center", gap: 14 }}>
+        <button onClick={() => setSidebarOpen(true)} style={{ background: "none", border: "none", color: C.bleuFrance, fontSize: 22, cursor: "pointer", padding: 4 }}>☰</button>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ width: 28, height: 28, background: C.bleuFrance, borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ fontSize: 14 }}>🏛️</span>
+          </div>
+          <span style={{ fontFamily: FONT, fontSize: 16, fontWeight: 700, color: C.bleuFrance }}>{title}</span>
+        </div>
+        <div style={{ marginLeft: "auto", fontFamily: FONT, fontSize: 11, color: C.textMuted, fontWeight: 600 }}>RÉPUBLIQUE FRANÇAISE</div>
+      </header>
+    </>
   );
 }
 
@@ -229,39 +264,41 @@ function Accueil({ setActive }) {
   return (
     <div style={{ padding: "40px 24px", maxWidth: 800, margin: "0 auto" }}>
       <div style={{ textAlign: "center", marginBottom: 48 }}>
-        <div style={{ fontSize: 72, marginBottom: 20 }}>🏡</div>
-        <h1 style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(28px,5vw,42px)", color: COLORS.text, fontWeight: 800, lineHeight: 1.15, marginBottom: 12 }}>
+        <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 80, height: 80, background: C.bleuFranceLight, borderRadius: 12, marginBottom: 20 }}>
+          <span style={{ fontSize: 40 }}>🏛️</span>
+        </div>
+        <h1 style={{ fontFamily: FONT, fontSize: "clamp(26px,5vw,38px)", color: C.bleuFrance, fontWeight: 800, lineHeight: 1.2, marginBottom: 8 }}>
           Système de Simulation
         </h1>
-        <p style={{ fontFamily: FONT_DISPLAY, fontSize: "clamp(16px,3vw,20px)", color: COLORS.accent, marginBottom: 8 }}>
+        <p style={{ fontFamily: FONT, fontSize: "clamp(15px,3vw,18px)", color: C.rougeMarianne, fontWeight: 700, marginBottom: 8 }}>
           Pré-candidature au Programme d'État
         </p>
-        <p style={{ fontFamily: FONT_BODY, fontSize: 15, color: COLORS.textMuted, lineHeight: 1.6, maxWidth: 500, margin: "0 auto 36px" }}>
+        <p style={{ fontFamily: FONT, fontSize: 15, color: C.textMuted, lineHeight: 1.6, maxWidth: 520, margin: "0 auto 32px" }}>
           Rénovation Énergétique 2026 — Isolation Thermique par l'Extérieur & Panneaux Solaires Photovoltaïques
         </p>
-        <button onClick={() => setActive("simulation")} style={{ ...btnPrimary, fontSize: 18, padding: "18px 48px" }}>
-          🧮 Lancer une simulation
+        <button onClick={() => setActive("simulation")} style={{ ...btnPrimary, fontSize: 17, padding: "16px 48px" }}>
+          Lancer une simulation
         </button>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 40 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 16, marginBottom: 32 }}>
         {[
-          { icon: "🏗️", val: "RGE", label: "Artisans certifiés" },
-          { icon: "💰", val: "70%", label: "Aides sur coût total" },
-          { icon: "📉", val: "−30%", label: "Facture chauffage" },
-          { icon: "☀️", val: "25 ans", label: "Garantie panneaux" },
+          { icon: "🏗️", val: "RGE", label: "Artisans certifiés", color: C.bleuFrance },
+          { icon: "💰", val: "70%", label: "Aides sur coût total", color: C.success },
+          { icon: "📉", val: "−30%", label: "Facture chauffage", color: C.rougeMarianne },
+          { icon: "☀️", val: "25 ans", label: "Garantie panneaux", color: C.info },
         ].map((s, i) => (
           <div key={i} style={{ ...cardStyle, textAlign: "center", padding: 20 }}>
             <div style={{ fontSize: 28, marginBottom: 8 }}>{s.icon}</div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: COLORS.accent, fontFamily: FONT_DISPLAY }}>{s.val}</div>
-            <div style={{ fontSize: 12, color: COLORS.textMuted, marginTop: 4, fontFamily: FONT_BODY }}>{s.label}</div>
+            <div style={{ fontSize: 24, fontWeight: 800, color: s.color, fontFamily: FONT }}>{s.val}</div>
+            <div style={{ fontSize: 12, color: C.textMuted, marginTop: 4, fontFamily: FONT }}>{s.label}</div>
           </div>
         ))}
       </div>
 
-      <div style={{ ...cardStyle, padding: 20, background: "rgba(52,211,153,0.04)", border: "1px solid rgba(52,211,153,0.12)" }}>
-        <p style={{ color: COLORS.textMuted, fontSize: 13, fontFamily: FONT_BODY, margin: 0, lineHeight: 1.7 }}>
-          🌿 <strong style={{ color: COLORS.text }}>Programme d'accompagnement d'État 2026</strong> — MaPrimeRénov', Certificats d'Économies d'Énergie (CEE), Éco-PTZ, TVA réduite. Simulez l'éligibilité de votre client en quelques minutes.
+      <div style={{ ...cardStyle, padding: 20, borderLeft: `4px solid ${C.bleuFrance}` }}>
+        <p style={{ color: C.text, fontSize: 14, fontFamily: FONT, margin: 0, lineHeight: 1.7 }}>
+          <strong style={{ color: C.bleuFrance }}>Programme d'accompagnement d'État 2026</strong> — MaPrimeRénov', Certificats d'Économies d'Énergie (CEE), Éco-PTZ, TVA réduite. Simulez l'éligibilité de votre client en quelques minutes.
         </p>
       </div>
     </div>
@@ -279,9 +316,7 @@ const INITIAL_FORM = {
   facades: "", annee_construction: "", proprio_depuis: "",
   combles: "", facture_energie: "", contrat: "", salaire: "",
   metier: "", credit_en_cours: "", observation: "",
-  // ITE calc
   m2_ite: "", prix_m2_ttc: "", aides_nominatives: "", aides_bonus: "",
-  // PV calc
   puissance_pv: "6", facture_elec: "", conso_kw: "",
 };
 
@@ -303,7 +338,7 @@ function SimulationForm({ onComplete, dossiers }) {
           {options.map(o => <option key={o} value={o}>{o}</option>)}
         </select>
       ) : (
-        <input type={type} value={form[k]} onChange={e => upd(k, e.target.value)} placeholder={placeholder} style={inputBase} />
+        <input type={type} value={form[k]} onChange={e => upd(k, e.target.value)} placeholder={placeholder} style={inputBase} autoComplete="off" data-lpignore="true" data-form-type="other" />
       )}
     </div>
   );
@@ -332,7 +367,6 @@ function SimulationForm({ onComplete, dossiers }) {
     const tva = prixTTC - prixHT;
     const factureElec = parseFloat(form.facture_elec) || 1800;
     const consoKW = parseFloat(form.conso_kw) || 5000;
-    const sub = prixTTC;
     const reductionFacture = Math.round(factureElec * 0.8);
     const mensualiteAvant = Math.round(factureElec / 12);
     const facturApres = Math.round(factureElec * 0.2);
@@ -345,11 +379,7 @@ function SimulationForm({ onComplete, dossiers }) {
     return { puissance, prixTTC, prixHT, tva, factureElec, consoKW, reductionFacture, mensualiteAvant, facturApres, mensualiteApres, productionAnnuelle, surplus, reventeSurplus, mensualiteFinancement, mensualiteApresAides, grille };
   };
 
-  const computeScore = () => {
-    const base = 60;
-    const rand = Math.floor(Math.random() * 21);
-    return base + rand;
-  };
+  const computeScore = () => 60 + Math.floor(Math.random() * 21);
 
   const handleFinalize = () => {
     const ite = computeITE();
@@ -374,22 +404,22 @@ function SimulationForm({ onComplete, dossiers }) {
             <div key={i} style={{ flex: 1, textAlign: "center" }}>
               <div style={{
                 width: 32, height: 32, borderRadius: "50%", margin: "0 auto 6px",
-                background: i <= step ? COLORS.gradient : "rgba(255,255,255,0.06)",
+                background: i <= step ? C.bleuFrance : C.bgAlt,
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 13, fontWeight: 800, color: i <= step ? "#0a1628" : COLORS.textDim,
-                fontFamily: FONT_BODY, transition: "all 0.3s",
+                fontSize: 13, fontWeight: 800, color: i <= step ? C.white : C.textLight,
+                fontFamily: FONT, transition: "all 0.3s",
               }}>{i + 1}</div>
-              <div style={{ fontSize: 10, color: i <= step ? COLORS.text : COLORS.textDim, fontFamily: FONT_BODY, fontWeight: i === step ? 700 : 400, display: i === step ? "block" : "none" }}>{t}</div>
+              <div style={{ fontSize: 10, color: i <= step ? C.bleuFrance : C.textLight, fontFamily: FONT, fontWeight: i === step ? 700 : 400, display: i === step ? "block" : "none" }}>{t}</div>
             </div>
           ))}
         </div>
-        <div style={{ height: 4, background: "rgba(255,255,255,0.06)", borderRadius: 2 }}>
-          <div style={{ height: "100%", width: `${((step + 1) / 5) * 100}%`, background: COLORS.gradient, borderRadius: 2, transition: "width 0.4s ease" }} />
+        <div style={{ height: 4, background: C.bgAlt, borderRadius: 2 }}>
+          <div style={{ height: "100%", width: `${((step + 1) / 5) * 100}%`, background: C.bleuFrance, borderRadius: 2, transition: "width 0.4s ease" }} />
         </div>
       </div>
 
-      <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 22, color: COLORS.text, marginBottom: 6 }}>{stepTitles[step]}</h2>
-      <p style={{ color: COLORS.textMuted, fontSize: 13, fontFamily: FONT_BODY, marginBottom: 24 }}>Pas d'obligation de répondre à tout pour continuer.</p>
+      <h2 style={{ fontFamily: FONT, fontSize: 22, color: C.bleuFrance, fontWeight: 800, marginBottom: 6 }}>{stepTitles[step]}</h2>
+      <p style={{ color: C.textMuted, fontSize: 13, fontFamily: FONT, marginBottom: 24 }}>Pas d'obligation de répondre à tout pour continuer.</p>
 
       <div style={{ ...cardStyle, marginBottom: 24 }}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
@@ -405,12 +435,12 @@ function SimulationForm({ onComplete, dossiers }) {
           {step === 1 && (<>
             <Field label="Méthode de chauffage" k="chauffage" options={["Gaz", "Électrique", "Fioul", "Bois / Granulés", "Pompe à chaleur", "Autre"]} half />
             <Field label="Type de vitrage" k="vitrage" options={["Simple vitrage", "Double vitrage", "Triple vitrage", "Mixte"]} half />
-            <Field label="Zone ABF / Patrimoine historique" k="abf" options={["Non", "Oui — ABF", "Oui — Monument historique", "Ne sait pas"]} half />
+            <Field label="Zone ABF / Patrimoine" k="abf" options={["Non", "Oui — ABF", "Oui — Monument historique", "Ne sait pas"]} half />
             <Field label="Installation électrique" k="elec_install" options={["Aux normes", "À rénover", "Ne sait pas"]} half />
             <Field label="Nb de parts fiscales" k="parts" type="number" half placeholder="2" />
             <Field label="Nb d'ouvertures" k="ouvertures" type="number" half placeholder="10" />
             <Field label="Surface habitable (m²)" k="surface_hab" type="number" half placeholder="120" />
-            <Field label="Surface à isoler (m²)" k="surface_isoler" half placeholder="ex: 95 — façades Nord/Est" />
+            <Field label="Surface à isoler (m²)" k="surface_isoler" half placeholder="ex: 95" />
             <Field label="Façades concernées" k="facades" half placeholder="Nord, Est, Sud..." />
             <Field label="Année de construction" k="annee_construction" half placeholder="1975" />
             <Field label="Propriétaire depuis" k="proprio_depuis" half placeholder="2010" />
@@ -422,64 +452,58 @@ function SimulationForm({ onComplete, dossiers }) {
             <Field label="Type de contrat" k="contrat" options={["CDI", "CDD", "Fonctionnaire", "Indépendant", "Retraité", "Autre"]} half />
             <Field label="Salaire net mensuel (€)" k="salaire" type="number" half placeholder="2200" />
             <Field label="Métier" k="metier" half placeholder="Technicien" />
-            <Field label="Crédit(s) en cours — mensualité totale (€)" k="credit_en_cours" type="number" half placeholder="450" />
-            <Field label="Observation / Motivation du client" k="observation" placeholder="Le client souhaite réduire sa facture et améliorer le confort..." />
+            <Field label="Crédit(s) en cours (€/mois)" k="credit_en_cours" type="number" half placeholder="450" />
+            <Field label="Observation / Motivation" k="observation" placeholder="Le client souhaite réduire sa facture..." />
           </>)}
 
           {step === 3 && (<>
-            <div style={{ width: "100%", padding: "14px 18px", background: "rgba(52,211,153,0.06)", borderRadius: 12, border: "1px solid rgba(52,211,153,0.12)", marginBottom: 8 }}>
-              <p style={{ color: COLORS.accent, fontSize: 13, fontFamily: FONT_BODY, margin: 0 }}>
-                🧱 Renseignez les données pour calculer le reste à charge ITE du client.
+            <div style={{ width: "100%", padding: "12px 16px", background: C.infoBg, borderRadius: 4, borderLeft: `4px solid ${C.bleuFrance}`, marginBottom: 8 }}>
+              <p style={{ color: C.bleuFrance, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>
+                Renseignez les données pour calculer le reste à charge ITE du client.
               </p>
             </div>
             <Field label="Nombre de m² à isoler" k="m2_ite" type="number" half placeholder="95" />
-            <Field label="Prix TTC au m² (votre tarif)" k="prix_m2_ttc" type="number" half placeholder="150" />
-            <Field label="Aides nominatives (MaPrimeRénov' etc.) €" k="aides_nominatives" type="number" half placeholder="4000" />
+            <Field label="Prix TTC au m²" k="prix_m2_ttc" type="number" half placeholder="150" />
+            <Field label="Aides nominatives (MaPrimeRénov') €" k="aides_nominatives" type="number" half placeholder="4000" />
             <Field label="Aides bonus nationales (€)" k="aides_bonus" type="number" half placeholder="1500" />
             {(parseFloat(form.m2_ite) > 0 && parseFloat(form.prix_m2_ttc) > 0) && (
-              <div style={{ width: "100%", padding: 20, background: "rgba(255,255,255,0.02)", borderRadius: 14, border: `1px solid ${COLORS.border}` }}>
+              <div style={{ width: "100%", padding: 20, background: C.bg, borderRadius: 8, border: `1px solid ${C.border}` }}>
                 {(() => { const c = computeITE(); return (<>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 16 }}>
-                    <div style={{ textAlign: "center" }}>
-                      <div style={{ fontSize: 11, color: COLORS.textMuted, fontFamily: FONT_BODY, textTransform: "uppercase", fontWeight: 700 }}>Coût TTC</div>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: COLORS.text, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.totalTTC)}</div>
-                    </div>
-                    <div style={{ textAlign: "center" }}>
-                      <div style={{ fontSize: 11, color: COLORS.textMuted, fontFamily: FONT_BODY, textTransform: "uppercase", fontWeight: 700 }}>HT</div>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: COLORS.textMuted, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.totalHT)}</div>
-                    </div>
-                    <div style={{ textAlign: "center" }}>
-                      <div style={{ fontSize: 11, color: COLORS.textMuted, fontFamily: FONT_BODY, textTransform: "uppercase", fontWeight: 700 }}>TVA 5,5%</div>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: COLORS.textMuted, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.tva)}</div>
-                    </div>
+                    {[
+                      { label: "Coût TTC", val: fmt(c.totalTTC), color: C.text },
+                      { label: "HT", val: fmt(c.totalHT), color: C.textMuted },
+                      { label: "TVA 5,5%", val: fmt(c.tva), color: C.textMuted },
+                    ].map((x, i) => (
+                      <div key={i} style={{ textAlign: "center" }}>
+                        <div style={{ fontSize: 11, color: C.textMuted, fontFamily: FONT, fontWeight: 700, textTransform: "uppercase" }}>{x.label}</div>
+                        <div style={{ fontSize: 20, fontWeight: 800, color: x.color, fontFamily: FONT, marginTop: 4 }}>{x.val}</div>
+                      </div>
+                    ))}
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 16 }}>
-                    <div style={{ textAlign: "center", padding: 12, background: "rgba(52,211,153,0.06)", borderRadius: 10 }}>
-                      <div style={{ fontSize: 11, color: COLORS.accent, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase" }}>CEE ({CEE_PAR_M2}€/m²)</div>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: COLORS.accent, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.cee)}</div>
-                    </div>
-                    <div style={{ textAlign: "center", padding: 12, background: "rgba(56,189,248,0.06)", borderRadius: 10 }}>
-                      <div style={{ fontSize: 11, color: COLORS.accentBlue, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase" }}>Aides nomin.</div>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: COLORS.accentBlue, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.aidesNom)}</div>
-                    </div>
-                    <div style={{ textAlign: "center", padding: 12, background: "rgba(251,191,36,0.06)", borderRadius: 10 }}>
-                      <div style={{ fontSize: 11, color: COLORS.accentAmber, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase" }}>Bonus nat.</div>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: COLORS.accentAmber, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.aidesBonus)}</div>
-                    </div>
+                    {[
+                      { label: `CEE (${CEE_PAR_M2}€/m²)`, val: fmt(c.cee), color: C.success, bg: C.successBg },
+                      { label: "Aides nomin.", val: fmt(c.aidesNom), color: C.info, bg: C.infoBg },
+                      { label: "Bonus nat.", val: fmt(c.aidesBonus), color: C.warning, bg: C.warningBg },
+                    ].map((x, i) => (
+                      <div key={i} style={{ textAlign: "center", padding: 12, background: x.bg, borderRadius: 6 }}>
+                        <div style={{ fontSize: 10, color: x.color, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>{x.label}</div>
+                        <div style={{ fontSize: 18, fontWeight: 800, color: x.color, fontFamily: FONT, marginTop: 4 }}>{x.val}</div>
+                      </div>
+                    ))}
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-                    <div style={{ textAlign: "center", padding: 14, background: "rgba(248,113,113,0.06)", borderRadius: 12, border: "1px solid rgba(248,113,113,0.15)" }}>
-                      <div style={{ fontSize: 10, color: COLORS.danger, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase" }}>Sans aides</div>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: COLORS.danger, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.sansReinjection)}</div>
-                    </div>
-                    <div style={{ textAlign: "center", padding: 14, background: "rgba(52,211,153,0.08)", borderRadius: 12, border: "1px solid rgba(52,211,153,0.2)" }}>
-                      <div style={{ fontSize: 10, color: COLORS.accent, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase" }}>Avec aides</div>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: COLORS.accent, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.avecReinjection)}</div>
-                    </div>
-                    <div style={{ textAlign: "center", padding: 14, background: "linear-gradient(135deg, rgba(52,211,153,0.1), rgba(56,189,248,0.1))", borderRadius: 12, border: "1px solid rgba(52,211,153,0.25)" }}>
-                      <div style={{ fontSize: 10, color: COLORS.text, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase" }}>Reste à charge</div>
-                      <div style={{ fontSize: 22, fontWeight: 800, color: COLORS.text, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.rac)}</div>
-                    </div>
+                    {[
+                      { label: "Sans aides", val: fmt(c.sansReinjection), color: C.rougeMarianne, bg: `${C.rougeMarianne}08`, border: `${C.rougeMarianne}25` },
+                      { label: "Avec aides", val: fmt(c.avecReinjection), color: C.success, bg: `${C.success}08`, border: `${C.success}25` },
+                      { label: "Reste à charge", val: fmt(c.rac), color: C.bleuFrance, bg: C.bleuFranceLight, border: `${C.bleuFrance}25` },
+                    ].map((x, i) => (
+                      <div key={i} style={{ textAlign: "center", padding: 14, background: x.bg, borderRadius: 8, border: `1px solid ${x.border}` }}>
+                        <div style={{ fontSize: 10, color: x.color, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>{x.label}</div>
+                        <div style={{ fontSize: 20, fontWeight: 800, color: x.color, fontFamily: FONT, marginTop: 4 }}>{x.val}</div>
+                      </div>
+                    ))}
                   </div>
                 </>); })()}
               </div>
@@ -487,9 +511,9 @@ function SimulationForm({ onComplete, dossiers }) {
           </>)}
 
           {step === 4 && (<>
-            <div style={{ width: "100%", padding: "14px 18px", background: "rgba(56,189,248,0.06)", borderRadius: 12, border: "1px solid rgba(56,189,248,0.12)", marginBottom: 8 }}>
-              <p style={{ color: COLORS.accentBlue, fontSize: 13, fontFamily: FONT_BODY, margin: 0 }}>
-                ☀️ Sélectionnez la puissance et renseignez la consommation pour calculer la rentabilité.
+            <div style={{ width: "100%", padding: "12px 16px", background: C.infoBg, borderRadius: 4, borderLeft: `4px solid ${C.info}`, marginBottom: 8 }}>
+              <p style={{ color: C.info, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>
+                Sélectionnez la puissance et renseignez la consommation pour calculer la rentabilité.
               </p>
             </div>
             <div style={{ width: "100%" }}>
@@ -497,61 +521,60 @@ function SimulationForm({ onComplete, dossiers }) {
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
                 {PV_GRILLE.map(g => (
                   <button key={g.kw} onClick={() => upd("puissance_pv", String(g.kw))} style={{
-                    padding: "16px 8px", borderRadius: 12, cursor: "pointer", textAlign: "center",
-                    background: form.puissance_pv === String(g.kw) ? "rgba(56,189,248,0.12)" : COLORS.bgCard,
-                    border: form.puissance_pv === String(g.kw) ? "1px solid rgba(56,189,248,0.4)" : `1px solid ${COLORS.border}`,
+                    padding: "14px 8px", borderRadius: 6, cursor: "pointer", textAlign: "center",
+                    background: form.puissance_pv === String(g.kw) ? C.bleuFranceLight : C.bgAlt,
+                    border: form.puissance_pv === String(g.kw) ? `2px solid ${C.bleuFrance}` : `1px solid ${C.border}`,
                     transition: "all 0.2s",
                   }}>
-                    <div style={{ fontSize: 18, fontWeight: 800, color: form.puissance_pv === String(g.kw) ? COLORS.accentBlue : COLORS.text, fontFamily: FONT_DISPLAY }}>{g.label}</div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: COLORS.accent, fontFamily: FONT_BODY, marginTop: 4 }}>{fmt(g.prix)}</div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: form.puissance_pv === String(g.kw) ? C.bleuFrance : C.text, fontFamily: FONT }}>{g.label}</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: C.success, fontFamily: FONT, marginTop: 4 }}>{fmt(g.prix)}</div>
                   </button>
                 ))}
               </div>
             </div>
             <Field label="Facture électrique annuelle (€)" k="facture_elec" type="number" half placeholder="1800" />
             <Field label="Consommation annuelle (kWh)" k="conso_kw" type="number" half placeholder="5000" />
-
             {(parseFloat(form.facture_elec) > 0) && (
-              <div style={{ width: "100%", padding: 20, background: "rgba(255,255,255,0.02)", borderRadius: 14, border: `1px solid ${COLORS.border}` }}>
+              <div style={{ width: "100%", padding: 20, background: C.bg, borderRadius: 8, border: `1px solid ${C.border}` }}>
                 {(() => { const c = computePV(); return (<>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
-                    <div style={{ textAlign: "center", padding: 14, background: "rgba(56,189,248,0.06)", borderRadius: 12 }}>
-                      <div style={{ fontSize: 11, color: COLORS.accentBlue, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase" }}>Prix TTC ({c.grille.label})</div>
-                      <div style={{ fontSize: 24, fontWeight: 800, color: COLORS.accentBlue, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.prixTTC)}</div>
+                    <div style={{ textAlign: "center", padding: 14, background: C.infoBg, borderRadius: 8 }}>
+                      <div style={{ fontSize: 11, color: C.info, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Prix TTC ({c.grille.label})</div>
+                      <div style={{ fontSize: 22, fontWeight: 800, color: C.info, fontFamily: FONT, marginTop: 4 }}>{fmt(c.prixTTC)}</div>
                     </div>
-                    <div style={{ textAlign: "center", padding: 14, background: "rgba(52,211,153,0.06)", borderRadius: 12 }}>
-                      <div style={{ fontSize: 11, color: COLORS.accent, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase" }}>Réduction facture (80%)</div>
-                      <div style={{ fontSize: 24, fontWeight: 800, color: COLORS.accent, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.reductionFacture)}/an</div>
+                    <div style={{ textAlign: "center", padding: 14, background: C.successBg, borderRadius: 8 }}>
+                      <div style={{ fontSize: 11, color: C.success, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Réduction facture</div>
+                      <div style={{ fontSize: 22, fontWeight: 800, color: C.success, fontFamily: FONT, marginTop: 4 }}>{fmt(c.reductionFacture)}/an</div>
                     </div>
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
-                    <div style={{ textAlign: "center", padding: 12, background: "rgba(248,113,113,0.05)", borderRadius: 10 }}>
-                      <div style={{ fontSize: 11, color: COLORS.danger, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase" }}>Mensualité AVANT</div>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: COLORS.danger, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.mensualiteAvant)}/mois</div>
+                    <div style={{ textAlign: "center", padding: 12, background: C.warningBg, borderRadius: 8 }}>
+                      <div style={{ fontSize: 11, color: C.rougeMarianne, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Mensualité AVANT</div>
+                      <div style={{ fontSize: 18, fontWeight: 800, color: C.rougeMarianne, fontFamily: FONT, marginTop: 4 }}>{fmt(c.mensualiteAvant)}/mois</div>
                     </div>
-                    <div style={{ textAlign: "center", padding: 12, background: "rgba(52,211,153,0.06)", borderRadius: 10 }}>
-                      <div style={{ fontSize: 11, color: COLORS.accent, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase" }}>Mensualité APRÈS</div>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: COLORS.accent, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{fmt(c.mensualiteApres)}/mois</div>
+                    <div style={{ textAlign: "center", padding: 12, background: C.successBg, borderRadius: 8 }}>
+                      <div style={{ fontSize: 11, color: C.success, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Mensualité APRÈS</div>
+                      <div style={{ fontSize: 18, fontWeight: 800, color: C.success, fontFamily: FONT, marginTop: 4 }}>{fmt(c.mensualiteApres)}/mois</div>
                     </div>
                   </div>
-                  <div style={{ padding: 16, background: "rgba(251,191,36,0.06)", borderRadius: 12, border: "1px solid rgba(251,191,36,0.12)", marginBottom: 12 }}>
-                    <div style={{ fontSize: 11, color: COLORS.accentAmber, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase", marginBottom: 6 }}>Revente de surplus</div>
-                    <div style={{ fontSize: 12, color: COLORS.textMuted, fontFamily: FONT_BODY, lineHeight: 1.6 }}>
+                  <div style={{ padding: 14, background: `${C.warning}08`, borderRadius: 8, border: `1px solid ${C.warning}20`, marginBottom: 12 }}>
+                    <div style={{ fontSize: 11, color: C.warning, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase", marginBottom: 6 }}>Revente de surplus</div>
+                    <div style={{ fontSize: 12, color: C.textMuted, fontFamily: FONT, lineHeight: 1.6 }}>
                       Production : {fmtN(c.productionAnnuelle)} kWh/an — Conso : {fmtN(c.consoKW)} kWh — Surplus : {fmtN(c.surplus)} kWh
                     </div>
-                    <div style={{ fontSize: 20, fontWeight: 800, color: COLORS.accentAmber, fontFamily: FONT_DISPLAY, marginTop: 6 }}>≈ {fmt(c.reventeSurplus)}/an de revente</div>
+                    <div style={{ fontSize: 18, fontWeight: 800, color: C.warning, fontFamily: FONT, marginTop: 6 }}>≈ {fmt(c.reventeSurplus)}/an</div>
                   </div>
-                  <div style={{ padding: 16, background: "linear-gradient(135deg, rgba(52,211,153,0.08), rgba(56,189,248,0.08))", borderRadius: 12, border: "1px solid rgba(52,211,153,0.2)" }}>
-                    <div style={{ fontSize: 11, color: COLORS.text, fontWeight: 700, fontFamily: FONT_BODY, textTransform: "uppercase", marginBottom: 4 }}>Financement sur 20 ans</div>
+                  <div style={{ padding: 14, background: C.bleuFranceLight, borderRadius: 8, border: `1px solid ${C.bleuFrance}20` }}>
+                    <div style={{ fontSize: 11, color: C.bleuFrance, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase", marginBottom: 4 }}>Financement sur 20 ans</div>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <div>
-                        <div style={{ fontSize: 12, color: COLORS.textMuted, fontFamily: FONT_BODY }}>Mensualité brute</div>
-                        <div style={{ fontSize: 18, fontWeight: 800, color: COLORS.text, fontFamily: FONT_DISPLAY }}>{fmt(c.mensualiteFinancement)}/mois</div>
+                        <div style={{ fontSize: 12, color: C.textMuted, fontFamily: FONT }}>Mensualité brute</div>
+                        <div style={{ fontSize: 18, fontWeight: 800, color: C.text, fontFamily: FONT }}>{fmt(c.mensualiteFinancement)}/mois</div>
                       </div>
-                      <div style={{ fontSize: 24, color: COLORS.textDim }}>→</div>
+                      <div style={{ fontSize: 24, color: C.textLight }}>→</div>
                       <div>
-                        <div style={{ fontSize: 12, color: COLORS.accent, fontFamily: FONT_BODY }}>Après réinjection aides</div>
-                        <div style={{ fontSize: 18, fontWeight: 800, color: COLORS.accent, fontFamily: FONT_DISPLAY }}>{fmt(c.mensualiteApresAides)}/mois</div>
+                        <div style={{ fontSize: 12, color: C.success, fontFamily: FONT }}>Après réinjection aides</div>
+                        <div style={{ fontSize: 18, fontWeight: 800, color: C.success, fontFamily: FONT }}>{fmt(c.mensualiteApresAides)}/mois</div>
                       </div>
                     </div>
                   </div>
@@ -562,14 +585,13 @@ function SimulationForm({ onComplete, dossiers }) {
         </div>
       </div>
 
-      {/* Navigation */}
       <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
         {step > 0 ? <button onClick={prev} style={btnSecondary}>← Précédent</button> : <div />}
         {step < 4 ? (
           <button onClick={next} style={btnPrimary}>Suivant →</button>
         ) : (
-          <button onClick={handleFinalize} style={{ ...btnPrimary, background: "linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)", color: "#0a1628" }}>
-            🏆 Voir le résultat d'éligibilité
+          <button onClick={handleFinalize} style={{ ...btnPrimary, background: C.success }}>
+            Voir le résultat d'éligibilité
           </button>
         )}
       </div>
@@ -578,17 +600,12 @@ function SimulationForm({ onComplete, dossiers }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// RESULT PAGE — ELIGIBILITY TUBE
+// RESULT PAGE
 // ═══════════════════════════════════════════════════════════════
 
 function ResultPage({ result, onNew, onSave }) {
   const { ite, pv, score, form } = result;
   const saved = useRef(false);
-
-  const tubeColor = score >= 75 ? COLORS.accent : score >= 65 ? COLORS.accentAmber : COLORS.accentAmber;
-  const tubeGradient = score >= 75
-    ? "linear-gradient(90deg, #fbbf24 0%, #34d399 60%, #22c55e 100%)"
-    : "linear-gradient(90deg, #f87171 0%, #fbbf24 50%, #34d399 100%)";
 
   const handleSave = (status) => {
     if (!saved.current) {
@@ -599,65 +616,64 @@ function ResultPage({ result, onNew, onSave }) {
 
   return (
     <div style={{ padding: "32px 20px", maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-      <div style={{ fontSize: 64, marginBottom: 16 }}>🏆</div>
-      <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 28, color: COLORS.text, fontWeight: 800, marginBottom: 8 }}>Résultat de la simulation</h2>
-      <p style={{ color: COLORS.textMuted, fontFamily: FONT_BODY, marginBottom: 4 }}>{form.prenom} {form.nom} — {form.ville} {form.cp}</p>
+      <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 72, height: 72, background: C.bleuFranceLight, borderRadius: 12, marginBottom: 16 }}>
+        <span style={{ fontSize: 40 }}>🏛️</span>
+      </div>
+      <h2 style={{ fontFamily: FONT, fontSize: 26, color: C.bleuFrance, fontWeight: 800, marginBottom: 8 }}>Résultat de la simulation</h2>
+      <p style={{ color: C.textMuted, fontFamily: FONT, marginBottom: 4 }}>{form.prenom} {form.nom} — {form.ville} {form.cp}</p>
 
-      {/* Validation prérequis */}
       <div style={{ ...cardStyle, marginTop: 24, marginBottom: 24, textAlign: "left" }}>
-        <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 16, color: COLORS.text, marginBottom: 16 }}>✅ Validation des prérequis</h3>
+        <h3 style={{ fontFamily: FONT, fontSize: 16, color: C.bleuFrance, fontWeight: 700, marginBottom: 16 }}>Validation des prérequis</h3>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
           {[
-            { label: "Technique", icon: "🔧", ok: true },
-            { label: "Motivation", icon: "💪", ok: true },
-            { label: "Financier", icon: "💰", ok: true },
+            { label: "Technique", icon: "🔧" },
+            { label: "Motivation", icon: "💪" },
+            { label: "Financier", icon: "💰" },
           ].map((p, i) => (
-            <div key={i} style={{ padding: 14, background: "rgba(52,211,153,0.06)", borderRadius: 12, border: "1px solid rgba(52,211,153,0.15)", textAlign: "center" }}>
+            <div key={i} style={{ padding: 14, background: C.successBg, borderRadius: 8, border: `1px solid ${C.success}30`, textAlign: "center" }}>
               <div style={{ fontSize: 24, marginBottom: 6 }}>{p.icon}</div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: COLORS.accent, fontFamily: FONT_BODY }}>{p.label}</div>
-              <div style={{ fontSize: 11, color: COLORS.accent, marginTop: 2 }}>✓ Validé</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: C.success, fontFamily: FONT }}>{p.label}</div>
+              <div style={{ fontSize: 11, color: C.success, marginTop: 2 }}>✓ Validé</div>
             </div>
           ))}
         </div>
         {form.observation && (
-          <div style={{ marginTop: 14, padding: 12, background: "rgba(255,255,255,0.03)", borderRadius: 10, border: `1px solid ${COLORS.border}` }}>
-            <div style={{ fontSize: 11, color: COLORS.textMuted, fontWeight: 700, textTransform: "uppercase", fontFamily: FONT_BODY, marginBottom: 4 }}>Observation du technicien</div>
-            <div style={{ fontSize: 14, color: COLORS.text, fontFamily: FONT_BODY, lineHeight: 1.6 }}>{form.observation}</div>
+          <div style={{ marginTop: 14, padding: 12, background: C.bg, borderRadius: 6, border: `1px solid ${C.border}` }}>
+            <div style={{ fontSize: 11, color: C.textMuted, fontWeight: 700, textTransform: "uppercase", fontFamily: FONT, marginBottom: 4 }}>Observation</div>
+            <div style={{ fontSize: 14, color: C.text, fontFamily: FONT, lineHeight: 1.6 }}>{form.observation}</div>
           </div>
         )}
       </div>
 
       {/* TUBE */}
-      <div style={{ ...cardStyle, padding: 32, marginBottom: 24, background: "linear-gradient(135deg, rgba(52,211,153,0.04), rgba(56,189,248,0.04))" }}>
-        <div style={{ fontSize: 14, color: COLORS.textMuted, fontFamily: FONT_BODY, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 16 }}>Tube d'éligibilité</div>
-        <div style={{ position: "relative", height: 40, background: "rgba(255,255,255,0.06)", borderRadius: 20, overflow: "hidden", marginBottom: 8 }}>
-          <div style={{ position: "absolute", inset: 0, background: tubeGradient, borderRadius: 20, opacity: 0.25 }} />
-          <div style={{ position: "absolute", top: 0, left: 0, height: "100%", width: `${score}%`, background: tubeGradient, borderRadius: 20, transition: "width 1.5s ease", boxShadow: `0 0 20px rgba(52,211,153,0.3)` }} />
-          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 800, color: "#fff", fontFamily: FONT_DISPLAY, textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}>
+      <div style={{ ...cardStyle, padding: 28, marginBottom: 24, borderLeft: `4px solid ${C.bleuFrance}` }}>
+        <div style={{ fontSize: 13, color: C.textMuted, fontFamily: FONT, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 16 }}>Tube d'éligibilité</div>
+        <div style={{ position: "relative", height: 40, background: C.bgAlt, borderRadius: 6, overflow: "hidden", marginBottom: 8 }}>
+          <div style={{ position: "absolute", top: 0, left: 0, height: "100%", width: `${score}%`, background: score >= 75 ? `linear-gradient(90deg, ${C.info}, ${C.success})` : `linear-gradient(90deg, ${C.rougeMarianne}, ${C.warning}, ${C.success})`, borderRadius: 6, transition: "width 1.5s ease" }} />
+          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 800, color: C.white, fontFamily: FONT, textShadow: "0 1px 3px rgba(0,0,0,0.4)" }}>
             {score}%
           </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: COLORS.textDim, fontFamily: FONT_BODY }}>
-          <span>🔴 Non éligible</span>
-          <span>🟡 À valider</span>
-          <span>🟢 Éligible</span>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: C.textLight, fontFamily: FONT }}>
+          <span>Non éligible</span>
+          <span>À valider</span>
+          <span>Éligible</span>
         </div>
       </div>
 
-      <div style={{ ...cardStyle, padding: 28, marginBottom: 24, background: "rgba(52,211,153,0.06)", border: "1px solid rgba(52,211,153,0.2)" }}>
-        <div style={{ fontSize: 20, marginBottom: 8 }}>🎉</div>
-        <h3 style={{ fontFamily: FONT_DISPLAY, fontSize: 22, color: COLORS.text, fontWeight: 800, marginBottom: 8 }}>Félicitations !</h3>
-        <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: COLORS.text, lineHeight: 1.6, marginBottom: 4 }}>
-          La simulation estime que votre projet avec un accompagnement d'État est réalisable à environ <strong style={{ color: COLORS.accent, fontSize: 20 }}>{score}%</strong>.
+      <div style={{ ...cardStyle, padding: 24, marginBottom: 24, background: C.successBg, border: `1px solid ${C.success}30` }}>
+        <h3 style={{ fontFamily: FONT, fontSize: 20, color: C.success, fontWeight: 800, marginBottom: 8 }}>Simulation favorable</h3>
+        <p style={{ fontFamily: FONT, fontSize: 15, color: C.text, lineHeight: 1.6, marginBottom: 4 }}>
+          La simulation estime que votre projet avec un accompagnement d'État est réalisable à environ <strong style={{ color: C.bleuFrance, fontSize: 18 }}>{score}%</strong>.
         </p>
-        <p style={{ fontFamily: FONT_DISPLAY, fontSize: 17, color: COLORS.accentBlue, fontStyle: "italic", marginTop: 16 }}>
-          Faites un pas vers l'environnement et la transition énergétique !
+        <p style={{ fontFamily: FONT, fontSize: 14, color: C.bleuFrance, fontWeight: 700, marginTop: 12 }}>
+          Faites un pas vers la transition énergétique !
         </p>
       </div>
 
       <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-        <button onClick={() => { handleSave("en_cours"); onNew(); }} style={btnPrimary}>📁 Enregistrer & Nouveau</button>
-        <button onClick={onNew} style={btnSecondary}>🧮 Nouvelle simulation</button>
+        <button onClick={() => { handleSave("en_cours"); onNew(); }} style={btnPrimary}>Enregistrer & Nouveau</button>
+        <button onClick={onNew} style={btnSecondary}>Nouvelle simulation</button>
       </div>
     </div>
   );
@@ -669,23 +685,22 @@ function ResultPage({ result, onNew, onSave }) {
 
 function Dossiers({ dossiers, setDossiers }) {
   const [filter, setFilter] = useState("tous");
-
   const filtered = filter === "tous" ? dossiers : dossiers.filter(d => d.status === filter);
 
-  const statusColors = { en_cours: COLORS.accentBlue, accepte: COLORS.accent, refuse: COLORS.danger };
+  const statusColors = { en_cours: C.info, accepte: C.success, refuse: C.rougeMarianne };
   const statusLabels = { en_cours: "En cours", accepte: "Accepté", refuse: "Refusé" };
 
   return (
     <div style={{ padding: "24px 20px", maxWidth: 800, margin: "0 auto" }}>
-      <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 24, color: COLORS.text, marginBottom: 20 }}>📁 Suivi des dossiers</h2>
+      <h2 style={{ fontFamily: FONT, fontSize: 24, color: C.bleuFrance, fontWeight: 800, marginBottom: 20 }}>Suivi des dossiers</h2>
 
       <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
-        {[{ k: "tous", l: "Tous", c: COLORS.text }, { k: "en_cours", l: "En cours", c: COLORS.accentBlue }, { k: "accepte", l: "Acceptés", c: COLORS.accent }, { k: "refuse", l: "Refusés", c: COLORS.danger }].map(f => (
+        {[{ k: "tous", l: "Tous", c: C.bleuFrance }, { k: "en_cours", l: "En cours", c: C.info }, { k: "accepte", l: "Acceptés", c: C.success }, { k: "refuse", l: "Refusés", c: C.rougeMarianne }].map(f => (
           <button key={f.k} onClick={() => setFilter(f.k)} style={{
-            padding: "10px 20px", borderRadius: 10, cursor: "pointer", fontFamily: FONT_BODY, fontSize: 13, fontWeight: 600, transition: "all 0.2s",
-            background: filter === f.k ? `${f.c}18` : COLORS.bgCard,
-            border: filter === f.k ? `1px solid ${f.c}50` : `1px solid ${COLORS.border}`,
-            color: filter === f.k ? f.c : COLORS.textMuted,
+            padding: "10px 20px", borderRadius: 4, cursor: "pointer", fontFamily: FONT, fontSize: 13, fontWeight: 700, transition: "all 0.2s",
+            background: filter === f.k ? `${f.c}12` : C.bgWhite,
+            border: filter === f.k ? `2px solid ${f.c}` : `1px solid ${C.border}`,
+            color: filter === f.k ? f.c : C.textMuted,
           }}>{f.l} ({f.k === "tous" ? dossiers.length : dossiers.filter(d => d.status === f.k).length})</button>
         ))}
       </div>
@@ -693,27 +708,27 @@ function Dossiers({ dossiers, setDossiers }) {
       {filtered.length === 0 ? (
         <div style={{ ...cardStyle, padding: 40, textAlign: "center" }}>
           <div style={{ fontSize: 40, marginBottom: 12 }}>📂</div>
-          <p style={{ color: COLORS.textMuted, fontFamily: FONT_BODY }}>Aucun dossier pour le moment.</p>
+          <p style={{ color: C.textMuted, fontFamily: FONT }}>Aucun dossier pour le moment.</p>
         </div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {filtered.map((d, i) => (
-            <div key={i} style={{ ...cardStyle, padding: 18, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+            <div key={i} style={{ ...cardStyle, padding: 16, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
               <div style={{ flex: 1, minWidth: 180 }}>
-                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 16, fontWeight: 700, color: COLORS.text }}>{d.prenom} {d.nom}</div>
-                <div style={{ fontSize: 13, color: COLORS.textMuted, fontFamily: FONT_BODY }}>{d.ville} {d.cp} — {d.date}</div>
+                <div style={{ fontFamily: FONT, fontSize: 15, fontWeight: 700, color: C.text }}>{d.prenom} {d.nom}</div>
+                <div style={{ fontSize: 13, color: C.textMuted, fontFamily: FONT }}>{d.ville} {d.cp} — {d.date}</div>
               </div>
-              <div style={{ fontSize: 15, fontWeight: 800, fontFamily: FONT_DISPLAY, color: COLORS.accent }}>{d.score}%</div>
+              <div style={{ fontSize: 15, fontWeight: 800, fontFamily: FONT, color: C.bleuFrance }}>{d.score}%</div>
               <div style={{ display: "flex", gap: 6 }}>
                 {["en_cours", "accepte", "refuse"].map(s => (
                   <button key={s} onClick={() => {
                     setDossiers(prev => prev.map((dd, ii) => ii === dossiers.indexOf(d) ? { ...dd, status: s } : dd));
                   }} style={{
-                    padding: "6px 14px", borderRadius: 8, fontSize: 11, fontWeight: 700, cursor: "pointer",
-                    fontFamily: FONT_BODY, transition: "all 0.2s",
-                    background: d.status === s ? `${statusColors[s]}20` : "transparent",
-                    border: d.status === s ? `1px solid ${statusColors[s]}60` : `1px solid ${COLORS.border}`,
-                    color: d.status === s ? statusColors[s] : COLORS.textDim,
+                    padding: "6px 14px", borderRadius: 4, fontSize: 11, fontWeight: 700, cursor: "pointer",
+                    fontFamily: FONT, transition: "all 0.2s",
+                    background: d.status === s ? `${statusColors[s]}15` : "transparent",
+                    border: d.status === s ? `2px solid ${statusColors[s]}` : `1px solid ${C.border}`,
+                    color: d.status === s ? statusColors[s] : C.textLight,
                   }}>{statusLabels[s]}</button>
                 ))}
               </div>
@@ -726,7 +741,7 @@ function Dossiers({ dossiers, setDossiers }) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// DEMO PAGE (ITE / PV)
+// DEMO PAGE
 // ═══════════════════════════════════════════════════════════════
 
 function DemoPage({ title, icon, composants, etapes, avantApres }) {
@@ -735,69 +750,66 @@ function DemoPage({ title, icon, composants, etapes, avantApres }) {
 
   return (
     <div style={{ padding: "28px 20px", maxWidth: 860, margin: "0 auto" }}>
-      <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 26, color: COLORS.text, marginBottom: 4 }}>{icon} {title}</h2>
-      <p style={{ color: COLORS.textMuted, marginBottom: 28, fontFamily: FONT_BODY, fontSize: 14 }}>Explication visuelle du processus complet — composants, avant/après, étapes chantier.</p>
+      <h2 style={{ fontFamily: FONT, fontSize: 24, color: C.bleuFrance, fontWeight: 800, marginBottom: 4 }}>{icon} {title}</h2>
+      <p style={{ color: C.textMuted, marginBottom: 28, fontFamily: FONT, fontSize: 14 }}>Composants, avant/après, étapes chantier.</p>
 
-      {/* AVANT / APRÈS */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
-          <button onClick={() => setShowAvant(true)} style={{ padding: "10px 22px", borderRadius: 10, cursor: "pointer", fontFamily: FONT_BODY, fontSize: 14, fontWeight: 700, transition: "all 0.2s", background: showAvant ? "rgba(248,113,113,0.12)" : COLORS.bgCard, border: showAvant ? "1px solid rgba(248,113,113,0.3)" : `1px solid ${COLORS.border}`, color: showAvant ? COLORS.danger : COLORS.textMuted }}>❌ Avant travaux</button>
-          <button onClick={() => setShowAvant(false)} style={{ padding: "10px 22px", borderRadius: 10, cursor: "pointer", fontFamily: FONT_BODY, fontSize: 14, fontWeight: 700, transition: "all 0.2s", background: !showAvant ? "rgba(52,211,153,0.12)" : COLORS.bgCard, border: !showAvant ? "1px solid rgba(52,211,153,0.3)" : `1px solid ${COLORS.border}`, color: !showAvant ? COLORS.accent : COLORS.textMuted }}>✅ Après travaux</button>
+          <button onClick={() => setShowAvant(true)} style={{ padding: "10px 22px", borderRadius: 4, cursor: "pointer", fontFamily: FONT, fontSize: 14, fontWeight: 700, background: showAvant ? C.warningBg : C.bgWhite, border: showAvant ? `2px solid ${C.rougeMarianne}` : `1px solid ${C.border}`, color: showAvant ? C.rougeMarianne : C.textMuted }}>Avant travaux</button>
+          <button onClick={() => setShowAvant(false)} style={{ padding: "10px 22px", borderRadius: 4, cursor: "pointer", fontFamily: FONT, fontSize: 14, fontWeight: 700, background: !showAvant ? C.successBg : C.bgWhite, border: !showAvant ? `2px solid ${C.success}` : `1px solid ${C.border}`, color: !showAvant ? C.success : C.textMuted }}>Après travaux</button>
         </div>
-        <div style={{ ...cardStyle, padding: 28, background: showAvant ? "rgba(248,113,113,0.03)" : "rgba(52,211,153,0.03)", border: `1px solid ${showAvant ? "rgba(248,113,113,0.12)" : "rgba(52,211,153,0.12)"}`, transition: "all 0.4s" }}>
-          <div style={{ fontSize: 40, textAlign: "center", marginBottom: 14 }}>{showAvant ? avantApres.avant.icon : avantApres.apres.icon}</div>
-          <h3 style={{ textAlign: "center", color: COLORS.text, fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 700, marginBottom: 14 }}>
+        <div style={{ ...cardStyle, padding: 24, borderLeft: showAvant ? `4px solid ${C.rougeMarianne}` : `4px solid ${C.success}`, transition: "all 0.3s" }}>
+          <div style={{ fontSize: 36, textAlign: "center", marginBottom: 14 }}>{showAvant ? avantApres.avant.icon : avantApres.apres.icon}</div>
+          <h3 style={{ textAlign: "center", color: C.text, fontFamily: FONT, fontSize: 17, fontWeight: 700, marginBottom: 14 }}>
             {showAvant ? avantApres.avant.titre : avantApres.apres.titre}
           </h3>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10 }}>
             {(showAvant ? avantApres.avant.points : avantApres.apres.points).map((p, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: 12, background: "rgba(255,255,255,0.02)", borderRadius: 10 }}>
-                <span style={{ fontSize: 16, flexShrink: 0 }}>{showAvant ? "🔴" : "🟢"}</span>
-                <span style={{ color: "#cbd5e1", fontSize: 14, fontFamily: FONT_BODY, lineHeight: 1.5 }}>{p}</span>
+              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: 10, background: C.bg, borderRadius: 6 }}>
+                <span style={{ fontSize: 14, flexShrink: 0, color: showAvant ? C.rougeMarianne : C.success }}>{showAvant ? "✗" : "✓"}</span>
+                <span style={{ color: C.text, fontSize: 14, fontFamily: FONT, lineHeight: 1.5 }}>{p}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* COMPOSANTS */}
-      <h3 style={{ color: COLORS.text, fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 700, marginBottom: 14 }}>🔍 Composants du système</h3>
+      <h3 style={{ color: C.bleuFrance, fontFamily: FONT, fontSize: 17, fontWeight: 700, marginBottom: 14 }}>Composants du système</h3>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 10, marginBottom: 16 }}>
         {composants.map(c => (
           <button key={c.id} onClick={() => setSelected(selected === c.id ? null : c.id)} style={{
-            padding: 18, borderRadius: 14, cursor: "pointer", textAlign: "left", transition: "all 0.25s",
-            background: selected === c.id ? "rgba(52,211,153,0.06)" : COLORS.bgCard,
-            border: selected === c.id ? `1px solid ${COLORS.borderActive}` : `1px solid ${COLORS.border}`,
+            padding: 16, borderRadius: 8, cursor: "pointer", textAlign: "left", transition: "all 0.2s",
+            background: selected === c.id ? C.bleuFranceLight : C.bgWhite,
+            border: selected === c.id ? `2px solid ${C.bleuFrance}` : `1px solid ${C.border}`,
           }}>
             <div style={{ fontSize: 28, marginBottom: 8 }}>{c.icon}</div>
-            <div style={{ color: COLORS.text, fontWeight: 700, fontSize: 14, fontFamily: FONT_BODY, marginBottom: 4 }}>{c.nom}</div>
-            <div style={{ color: COLORS.textMuted, fontSize: 12, fontFamily: FONT_BODY, lineHeight: 1.5 }}>{c.desc}</div>
+            <div style={{ color: C.text, fontWeight: 700, fontSize: 14, fontFamily: FONT, marginBottom: 4 }}>{c.nom}</div>
+            <div style={{ color: C.textMuted, fontSize: 12, fontFamily: FONT, lineHeight: 1.5 }}>{c.desc}</div>
           </button>
         ))}
       </div>
       {selected && (
-        <div style={{ ...cardStyle, padding: 20, background: "rgba(52,211,153,0.04)", border: `1px solid ${COLORS.borderActive}`, marginBottom: 16 }}>
-          <h4 style={{ color: COLORS.accent, fontFamily: FONT_BODY, fontWeight: 700, fontSize: 15, marginBottom: 8, display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ ...cardStyle, padding: 18, borderLeft: `4px solid ${C.bleuFrance}`, marginBottom: 16 }}>
+          <h4 style={{ color: C.bleuFrance, fontFamily: FONT, fontWeight: 700, fontSize: 15, marginBottom: 8 }}>
             {composants.find(c => c.id === selected)?.icon} {composants.find(c => c.id === selected)?.nom}
           </h4>
-          <p style={{ color: "#94a3b8", fontFamily: FONT_BODY, fontSize: 14, lineHeight: 1.7, marginBottom: 10 }}>{composants.find(c => c.id === selected)?.desc}</p>
-          <div style={{ padding: 12, background: "rgba(255,255,255,0.03)", borderRadius: 10, border: `1px solid ${COLORS.border}` }}>
-            <span style={{ fontSize: 11, color: COLORS.textMuted, fontWeight: 700, textTransform: "uppercase", fontFamily: FONT_BODY }}>📋 Détails techniques</span>
-            <p style={{ color: COLORS.textMuted, fontSize: 13, fontFamily: FONT_BODY, marginTop: 4 }}>{composants.find(c => c.id === selected)?.detail}</p>
+          <p style={{ color: C.textMuted, fontFamily: FONT, fontSize: 14, lineHeight: 1.7, marginBottom: 10 }}>{composants.find(c => c.id === selected)?.desc}</p>
+          <div style={{ padding: 12, background: C.bg, borderRadius: 6, border: `1px solid ${C.border}` }}>
+            <span style={{ fontSize: 11, color: C.textMuted, fontWeight: 700, textTransform: "uppercase", fontFamily: FONT }}>Détails techniques</span>
+            <p style={{ color: C.text, fontSize: 13, fontFamily: FONT, marginTop: 4 }}>{composants.find(c => c.id === selected)?.detail}</p>
           </div>
         </div>
       )}
 
-      {/* ETAPES */}
-      <h3 style={{ color: COLORS.text, fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 700, marginTop: 28, marginBottom: 14 }}>📋 Étapes du chantier</h3>
+      <h3 style={{ color: C.bleuFrance, fontFamily: FONT, fontSize: 17, fontWeight: 700, marginTop: 28, marginBottom: 14 }}>Étapes du chantier</h3>
       <div style={{ position: "relative", paddingLeft: 28 }}>
-        <div style={{ position: "absolute", left: 10, top: 6, bottom: 6, width: 2, background: COLORS.gradient, borderRadius: 1 }} />
+        <div style={{ position: "absolute", left: 10, top: 6, bottom: 6, width: 3, background: C.bleuFrance, borderRadius: 2 }} />
         {etapes.map((e, i) => (
           <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 16, marginBottom: 14, position: "relative" }}>
-            <div style={{ width: 22, height: 22, borderRadius: "50%", background: COLORS.gradient, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: "#0a1628", flexShrink: 0, position: "absolute", left: -17 }}>{e.step}</div>
+            <div style={{ width: 24, height: 24, borderRadius: "50%", background: C.bleuFrance, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: C.white, flexShrink: 0, position: "absolute", left: -17 }}>{e.step}</div>
             <div style={{ marginLeft: 20 }}>
-              <div style={{ color: COLORS.text, fontSize: 15, fontWeight: 600, fontFamily: FONT_BODY }}>{e.label}</div>
-              <div style={{ color: COLORS.textMuted, fontSize: 12, fontFamily: FONT_BODY, marginTop: 2 }}>⏱ {e.dur}</div>
+              <div style={{ color: C.text, fontSize: 15, fontWeight: 600, fontFamily: FONT }}>{e.label}</div>
+              <div style={{ color: C.textMuted, fontSize: 12, fontFamily: FONT, marginTop: 2 }}>Durée : {e.dur}</div>
             </div>
           </div>
         ))}
@@ -814,71 +826,71 @@ function FicheSubvention({ type }) {
   const isITE = type === "ite";
   return (
     <div style={{ padding: "28px 20px", maxWidth: 800, margin: "0 auto" }}>
-      <h2 style={{ fontFamily: FONT_DISPLAY, fontSize: 26, color: COLORS.text, marginBottom: 4 }}>{isITE ? "🧱" : "☀️"} Subventions {isITE ? "ITE" : "PV"} 2026</h2>
-      <p style={{ color: COLORS.textMuted, marginBottom: 28, fontFamily: FONT_BODY, fontSize: 14 }}>Fiche récapitulative des aides disponibles pour votre client.</p>
+      <h2 style={{ fontFamily: FONT, fontSize: 24, color: C.bleuFrance, fontWeight: 800, marginBottom: 4 }}>{isITE ? "🧱" : "☀️"} Subventions {isITE ? "ITE" : "PV"} 2026</h2>
+      <p style={{ color: C.textMuted, marginBottom: 28, fontFamily: FONT, fontSize: 14 }}>Récapitulatif des aides disponibles.</p>
 
       {isITE ? (
         <>
           <div style={{ ...cardStyle, marginBottom: 16 }}>
-            <h3 style={{ fontFamily: FONT_DISPLAY, color: COLORS.accent, fontSize: 17, fontWeight: 700, marginBottom: 14 }}>MaPrimeRénov' — ITE</h3>
+            <h3 style={{ fontFamily: FONT, color: C.bleuFrance, fontSize: 16, fontWeight: 700, marginBottom: 14 }}>MaPrimeRénov' — ITE</h3>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               {[
-                { cat: "Très modestes", color: "#2563eb", montant: "75 €/m²" },
-                { cat: "Modestes", color: "#0ea5e9", montant: "60 €/m²" },
-                { cat: "Intermédiaires", color: "#f59e0b", montant: "40 €/m²" },
-                { cat: "Supérieurs", color: "#94a3b8", montant: "Non éligible" },
+                { cat: "Très modestes", color: C.bleuFrance, montant: "75 €/m²" },
+                { cat: "Modestes", color: C.info, montant: "60 €/m²" },
+                { cat: "Intermédiaires", color: C.warning, montant: "40 €/m²" },
+                { cat: "Supérieurs", color: C.textLight, montant: "Non éligible" },
               ].map((r, i) => (
-                <div key={i} style={{ padding: 14, background: `${r.color}10`, borderRadius: 10, border: `1px solid ${r.color}30`, textAlign: "center" }}>
-                  <div style={{ fontSize: 12, color: r.color, fontWeight: 700, fontFamily: FONT_BODY }}>{r.cat}</div>
-                  <div style={{ fontSize: 20, fontWeight: 800, color: r.color, fontFamily: FONT_DISPLAY, marginTop: 4 }}>{r.montant}</div>
+                <div key={i} style={{ padding: 14, background: `${r.color}08`, borderRadius: 8, border: `1px solid ${r.color}25`, textAlign: "center" }}>
+                  <div style={{ fontSize: 12, color: r.color, fontWeight: 700, fontFamily: FONT }}>{r.cat}</div>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: r.color, fontFamily: FONT, marginTop: 4 }}>{r.montant}</div>
                 </div>
               ))}
             </div>
           </div>
           <div style={{ ...cardStyle, marginBottom: 16 }}>
-            <h3 style={{ fontFamily: FONT_DISPLAY, color: COLORS.accentBlue, fontSize: 17, fontWeight: 700, marginBottom: 10 }}>Certificats d'Économies d'Énergie (CEE)</h3>
-            <div style={{ padding: 16, background: "rgba(56,189,248,0.06)", borderRadius: 12, textAlign: "center" }}>
-              <div style={{ fontSize: 28, fontWeight: 800, color: COLORS.accentBlue, fontFamily: FONT_DISPLAY }}>{CEE_PAR_M2} €/m²</div>
-              <div style={{ fontSize: 13, color: COLORS.textMuted, fontFamily: FONT_BODY, marginTop: 4 }}>Versée directement par l'obligé CEE — déduite du devis</div>
+            <h3 style={{ fontFamily: FONT, color: C.info, fontSize: 16, fontWeight: 700, marginBottom: 10 }}>Certificats d'Économies d'Énergie (CEE)</h3>
+            <div style={{ padding: 16, background: C.infoBg, borderRadius: 8, textAlign: "center" }}>
+              <div style={{ fontSize: 28, fontWeight: 800, color: C.info, fontFamily: FONT }}>{CEE_PAR_M2} €/m²</div>
+              <div style={{ fontSize: 13, color: C.textMuted, fontFamily: FONT, marginTop: 4 }}>Versée directement par l'obligé CEE</div>
             </div>
           </div>
           <div style={{ ...cardStyle }}>
-            <h3 style={{ fontFamily: FONT_DISPLAY, color: COLORS.accentAmber, fontSize: 17, fontWeight: 700, marginBottom: 10 }}>Autres aides cumulables</h3>
-            <div style={{ color: COLORS.textMuted, fontFamily: FONT_BODY, fontSize: 14, lineHeight: 1.8 }}>
-              <div style={{ marginBottom: 6 }}>🏦 <strong style={{ color: COLORS.text }}>Éco-PTZ</strong> — Prêt à taux zéro jusqu'à 50 000€ sur 20 ans</div>
-              <div style={{ marginBottom: 6 }}>💶 <strong style={{ color: COLORS.text }}>TVA réduite 5,5%</strong> — Appliquée directement sur le devis</div>
-              <div style={{ marginBottom: 6 }}>🏛️ <strong style={{ color: COLORS.text }}>Aides locales</strong> — Région, département, commune (variables)</div>
-              <div>🏢 <strong style={{ color: COLORS.text }}>Chèque énergie</strong> — Jusqu'à 277€ pour les ménages modestes</div>
+            <h3 style={{ fontFamily: FONT, color: C.success, fontSize: 16, fontWeight: 700, marginBottom: 10 }}>Autres aides cumulables</h3>
+            <div style={{ color: C.text, fontFamily: FONT, fontSize: 14, lineHeight: 2 }}>
+              <div><strong>Éco-PTZ</strong> — Prêt à taux zéro jusqu'à 50 000€ sur 20 ans</div>
+              <div><strong>TVA réduite 5,5%</strong> — Appliquée directement sur le devis</div>
+              <div><strong>Aides locales</strong> — Région, département, commune</div>
+              <div><strong>Chèque énergie</strong> — Jusqu'à 277€ pour les ménages modestes</div>
             </div>
           </div>
         </>
       ) : (
         <>
           <div style={{ ...cardStyle, marginBottom: 16 }}>
-            <h3 style={{ fontFamily: FONT_DISPLAY, color: COLORS.accentBlue, fontSize: 17, fontWeight: 700, marginBottom: 14 }}>Grille tarifaire & subventions PV</h3>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10 }}>
+            <h3 style={{ fontFamily: FONT, color: C.info, fontSize: 16, fontWeight: 700, marginBottom: 14 }}>Grille tarifaire & subventions PV</h3>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10 }}>
               {PV_GRILLE.map((g, i) => (
-                <div key={i} style={{ padding: 18, background: "rgba(56,189,248,0.06)", borderRadius: 14, border: "1px solid rgba(56,189,248,0.15)", textAlign: "center" }}>
-                  <div style={{ fontSize: 22, fontWeight: 800, color: COLORS.accentBlue, fontFamily: FONT_DISPLAY }}>{g.label}</div>
-                  <div style={{ fontSize: 20, fontWeight: 800, color: COLORS.accent, fontFamily: FONT_DISPLAY, marginTop: 6 }}>{fmt(g.prix)}</div>
-                  <div style={{ fontSize: 12, color: COLORS.textMuted, fontFamily: FONT_BODY, marginTop: 4 }}>TTC subvention incluse</div>
+                <div key={i} style={{ padding: 16, background: C.infoBg, borderRadius: 8, border: `1px solid ${C.info}20`, textAlign: "center" }}>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: C.info, fontFamily: FONT }}>{g.label}</div>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: C.success, fontFamily: FONT, marginTop: 6 }}>{fmt(g.prix)}</div>
+                  <div style={{ fontSize: 12, color: C.textMuted, fontFamily: FONT, marginTop: 4 }}>TTC subvention incluse</div>
                 </div>
               ))}
             </div>
           </div>
           <div style={{ ...cardStyle, marginBottom: 16 }}>
-            <h3 style={{ fontFamily: FONT_DISPLAY, color: COLORS.accentAmber, fontSize: 17, fontWeight: 700, marginBottom: 10 }}>Prime à l'autoconsommation</h3>
-            <div style={{ color: COLORS.textMuted, fontFamily: FONT_BODY, fontSize: 14, lineHeight: 1.8 }}>
-              <div style={{ marginBottom: 4 }}>Versée sur 5 ans par EDF OA — montant selon puissance installée.</div>
-              <div style={{ marginBottom: 6 }}>≤ 3 kWc : ~370 €/kWc | ≤ 9 kWc : ~280 €/kWc | ≤ 36 kWc : ~200 €/kWc</div>
+            <h3 style={{ fontFamily: FONT, color: C.success, fontSize: 16, fontWeight: 700, marginBottom: 10 }}>Prime à l'autoconsommation</h3>
+            <div style={{ color: C.text, fontFamily: FONT, fontSize: 14, lineHeight: 1.8 }}>
+              <div>Versée sur 5 ans par EDF OA — montant selon puissance installée.</div>
+              <div style={{ marginTop: 4, fontWeight: 700 }}>≤ 3 kWc : ~370 €/kWc | ≤ 9 kWc : ~280 €/kWc | ≤ 36 kWc : ~200 €/kWc</div>
             </div>
           </div>
           <div style={{ ...cardStyle }}>
-            <h3 style={{ fontFamily: FONT_DISPLAY, color: COLORS.accent, fontSize: 17, fontWeight: 700, marginBottom: 10 }}>Rachat du surplus (EDF OA)</h3>
-            <div style={{ color: COLORS.textMuted, fontFamily: FONT_BODY, fontSize: 14, lineHeight: 1.8 }}>
-              <div style={{ marginBottom: 4 }}>📝 <strong style={{ color: COLORS.text }}>Contrat 20 ans</strong> garanti par l'État</div>
-              <div style={{ marginBottom: 4 }}>💰 <strong style={{ color: COLORS.text }}>Tarif rachat</strong> ~0,10 €/kWh en vente surplus (≤ 9 kWc)</div>
-              <div>🔄 <strong style={{ color: COLORS.text }}>Révision tarifaire</strong> trimestrielle par la CRE</div>
+            <h3 style={{ fontFamily: FONT, color: C.bleuFrance, fontSize: 16, fontWeight: 700, marginBottom: 10 }}>Rachat du surplus (EDF OA)</h3>
+            <div style={{ color: C.text, fontFamily: FONT, fontSize: 14, lineHeight: 2 }}>
+              <div><strong>Contrat 20 ans</strong> garanti par l'État</div>
+              <div><strong>Tarif rachat</strong> ~0,10 €/kWh en vente surplus (≤ 9 kWc)</div>
+              <div><strong>Révision tarifaire</strong> trimestrielle par la CRE</div>
             </div>
           </div>
         </>
@@ -918,22 +930,21 @@ export default function App() {
   const addDossier = (d) => setDossiers(prev => [d, ...prev]);
 
   return (
-    <div style={{ minHeight: "100vh", background: COLORS.bg }}>
+    <div style={{ minHeight: "100vh", background: C.bg }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
-        input:focus, select:focus { border-color: ${COLORS.accent} !important; outline: none; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        ::-webkit-scrollbar-thumb { background: #CCCCCC; border-radius: 3px; }
+        input:focus, select:focus { border-color: ${C.bleuFrance} !important; outline: none; box-shadow: 0 0 0 3px ${C.bleuFranceLight}; }
         button:active { transform: scale(0.98); }
       `}</style>
 
       <Sidebar active={active} setActive={setActive} onLogout={() => setUser(null)} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       <TopBar setSidebarOpen={setSidebarOpen} title={pageTitles[active] || "RénovÉnergie"} />
 
-      <main style={{ animation: "fadeIn 0.3s ease" }}>
+      <main>
         {active === "accueil" && <Accueil setActive={setActive} />}
         {active === "simulation" && <SimulationForm onComplete={addDossier} dossiers={dossiers} />}
         {active === "dossiers" && <Dossiers dossiers={dossiers} setDossiers={setDossiers} />}
