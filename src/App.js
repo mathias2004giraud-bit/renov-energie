@@ -142,14 +142,14 @@ function Login({ onLogin }) {
   const submit = () => { if (USERS[email] && USERS[email].pwd === pwd) onLogin(email); else setErr("Identifiants incorrects"); };
 
   return (
-    <div style={{ minHeight: "100vh", background: C.bg }}>
+    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 40%, #40916C 70%, #52B788 100%)" }}>
       <Tri />
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 5px)", padding: 24 }}>
         <div style={{ width: "100%", maxWidth: 440, ...card, padding: 40 }}>
           <div style={{ textAlign: "center", marginBottom: 28 }}>
-            <div style={{ width: 56, height: 56, background: C.bleu, borderRadius: 10, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><span style={{ fontSize: 20, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
+            
             <h1 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 4 }}>Vérisi</h1><p style={{ color: C.text, fontSize: 14, fontFamily: FONT, fontWeight: 600 }}>Accès Technicien</p>
-            <p style={{ color: C.muted, fontSize: 13, fontFamily: FONT }}>Simulation et accompagnement dans le cadre de la transition énergétique 2026</p>
+            <p style={{ color: C.muted, fontSize: 13, fontFamily: FONT }}>Simulation et accompagnement — Transition Énergétique 2026</p>
           </div>
           <div style={{ marginBottom: 16 }}>
             <label style={labelStyle}>Email</label>
@@ -187,9 +187,9 @@ function Sidebar({ active, setActive, onLogout, open, setOpen }) {
       {open && <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 199 }} />}
       <aside style={{ position: "fixed", top: 0, left: open ? 0 : -300, width: 280, height: "100vh", background: C.white, borderRight: `1px solid ${C.border}`, zIndex: 200, transition: "left 0.3s", display: "flex", flexDirection: "column" }}>
         <Tri />
-        <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 32, height: 32, background: C.bleu, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: 12, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
-          <div><div style={{ fontFamily: FONT, fontSize: 14, fontWeight: 800, color: C.bleu }}>Vérisi</div><div style={{ fontFamily: FONT, fontSize: 10, color: C.muted }}>Transition Énergétique 2026</div></div>
+        <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.border}` }}>
+          <div style={{ fontFamily: FONT, fontSize: 16, fontWeight: 800, color: C.bleu }}>Vérisi</div>
+          <div style={{ fontFamily: FONT, fontSize: 10, color: C.muted }}>Transition Énergétique 2026</div>
         </div>
         <nav style={{ flex: 1, padding: "8px 10px", overflowY: "auto" }}>
           {items.map(s => (
@@ -207,12 +207,19 @@ function Sidebar({ active, setActive, onLogout, open, setOpen }) {
 }
 
 function TopBar({ setOpen, title, userName }) {
-  return (<><Tri /><header style={{ position: "sticky", top: 0, zIndex: 100, background: C.white, borderBottom: `2px solid ${C.bleu}`, padding: "10px 20px", display: "flex", alignItems: "center", gap: 12 }}>
+  return (<><Tri /><header style={{ position: "sticky", top: 0, zIndex: 100, background: C.white, borderBottom: `1px solid ${C.border}`, padding: "8px 20px", display: "flex", alignItems: "center", gap: 12 }}>
     <button onClick={() => setOpen(true)} style={{ background: "none", border: "none", color: C.bleu, fontSize: 20, cursor: "pointer" }}>☰</button>
-    <span style={{ fontFamily: FONT, fontSize: 15, fontWeight: 700, color: C.text }}>{title}</span>
-    <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10 }}>
+    <div style={{ borderLeft: `3px solid ${C.bleu}`, paddingLeft: 10, marginLeft: 4 }}>
+      <div style={{ fontFamily: FONT, fontSize: 14, fontWeight: 800, color: C.text }}>Vérisi</div>
+      <div style={{ fontFamily: FONT, fontSize: 10, color: C.muted }}>Transition Énergétique 2026</div>
+    </div>
+    <span style={{ fontFamily: FONT, fontSize: 13, fontWeight: 600, color: C.text, marginLeft: 12 }}>{title}</span>
+    <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
       {userName && <span style={{ fontFamily: FONT, fontSize: 12, color: C.text, fontWeight: 600 }}>{userName}</span>}
-      <span style={{ fontFamily: FONT, fontSize: 10, color: C.muted, fontWeight: 700 }}>RÉPUBLIQUE FRANÇAISE</span>
+      <img src={LOGO_QUALIPAC} alt="RGE" style={{ height: 24, borderRadius: 2 }} />
+      <img src={LOGO_QUALIBAT} alt="RGE" style={{ height: 24, borderRadius: 2 }} />
+      <img src={LOGO_QUALIPV} alt="RGE" style={{ height: 24, borderRadius: 2 }} />
+      <img src={LOGO_RGE} alt="RGE" style={{ height: 24, borderRadius: 2 }} />
     </div>
   </header></>);
 }
@@ -225,17 +232,11 @@ function Accueil({ setActive, userName }) {
   return (
     <div style={{ padding: "32px 24px", maxWidth: 820, margin: "0 auto" }}>
       <div style={{ textAlign: "center", marginBottom: 36 }}>
-        {/* Logos RGE */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap", marginBottom: 24, alignItems: "center" }}>
-          <img src={LOGO_QUALIPAC} alt="RGE QualiPac" style={{ height: 50, borderRadius: 4 }} />
-          <img src={LOGO_RGE} alt="RGE Reconnu Garant" style={{ height: 50, borderRadius: 4 }} />
-          <img src={LOGO_QUALIBAT} alt="RGE Qualibat ENR" style={{ height: 50, borderRadius: 4 }} />
-          <img src={LOGO_QUALIPV} alt="RGE QualiPV" style={{ height: 50, borderRadius: 4 }} />
-        </div>
 
-        <div style={{ width: 64, height: 64, background: C.bleu, borderRadius: 12, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><span style={{ fontSize: 22, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
+
+        
         <h1 style={{ fontFamily: FONT, fontSize: "clamp(22px,5vw,34px)", color: C.text, fontWeight: 800, lineHeight: 1.2, marginBottom: 8 }}>Transition Énergétique 2026</h1>
-        <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, marginBottom: 28, maxWidth: 500, margin: "0 auto 28px" }}>Simulation et accompagnement — transition énergétique{userName ? ` — Bienvenue ${userName}` : ""}</p>
+        <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, marginBottom: 28, maxWidth: 500, margin: "0 auto 28px" }}>Simulation et accompagnement{userName ? ` — Bienvenue ${userName}` : ""}</p>
 
         {/* 2 boutons simulation */}
         <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 32 }}>
@@ -266,7 +267,7 @@ function Accueil({ setActive, userName }) {
           { title: "CEE", desc: "Certificats d'Économies d'Énergie", url: "https://www.ecologie.gouv.fr/certificats-deconomies-denergie-cee" },
           { title: "Bonus National", desc: "Aide bonus nationale 2026", url: "https://www.economie.gouv.fr/particuliers/aides-renovation-energetique" },
           { title: "Aide Habitat", desc: "Aides à l'amélioration de l'habitat", url: "https://www.anah.gouv.fr/" },
-          { title: "Éco-PTZ", desc: "Prêt à taux zéro rénovation", url: "https://www.service-public.fr/particuliers/vosdroits/F19905" },
+          { title: "Garantie 15 ans*", desc: "Installation et matériaux garantis", url: "#" },
         ].map((b, i) => (
           <a key={i} href={b.url} target="_blank" rel="noopener noreferrer" style={{ ...card, padding: 18, textAlign: "center", textDecoration: "none", background: C.bleuLight, border: `1px solid ${C.bleu}20`, transition: "transform 0.2s" }}>
             <div style={{ fontFamily: FONT, fontSize: 16, fontWeight: 800, color: C.bleu, marginBottom: 4 }}>{b.title}</div>
@@ -332,13 +333,13 @@ function SimuITE({ onSave }) {
     const calcITE = computeITE();
     const calcRenta = computeRentabiliteITE();
     const score = 60 + Math.floor(Math.random() * 21);
-    setResult({ calcITE, calcRenta, score });
-    setStep(4);
+    setResult({ calcITE, score });
+    setStep(3);
   };
 
-  const titles = ["Faisabilité technique ITE", "Aides et subventions ITE", "Rentabilité & économies", "Finalisation du dossier ITE"];
+  const titles = ["Faisabilité technique ITE", "Aides et subventions ITE", "Finalisation du dossier ITE"];
 
-  if (step === 4 && result) {
+  if (step === 3 && result) {
     return <ResultPage type="ITE" result={result} form={f} onNew={() => { setF(ITE_INIT); setStep(0); setResult(null); }} onSave={onSave} />;
   }
 
@@ -442,7 +443,7 @@ function SimuITE({ onSave }) {
             )}
           </>)}
 
-          {step === 3 && (<>
+          {step === 2 && (<>
             <div style={{ width: "100%", padding: "12px 16px", background: C.successBg, borderRadius: 4, borderLeft: `4px solid ${C.success}` }}>
               <p style={{ color: C.success, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Validation des prérequis avant finalisation</p>
             </div>
@@ -462,7 +463,7 @@ function SimuITE({ onSave }) {
 
       <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
         {step > 0 ? <button onClick={() => setStep(s => s - 1)} style={btnS}>← Précédent</button> : <div />}
-        {step < 3 ? <button onClick={() => setStep(s => s + 1)} style={btnP}>Suivant →</button> : <button onClick={finalize} style={{ ...btnP, background: C.success }}>Voir le résultat</button>}
+        {step < 2 ? <button onClick={() => setStep(s => s + 1)} style={btnP}>Suivant →</button> : <button onClick={finalize} style={{ ...btnP, background: C.success }}>Voir le résultat</button>}
       </div>
     </div>
   );
@@ -727,7 +728,7 @@ function ResultPage({ type, result, form, onNew, onSave }) {
 
   return (
     <div style={{ padding: "32px 20px", maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-      <div style={{ width: 64, height: 64, background: C.bleuLight, borderRadius: 12, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}><span style={{ fontSize: 24, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
+      
       <h2 style={{ fontFamily: FONT, fontSize: 24, color: C.bleu, fontWeight: 800, marginBottom: 6 }}>Résultat — Simulation {type}</h2>
       <p style={{ color: C.muted, fontFamily: FONT, marginBottom: 20 }}>{form.prenom} {form.nom} — {form.ville} {form.cp}</p>
 
@@ -1043,7 +1044,7 @@ export default function App() {
           <div style={{ fontFamily: FONT, fontSize: 12, color: "#999", lineHeight: 2 }}>
             <div>* Les simulations sont indicatives et ne constituent pas un engagement contractuel.</div>
             <div>Conditions d'utilisation — Mentions légales — Contact : contact@renov-energie.fr</div>
-            <div style={{ marginTop: 8, fontSize: 10, color: "#666" }}>Vérisi — Programme Transition Énergétique 2026</div>
+            <div style={{ marginTop: 8, fontSize: 10, color: "#666" }}>Vérisi — Transition Énergétique 2026 — Tous droits réservés</div>
           </div>
         </div>
       </footer>
