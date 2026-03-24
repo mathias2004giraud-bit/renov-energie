@@ -298,46 +298,25 @@ function SimuITE({ onSave }) {
     return { m2, ttc, ht, tva, cee, aidesNom, bonus: BONUS_NATIONAL, totalAides, sansAides: ttc, avecAides, rac: avecAides };
   };
 
-  const computeRentabilite = () => {
-    const pw = parseFloat(f.puissance_pv) || 6;
-    const grille = PV_GRILLE.find(g => g.kw === pw) || PV_GRILLE[2];
-    const prixTTC = grille.prix;
-    const factureElec = parseFloat(f.facture_elec) || 1800;
-    const conso = parseFloat(f.conso_kw) || 5000;
-    const duree = parseFloat(f.duree_financement) || 20;
-
-    // ÉTAPE 1 — Aides (entre 7900 et 12900, inversement proportionnel à la facture)
-    const aideMin = 7900; const aideMax = 12900;
-    const factureBasse = 800; const factureHaute = 3000;
-    const ratio = Math.max(0, Math.min(1, (factureElec - factureBasse) / (factureHaute - factureBasse)));
-    const aides = Math.round(aideMax - ratio * (aideMax - aideMin));
-
-    // ÉTAPE 2 — Coût & mensualités
-    const prixSansAides = prixTTC;
-    const prixAvecAides = Math.max(0, prixTTC - aides);
-    const mensSansAides = Math.round(prixTTC / (duree * 12));
-    const mensAvecAides = Math.max(0, mensSansAides - 120);
-
-    // ÉTAPE 3 — Revente surplus & autofinancement
-    const reduction = Math.round(factureElec * 0.8);
-    const mensAvant = Math.round(factureElec / 12);
-    const mensApres = Math.round((factureElec * 0.2) / 12);
-    const prodAnnuelle = pw * 12 * 365;
-    const surplus = Math.max(0, prodAnnuelle - conso);
-    const tarifRevente = factureElec > 1500 ? 0.14 : 0.18;
-    const reventeSurplus = Math.round(surplus * tarifRevente);
-    const reventeParMois = Math.round(reventeSurplus / 12);
-    const autofinancement = mensSansAides > 0 ? Math.min(100, Math.round(((mensSansAides - 40) / mensSansAides) * 100)) : 80;
-    const resteACharge = 40;
-
-    return { pw, grille, prixTTC, factureElec, conso, duree, aides, prixSansAides, prixAvecAides, mensSansAides, mensAvecAides, reduction, mensAvant, mensApres, prodAnnuelle, surplus, tarifRevente, reventeSurplus, reventeParMois, autofinancement, resteACharge };
+  const computeRentabiliteITE = () => {
+    const calcITE = computeITE();
+    const factureEnergie = parseFloat(f.facture_energie) || 2400;
+    const periode = f.facture_periode === "Mensuelle" ? factureEnergie * 12 : factureEnergie;
+    const tauxReduction = 0.50; // 50% de réduction moyenne
+    const economieAnnuelle = Math.round(periode * tauxReduction);
+    const economieMensuelle = Math.round(economieAnnuelle / 12);
+    const factureMensAvant = Math.round(periode / 12);
+    const factureMensApres = Math.max(0, factureMensAvant - economieMensuelle);
+    const resteACharge = calcITE.avecAides;
+    const dureeAmortissement = economieAnnuelle > 0 ? Math.round((resteACharge / economieAnnuelle) * 10) / 10 : 0;
+    return { economieAnnuelle, economieMensuelle, factureMensAvant, factureMensApres, resteACharge, dureeAmortissement, tauxReduction: Math.round(tauxReduction * 100) };
   };
 
   const finalize = () => {
     const calcITE = computeITE();
-    const calcPV = computeRentabilite();
+    const calcRenta = computeRentabiliteITE();
     const score = 60 + Math.floor(Math.random() * 21);
-    setResult({ calcITE, calcPV, score });
+    setResult({ calcITE, calcRenta, score });
     setStep(4);
   };
 
@@ -395,22 +374,49 @@ function SimuITE({ onSave }) {
 
           {step === 2 && (<>
             <div style={{ width: "100%", padding: "12px 16px", background: C.infoBg, borderRadius: 4, borderLeft: `4px solid ${C.info}` }}>
-              <p style={{ color: C.info, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Calcul de rentabilité et économies sur la facture</p>
+              <p style={{ color: C.info, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Estimation des économies de chauffage et durée d'amortissement</p>
             </div>
-            <div style={{ width: "100%" }}>
-              <label style={labelStyle}>Puissance installée</label>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
-                {PV_GRILLE.map(g => (
-                  <button key={g.kw} onClick={() => u("puissance_pv", String(g.kw))} style={{ padding: "14px 8px", borderRadius: 6, cursor: "pointer", textAlign: "center", background: f.puissance_pv === String(g.kw) ? C.bleuLight : C.bgAlt, border: f.puissance_pv === String(g.kw) ? `2px solid ${C.bleu}` : `1px solid ${C.border}` }}>
-                    <div style={{ fontSize: 16, fontWeight: 800, color: f.puissance_pv === String(g.kw) ? C.bleu : C.text, fontFamily: FONT }}>{g.label}</div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: C.success, fontFamily: FONT, marginTop: 4 }}>{fmt(g.prix)}</div>
-                  </button>
-                ))}
+            {(parseFloat(f.m2_ite) > 0 && parseFloat(f.prix_m2) > 0) && (() => {
+              const r = computeRentabiliteITE();
+              return (
+                <div style={{ width: "100%", padding: 18, background: C.bg, borderRadius: 8, border: `1px solid ${C.border}` }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
+                    <div style={{ textAlign: "center", padding: 12, background: `${C.rouge}08`, borderRadius: 8, border: `1px solid ${C.rouge}20` }}>
+                      <div style={{ fontSize: 10, color: C.rouge, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Facture énergie AVANT</div>
+                      <div style={{ fontSize: 20, fontWeight: 800, color: C.rouge, fontFamily: FONT, marginTop: 2 }}>{fmt(r.factureMensAvant)}/mois</div>
+                    </div>
+                    <div style={{ textAlign: "center", padding: 12, background: C.successBg, borderRadius: 8, border: `1px solid ${C.success}20` }}>
+                      <div style={{ fontSize: 10, color: C.success, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Facture énergie APRÈS ITE</div>
+                      <div style={{ fontSize: 20, fontWeight: 800, color: C.success, fontFamily: FONT, marginTop: 2 }}>{fmt(r.factureMensApres)}/mois</div>
+                    </div>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 14 }}>
+                    <div style={{ textAlign: "center", padding: 12, background: C.infoBg, borderRadius: 8 }}>
+                      <div style={{ fontSize: 10, color: C.info, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Réduction facture</div>
+                      <div style={{ fontSize: 18, fontWeight: 800, color: C.info, fontFamily: FONT, marginTop: 2 }}>{r.tauxReduction}%</div>
+                    </div>
+                    <div style={{ textAlign: "center", padding: 12, background: C.successBg, borderRadius: 8 }}>
+                      <div style={{ fontSize: 10, color: C.success, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Économie annuelle</div>
+                      <div style={{ fontSize: 18, fontWeight: 800, color: C.success, fontFamily: FONT, marginTop: 2 }}>{fmt(r.economieAnnuelle)}/an</div>
+                    </div>
+                    <div style={{ textAlign: "center", padding: 12, background: C.bleuLight, borderRadius: 8 }}>
+                      <div style={{ fontSize: 10, color: C.bleu, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Économie mensuelle</div>
+                      <div style={{ fontSize: 18, fontWeight: 800, color: C.bleu, fontFamily: FONT, marginTop: 2 }}>{fmt(r.economieMensuelle)}/mois</div>
+                    </div>
+                  </div>
+                  <div style={{ padding: 16, background: C.bleuLight, borderRadius: 8, border: `1px solid ${C.bleu}20`, textAlign: "center" }}>
+                    <div style={{ fontSize: 10, color: C.bleu, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase", marginBottom: 4 }}>Durée d'amortissement estimée</div>
+                    <div style={{ fontSize: 24, fontWeight: 800, color: C.bleu, fontFamily: FONT }}>{r.dureeAmortissement} ans</div>
+                    <div style={{ fontSize: 11, color: C.muted, fontFamily: FONT, marginTop: 4 }}>Reste à charge {fmt(r.resteACharge)} amorti par {fmt(r.economieAnnuelle)} d'économies/an</div>
+                  </div>
+                </div>
+              );
+            })()}
+            {!(parseFloat(f.m2_ite) > 0 && parseFloat(f.prix_m2) > 0) && (
+              <div style={{ width: "100%", padding: 20, background: C.bgAlt, borderRadius: 8, textAlign: "center" }}>
+                <p style={{ color: C.muted, fontSize: 13, fontFamily: FONT }}>Renseignez les m² et le prix au m² à l'étape précédente pour voir les résultats</p>
               </div>
-            </div>
-            <Field label="Facture électrique annuelle (€)" value={f.facture_elec} onChange={v=>u("facture_elec",v)} half type="number" placeholder="1800" />
-            <Field label="Consommation annuelle (kWh)" value={f.conso_kw} onChange={v=>u("conso_kw",v)} half type="number" placeholder="5000" />
-            {(parseFloat(f.facture_elec) > 0) && <PVCalcDisplay calc={computeRentabilite()} />}
+            )}
           </>)}
 
           {step === 3 && (<>
