@@ -148,7 +148,7 @@ function Login({ onLogin }) {
         <div style={{ width: "100%", maxWidth: 440, ...card, padding: 40 }}>
           <div style={{ textAlign: "center", marginBottom: 28 }}>
             <div style={{ width: 56, height: 56, background: C.bleu, borderRadius: 10, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><span style={{ fontSize: 20, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
-            <h1 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 4 }}>Accès Technicien</h1>
+            <h1 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 4 }}>RénovÉnergie</h1><p style={{ color: C.text, fontSize: 14, fontFamily: FONT, fontWeight: 600 }}>Accès Technicien</p>
             <p style={{ color: C.muted, fontSize: 13, fontFamily: FONT }}>Pré-candidature au programme de la transition énergétique 2026</p>
           </div>
           <div style={{ marginBottom: 16 }}>
@@ -173,14 +173,14 @@ function Login({ onLogin }) {
 
 function Sidebar({ active, setActive, onLogout, open, setOpen }) {
   const items = [
-    { id: "accueil", icon: "●", label: "Accueil" },
-    { id: "simu-ite", icon: "●", label: "Simulation ITE" },
-    { id: "simu-pv", icon: "●", label: "Simulation PV" },
-    { id: "dossiers", icon: "●", label: "Dossiers" },
-    { id: "demo-ite", icon: "●", label: "Explicatif ITE" },
-    { id: "demo-pv", icon: "●", label: "Explicatif PV" },
-    { id: "fiche-ite", icon: "●", label: "Subventions ITE 2026" },
-    { id: "fiche-pv", icon: "●", label: "Subventions PV 2026" },
+    { id: "accueil", icon: "›", label: "Accueil" },
+    { id: "simu-ite", icon: "›", label: "Simulation ITE" },
+    { id: "simu-pv", icon: "›", label: "Simulation PV" },
+    { id: "dossiers", icon: "›", label: "Dossiers" },
+    { id: "demo-ite", icon: "›", label: "Explicatif ITE" },
+    { id: "demo-pv", icon: "›", label: "Explicatif PV" },
+    { id: "fiche-ite", icon: "›", label: "Subventions ITE 2026" },
+    { id: "fiche-pv", icon: "›", label: "Subventions PV 2026" },
   ];
   return (
     <>
@@ -260,13 +260,25 @@ function Accueil({ setActive, userName }) {
         ))}
       </div>
 
+      {/* 4 blocs programmes d'aides */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 12, marginBottom: 28 }}>
+        {[
+          { title: "CEE", desc: "Certificats d'Économies d'Énergie", url: "https://www.ecologie.gouv.fr/certificats-deconomies-denergie-cee" },
+          { title: "Bonus National", desc: "Aide bonus nationale 2026", url: "https://www.economie.gouv.fr/particuliers/aides-renovation-energetique" },
+          { title: "Aide Habitat", desc: "Aides à l'amélioration de l'habitat", url: "https://www.anah.gouv.fr/" },
+          { title: "Éco-PTZ", desc: "Prêt à taux zéro rénovation", url: "https://www.service-public.fr/particuliers/vosdroits/F19905" },
+        ].map((b, i) => (
+          <a key={i} href={b.url} target="_blank" rel="noopener noreferrer" style={{ ...card, padding: 18, textAlign: "center", textDecoration: "none", background: C.bleuLight, border: `1px solid ${C.bleu}20`, transition: "transform 0.2s" }}>
+            <div style={{ fontFamily: FONT, fontSize: 16, fontWeight: 800, color: C.bleu, marginBottom: 4 }}>{b.title}</div>
+            <div style={{ fontFamily: FONT, fontSize: 11, color: C.muted }}>{b.desc}</div>
+          </a>
+        ))}
+      </div>
+
       {/* Phrase d'accroche */}
       <div style={{ ...card, padding: 20, borderLeft: `4px solid ${C.bleu}` }}>
-        <p style={{ color: C.text, fontSize: 14, fontFamily: FONT, margin: 0, lineHeight: 1.7 }}>
-          <strong style={{ color: C.bleu }}>Programme d'accompagnement et d'orientation</strong> au vu de la transition énergétique 2026 — MaPrimeRénov' — Aide Bonus National — Certificat d'Économie d'Énergie — Aide à l'habitat.
-        </p>
-        <p style={{ color: C.bleu, fontSize: 15, fontFamily: FONT, fontWeight: 700, marginTop: 12, textAlign: "center" }}>
-          Simulez l'intégralité de votre dossier en quelques minutes !
+        <p style={{ color: C.bleu, fontSize: 15, fontFamily: FONT, fontWeight: 700, textAlign: "center" }}>
+          Simulez l'intégralité de votre dossier en quelques clics !
         </p>
       </div>
     </div>
@@ -277,7 +289,7 @@ function Accueil({ setActive, userName }) {
 // SIMULATION ITE (3 étapes)
 // ═══════════════════════════════════════════════════════════════
 
-const ITE_INIT = { nom:"",prenom:"",cp:"",ville:"",couleur_crepis:"",annee:"",chauffage:"",ecs:"",vitrage:"",elec_install:"",m2:"",combles:"",occupants:"",enfants:"",facture_energie:"",facture_periode:"Annuelle",type_chauffage:"",age_chauffage:"",contrat:"",salaire:"",metier:"",credit:"",observation:"",m2_ite:"",prix_m2:"",aides_nom:"",aides_bonus:"",nb_panneaux:"",puissance_pv:"6",facture_elec:"",conso_kw:"" };
+const ITE_INIT = { nom:"",prenom:"",cp:"",ville:"",couleur_crepis:"",annee:"",chauffage:"",ecs:"",vitrage:"",elec_install:"",m2:"",combles:"",occupants:"",enfants:"",facture_energie:"",facture_periode:"Annuelle",type_chauffage:"",age_chauffage:"",contrat:"",salaire:"",metier:"",credit:"",observation:"",m2_ite:"",prix_ttc:"",duree_ite:"15" };
 
 function SimuITE({ onSave }) {
   const [step, setStep] = useState(0);
@@ -287,22 +299,26 @@ function SimuITE({ onSave }) {
 
   const computeITE = () => {
     const m2 = parseFloat(f.m2_ite) || 0;
-    const prix = parseFloat(f.prix_m2) || 0;
-    const aidesNom = parseFloat(f.aides_nom) || 0;
-    const ttc = m2 * prix;
+    const ttc = parseFloat(f.prix_ttc) || 0;
     const cee = m2 * CEE_PAR_M2;
     const ht = Math.round(ttc / 1.055);
     const tva = Math.max(0, ttc - ht);
-    const totalAides = cee + aidesNom + BONUS_NATIONAL;
+    // Bonus national conditionné par nb enfants
+    const enfants = parseInt(f.enfants) || 0;
+    const bonus = enfants >= 2 ? BONUS_NATIONAL : 0;
+    const totalAides = cee + bonus;
     const avecAides = Math.max(0, ttc - totalAides);
-    return { m2, ttc, ht, tva, cee, aidesNom, bonus: BONUS_NATIONAL, totalAides, sansAides: ttc, avecAides, rac: avecAides };
+    const dureeFinancement = parseFloat(f.duree_ite) || 15;
+    const mensSansAides = Math.round(ttc / (dureeFinancement * 12));
+    const mensAvecAides = Math.max(0, Math.round(avecAides / (dureeFinancement * 12)));
+    return { m2, ttc, ht, tva, cee, bonus, totalAides, sansAides: ttc, avecAides, rac: avecAides, mensSansAides, mensAvecAides, dureeFinancement };
   };
 
   const computeRentabiliteITE = () => {
     const calcITE = computeITE();
     const factureEnergie = parseFloat(f.facture_energie) || 2400;
     const periode = f.facture_periode === "Mensuelle" ? factureEnergie * 12 : factureEnergie;
-    const tauxReduction = 0.50; // 50% de réduction moyenne
+    const tauxReduction = 0.35; // 35% de réduction moyenne
     const economieAnnuelle = Math.round(periode * tauxReduction);
     const economieMensuelle = Math.round(economieAnnuelle / 12);
     const factureMensAvant = Math.round(periode / 12);
@@ -364,19 +380,26 @@ function SimuITE({ onSave }) {
               <p style={{ color: C.bleu, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Calcul des aides et du reste à charge ITE</p>
             </div>
             <Field label="Nombre de m² à isoler" value={f.m2_ite} onChange={v=>u("m2_ite",v)} half type="number" placeholder="95" />
-            <Field label="Prix TTC au m² (votre tarif)" value={f.prix_m2} onChange={v=>u("prix_m2",v)} half type="number" placeholder="150" />
-            <Field label="Aides nominatives MaPrimeRénov' (€)" value={f.aides_nom} onChange={v=>u("aides_nom",v)} half type="number" placeholder="4000" />
-            <div style={{ width: "100%", padding: 12, background: C.bleuLight, borderRadius: 6 }}>
-              <span style={{ fontSize: 12, color: C.bleu, fontWeight: 700, fontFamily: FONT }}>Aide bonus nationale : {fmt(BONUS_NATIONAL)} (automatique)</span>
-            </div>
-            {(parseFloat(f.m2_ite) > 0 && parseFloat(f.prix_m2) > 0) && <ITECalcDisplay calc={computeITE()} />}
+            <Field label="Prix TTC total du chantier (€)" value={f.prix_ttc} onChange={v=>u("prix_ttc",v)} half type="number" placeholder="14250" />
+            <Field label="Durée de financement (années)" value={f.duree_ite} onChange={v=>u("duree_ite",v)} half type="number" placeholder="15" />
+            {parseInt(f.enfants) >= 2 && (
+              <div style={{ width: "100%", padding: 12, background: C.successBg, borderRadius: 6 }}>
+                <span style={{ fontSize: 12, color: C.success, fontWeight: 700, fontFamily: FONT }}>Bonus national : {fmt(BONUS_NATIONAL)} (éligible — 2+ enfants à charge)</span>
+              </div>
+            )}
+            {parseInt(f.enfants) < 2 && (
+              <div style={{ width: "100%", padding: 12, background: C.warningBg, borderRadius: 6 }}>
+                <span style={{ fontSize: 12, color: C.warning, fontWeight: 700, fontFamily: FONT }}>Bonus national : non éligible (conditions non remplies)</span>
+              </div>
+            )}
+            {(parseFloat(f.m2_ite) > 0 && parseFloat(f.prix_ttc) > 0) && <ITECalcDisplay calc={computeITE()} />}
           </>)}
 
           {step === 2 && (<>
             <div style={{ width: "100%", padding: "12px 16px", background: C.infoBg, borderRadius: 4, borderLeft: `4px solid ${C.info}` }}>
               <p style={{ color: C.info, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Estimation des économies de chauffage et durée d'amortissement</p>
             </div>
-            {(parseFloat(f.m2_ite) > 0 && parseFloat(f.prix_m2) > 0) && (() => {
+            {(parseFloat(f.m2_ite) > 0 && parseFloat(f.prix_ttc) > 0) && (() => {
               const r = computeRentabiliteITE();
               return (
                 <div style={{ width: "100%", padding: 18, background: C.bg, borderRadius: 8, border: `1px solid ${C.border}` }}>
@@ -412,7 +435,7 @@ function SimuITE({ onSave }) {
                 </div>
               );
             })()}
-            {!(parseFloat(f.m2_ite) > 0 && parseFloat(f.prix_m2) > 0) && (
+            {!(parseFloat(f.m2_ite) > 0 && parseFloat(f.prix_ttc) > 0) && (
               <div style={{ width: "100%", padding: 20, background: C.bgAlt, borderRadius: 8, textAlign: "center" }}>
                 <p style={{ color: C.muted, fontSize: 13, fontFamily: FONT }}>Renseignez les m² et le prix au m² à l'étape précédente pour voir les résultats</p>
               </div>
@@ -466,7 +489,7 @@ function SimuPV({ onSave }) {
     const duree = parseFloat(f.duree_financement) || 20;
 
     // ÉTAPE 1 — Aides (entre 7900 et 12900, inversement proportionnel à la facture)
-    const aideMin = 7900; const aideMax = 12900;
+    const aideMin = 6900; const aideMax = 11900;
     const factureBasse = 800; const factureHaute = 3000;
     const ratio = Math.max(0, Math.min(1, (factureElec - factureBasse) / (factureHaute - factureBasse)));
     const aides = Math.round(aideMax - ratio * (aideMax - aideMin));
@@ -610,20 +633,22 @@ function ITECalcDisplay({ calc }) {
   const c = calc;
   return (
     <div style={{ width: "100%", padding: 18, background: C.bg, borderRadius: 8, border: `1px solid ${C.border}` }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 14 }}>
-        {[{ l: "Coût TTC", v: fmt(c.ttc), cl: C.text }, { l: "HT", v: fmt(c.ht), cl: C.muted }, { l: "TVA 5,5%", v: fmt(c.tva), cl: C.muted }].map((x, i) => (
-          <div key={i} style={{ textAlign: "center" }}><div style={{ fontSize: 10, color: C.muted, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>{x.l}</div><div style={{ fontSize: 18, fontWeight: 800, color: x.cl, fontFamily: FONT, marginTop: 2 }}>{x.v}</div></div>
-        ))}
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 14 }}>
-        {[{ l: `CEE (${CEE_PAR_M2}€/m²)`, v: fmt(c.cee), cl: C.success, bg: C.successBg }, { l: "MaPrimeRénov'", v: fmt(c.aidesNom), cl: C.info, bg: C.infoBg }, { l: "Bonus national", v: fmt(c.bonus), cl: C.warning, bg: C.warningBg }].map((x, i) => (
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
+        {[{ l: `CEE (${CEE_PAR_M2}€/m²)`, v: fmt(c.cee), cl: C.success, bg: C.successBg }, { l: "Bonus national", v: c.bonus > 0 ? fmt(c.bonus) : "Non éligible", cl: c.bonus > 0 ? C.info : C.light, bg: c.bonus > 0 ? C.infoBg : C.bgAlt }].map((x, i) => (
           <div key={i} style={{ textAlign: "center", padding: 10, background: x.bg, borderRadius: 6 }}><div style={{ fontSize: 10, color: x.cl, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>{x.l}</div><div style={{ fontSize: 16, fontWeight: 800, color: x.cl, fontFamily: FONT, marginTop: 2 }}>{x.v}</div></div>
         ))}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
-        {[{ l: "Sans aides", v: fmt(c.sansAides), cl: C.rouge, bg: `${C.rouge}08` }, { l: "Avec aides", v: fmt(c.avecAides), cl: C.success, bg: C.successBg }, { l: "Reste à charge", v: fmt(c.rac), cl: C.bleu, bg: C.bleuLight }].map((x, i) => (
-          <div key={i} style={{ textAlign: "center", padding: 12, background: x.bg, borderRadius: 8, border: `1px solid ${x.cl}20` }}><div style={{ fontSize: 10, color: x.cl, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>{x.l}</div><div style={{ fontSize: 18, fontWeight: 800, color: x.cl, fontFamily: FONT, marginTop: 2 }}>{x.v}</div></div>
-        ))}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
+        <div style={{ textAlign: "center", padding: 12, background: C.bgAlt, borderRadius: 8 }}>
+          <div style={{ fontSize: 10, color: C.muted, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Mensualité sans aides</div>
+          <div style={{ fontSize: 20, fontWeight: 800, color: C.text, fontFamily: FONT, marginTop: 2 }}>{fmt(c.mensSansAides)}/mois</div>
+          <div style={{ fontSize: 10, color: C.muted, fontFamily: FONT, marginTop: 2 }}>sur {c.dureeFinancement} ans</div>
+        </div>
+        <div style={{ textAlign: "center", padding: 12, background: C.successBg, borderRadius: 8, border: `1px solid ${C.success}20` }}>
+          <div style={{ fontSize: 10, color: C.success, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Mensualité avec aides</div>
+          <div style={{ fontSize: 20, fontWeight: 800, color: C.success, fontFamily: FONT, marginTop: 2 }}>{fmt(c.mensAvecAides)}/mois</div>
+          <div style={{ fontSize: 10, color: C.muted, fontFamily: FONT, marginTop: 2 }}>Reste à charge : {fmt(c.avecAides)}</div>
+        </div>
       </div>
     </div>
   );
@@ -1011,6 +1036,17 @@ export default function App() {
         {active === "fiche-ite" && <FicheITE />}
         {active === "fiche-pv" && <FichePV />}
       </main>
+
+      {/* FOOTER */}
+      <footer style={{ background: "#1E1E1E", padding: "24px 20px", marginTop: 40 }}>
+        <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
+          <div style={{ fontFamily: FONT, fontSize: 12, color: "#999", lineHeight: 2 }}>
+            <div>* Les simulations sont indicatives et ne constituent pas un engagement contractuel.</div>
+            <div>Conditions d'utilisation — Mentions légales — Contact : contact@renov-energie.fr</div>
+            <div style={{ marginTop: 8, fontSize: 10, color: "#666" }}>RénovÉnergie — Programme Transition Énergétique 2026</div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
