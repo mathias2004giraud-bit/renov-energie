@@ -701,14 +701,14 @@ function ExplicatifPage({ title, icon, avantages, composants, color, images, vid
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14, marginBottom: 28 }}>
         {videos.map((v, i) => (
           <div key={i} style={{ ...card, padding: 0, overflow: "hidden" }}>
-            <iframe
-              width="100%"
-              style={{ aspectRatio: "16/9", border: "none", display: "block" }}
-              src={`https://www.youtube.com/embed/${v.id}`}
-              title={v.title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+            {v.id ? (
+              <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" }} src={`https://www.youtube.com/embed/${v.id}`} title={v.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+            ) : (
+              <div style={{ width: "100%", aspectRatio: "16/9", background: C.bgAlt, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 8 }}>
+                <div style={{ width: 50, height: 50, borderRadius: "50%", background: `${color}15`, display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: 24 }}>▶️</span></div>
+                <div style={{ fontFamily: FONT, fontSize: 12, color: C.muted, fontWeight: 600 }}>Vidéo à venir</div>
+              </div>
+            )}
             <div style={{ padding: "10px 12px" }}>
               <div style={{ fontFamily: FONT, fontSize: 12, color: C.text, fontWeight: 700 }}>{v.title}</div>
             </div>
@@ -751,15 +751,15 @@ const PV_IMAGES = [
 ];
 
 const ITE_VIDEOS = [
-  { id: "2C8gSIvNT1E", title: "Mise en œuvre ITE — Pose calée chevillée" },
-  { id: "ZfKqj3cFqYo", title: "Les étapes d'un chantier ITE complet" },
-  { id: "QKUXmsaV-yU", title: "Isolation thermique extérieure — Les bases" },
+  { id: null, title: "Mise en œuvre ITE — Pose calée chevillée" },
+  { id: null, title: "Les étapes d'un chantier ITE complet" },
+  { id: null, title: "Isolation thermique extérieure — Les bases" },
 ];
 
 const PV_VIDEOS = [
-  { id: "DwLvIdxgJdQ", title: "Installation complète panneaux solaires" },
-  { id: "kS3reZ3cRkQ", title: "Tuto pose panneaux sur toiture tuiles" },
-  { id: "b4YvU3aYfhE", title: "Fonctionnement autoconsommation solaire" },
+  { id: null, title: "Installation complète panneaux solaires" },
+  { id: null, title: "Tuto pose panneaux sur toiture" },
+  { id: null, title: "Fonctionnement autoconsommation solaire" },
 ];
 
 // ═══════════════════════════════════════════════════════════════
