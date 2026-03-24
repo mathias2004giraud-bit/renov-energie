@@ -23,9 +23,11 @@ const PV_IMG_SCHEMA_PV = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gA
 // ═══════════════════════════════════════════════════════════════
 
 const USERS = {
-  "commercial@renov.fr": "renov2026",
-  "admin@renov.fr": "admin2026",
-  "demo@renov.fr": "demo2026",
+  "mathias@renov.fr": { pwd: "renov2026", name: "Mathias" },
+  "commercial2@renov.fr": { pwd: "renov2026", name: "Commercial 2" },
+  "commercial3@renov.fr": { pwd: "renov2026", name: "Commercial 3" },
+  "admin@renov.fr": { pwd: "admin2026", name: "Admin" },
+  "demo@renov.fr": { pwd: "demo2026", name: "Démo" },
 };
 
 const PV_GRILLE = [
@@ -39,22 +41,22 @@ const CEE_PAR_M2 = 13;
 const BONUS_NATIONAL = 3000;
 
 const ITE_AVANTAGES = [
-  { icon: "📉", text: "Réduction de la facture de 40 à 60%" },
-  { icon: "🌡️", text: "Réduction des déperditions thermiques" },
-  { icon: "🏠", text: "Esthétique de la maison améliorée" },
-  { icon: "📊", text: "Gain de 2 lettres dans le DPE" },
-  { icon: "💰", text: "Plus-value immobilière de 15 à 20%" },
-  { icon: "❤️", text: "Confort de vie et santé améliorés" },
+  { icon: "—", text: "Réduction de la facture de 40 à 60%" },
+  { icon: "—", text: "Réduction des déperditions thermiques" },
+  { icon: "—", text: "Esthétique de la maison améliorée" },
+  { icon: "—", text: "Gain de 2 lettres dans le DPE" },
+  { icon: "—", text: "Plus-value immobilière de 15 à 20%" },
+  { icon: "—", text: "Confort de vie et santé améliorés" },
 ];
 
 const PV_AVANTAGES = [
-  { icon: "📉", text: "Réduction de la facture de 75 à 80%" },
-  { icon: "🌿", text: "Énergie propre, renouvelable et gratuite" },
-  { icon: "🏠", text: "Valorisation du logement 15 à 20%" },
-  { icon: "📊", text: "Gain dans le DPE de la maison" },
-  { icon: "💰", text: "Plus-value immobilière 15 à 20%" },
-  { icon: "🌍", text: "Électricité sans émissions de gaz à effet de serre" },
-  { icon: "🌱", text: "Un pas vers la transition énergétique" },
+  { icon: "—", text: "Réduction de la facture de 75 à 80%" },
+  { icon: "—", text: "Énergie propre, renouvelable et gratuite" },
+  { icon: "—", text: "Valorisation du logement 15 à 20%" },
+  { icon: "—", text: "Gain dans le DPE de la maison" },
+  { icon: "—", text: "Plus-value immobilière 15 à 20%" },
+  { icon: "—", text: "Électricité sans émissions de gaz à effet de serre" },
+  { icon: "—", text: "Un pas vers la transition énergétique" },
 ];
 
 const ITE_COMPOSANTS = [
@@ -138,7 +140,7 @@ function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [err, setErr] = useState("");
-  const submit = () => { if (USERS[email] === pwd) onLogin(email); else setErr("Identifiants incorrects"); };
+  const submit = () => { if (USERS[email] && USERS[email].pwd === pwd) onLogin(email); else setErr("Identifiants incorrects"); };
 
   return (
     <div style={{ minHeight: "100vh", background: C.bg }}>
@@ -146,7 +148,7 @@ function Login({ onLogin }) {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 5px)", padding: 24 }}>
         <div style={{ width: "100%", maxWidth: 440, ...card, padding: 40 }}>
           <div style={{ textAlign: "center", marginBottom: 28 }}>
-            <div style={{ width: 56, height: 56, background: C.bleu, borderRadius: 10, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><span style={{ fontSize: 28 }}>🏛️</span></div>
+            <div style={{ width: 56, height: 56, background: C.bleu, borderRadius: 10, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><span style={{ fontSize: 20, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
             <h1 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 4 }}>Accès Technicien</h1>
             <p style={{ color: C.muted, fontSize: 13, fontFamily: FONT }}>Pré-candidature au programme de la transition énergétique 2026</p>
           </div>
@@ -161,7 +163,7 @@ function Login({ onLogin }) {
           {err && <div style={{ color: C.rouge, fontSize: 13, fontFamily: FONT, marginBottom: 14, textAlign: "center", padding: "10px", background: C.warningBg, borderRadius: 4 }}>{err}</div>}
           <button onClick={submit} style={{ ...btnP, width: "100%" }}>Se connecter</button>
           <div style={{ marginTop: 16, padding: 12, background: C.infoBg, borderRadius: 4, borderLeft: `4px solid ${C.bleu}` }}>
-            <p style={{ color: C.bleu, fontSize: 11, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Démo : commercial@renov.fr / renov2026</p>
+            <p style={{ color: C.bleu, fontSize: 11, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Démo : demo@renov.fr / demo2026</p>
           </div>
         </div>
       </div>
@@ -175,14 +177,14 @@ function Login({ onLogin }) {
 
 function Sidebar({ active, setActive, onLogout, open, setOpen }) {
   const items = [
-    { id: "accueil", icon: "🏠", label: "Accueil" },
-    { id: "simu-ite", icon: "🧱", label: "Simulation ITE" },
-    { id: "simu-pv", icon: "☀️", label: "Simulation PV" },
-    { id: "dossiers", icon: "📁", label: "Dossiers" },
-    { id: "demo-ite", icon: "🏗️", label: "Explicatif ITE" },
-    { id: "demo-pv", icon: "⚡", label: "Explicatif PV" },
-    { id: "fiche-ite", icon: "📋", label: "Subventions ITE 2026" },
-    { id: "fiche-pv", icon: "📋", label: "Subventions PV 2026" },
+    { id: "accueil", icon: "●", label: "Accueil" },
+    { id: "simu-ite", icon: "●", label: "Simulation ITE" },
+    { id: "simu-pv", icon: "●", label: "Simulation PV" },
+    { id: "dossiers", icon: "●", label: "Dossiers" },
+    { id: "demo-ite", icon: "●", label: "Explicatif ITE" },
+    { id: "demo-pv", icon: "●", label: "Explicatif PV" },
+    { id: "fiche-ite", icon: "●", label: "Subventions ITE 2026" },
+    { id: "fiche-pv", icon: "●", label: "Subventions PV 2026" },
   ];
   return (
     <>
@@ -190,7 +192,7 @@ function Sidebar({ active, setActive, onLogout, open, setOpen }) {
       <aside style={{ position: "fixed", top: 0, left: open ? 0 : -300, width: 280, height: "100vh", background: C.white, borderRight: `1px solid ${C.border}`, zIndex: 200, transition: "left 0.3s", display: "flex", flexDirection: "column" }}>
         <Tri />
         <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 32, height: 32, background: C.bleu, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: 16 }}>🏛️</span></div>
+          <div style={{ width: 32, height: 32, background: C.bleu, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: 12, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
           <div><div style={{ fontFamily: FONT, fontSize: 14, fontWeight: 800, color: C.bleu }}>RénovÉnergie</div><div style={{ fontFamily: FONT, fontSize: 10, color: C.muted }}>Programme d'État 2026</div></div>
         </div>
         <nav style={{ flex: 1, padding: "8px 10px", overflowY: "auto" }}>
@@ -208,11 +210,14 @@ function Sidebar({ active, setActive, onLogout, open, setOpen }) {
   );
 }
 
-function TopBar({ setOpen, title }) {
+function TopBar({ setOpen, title, userName }) {
   return (<><Tri /><header style={{ position: "sticky", top: 0, zIndex: 100, background: C.white, borderBottom: `2px solid ${C.bleu}`, padding: "10px 20px", display: "flex", alignItems: "center", gap: 12 }}>
     <button onClick={() => setOpen(true)} style={{ background: "none", border: "none", color: C.bleu, fontSize: 20, cursor: "pointer" }}>☰</button>
     <span style={{ fontFamily: FONT, fontSize: 15, fontWeight: 700, color: C.bleu }}>{title}</span>
-    <div style={{ marginLeft: "auto", fontFamily: FONT, fontSize: 10, color: C.muted, fontWeight: 700 }}>RÉPUBLIQUE FRANÇAISE</div>
+    <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10 }}>
+      {userName && <span style={{ fontFamily: FONT, fontSize: 12, color: C.text, fontWeight: 600 }}>{userName}</span>}
+      <span style={{ fontFamily: FONT, fontSize: 10, color: C.muted, fontWeight: 700 }}>RÉPUBLIQUE FRANÇAISE</span>
+    </div>
   </header></>);
 }
 
@@ -220,7 +225,7 @@ function TopBar({ setOpen, title }) {
 // ACCUEIL
 // ═══════════════════════════════════════════════════════════════
 
-function Accueil({ setActive }) {
+function Accueil({ setActive, userName }) {
   return (
     <div style={{ padding: "32px 24px", maxWidth: 820, margin: "0 auto" }}>
       <div style={{ textAlign: "center", marginBottom: 36 }}>
@@ -232,24 +237,24 @@ function Accueil({ setActive }) {
           <img src={LOGO_QUALIPV} alt="RGE QualiPV" style={{ height: 50, borderRadius: 4 }} />
         </div>
 
-        <div style={{ width: 64, height: 64, background: C.bleu, borderRadius: 12, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><span style={{ fontSize: 32 }}>🏛️</span></div>
+        <div style={{ width: 64, height: 64, background: C.bleu, borderRadius: 12, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><span style={{ fontSize: 22, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
         <h1 style={{ fontFamily: FONT, fontSize: "clamp(22px,5vw,34px)", color: C.bleu, fontWeight: 800, lineHeight: 1.2, marginBottom: 8 }}>Simulation au Programme Environnemental 2026</h1>
-        <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, marginBottom: 28, maxWidth: 500, margin: "0 auto 28px" }}>Pré-candidature au programme de la transition énergétique</p>
+        <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, marginBottom: 28, maxWidth: 500, margin: "0 auto 28px" }}>Pré-candidature au programme de la transition énergétique{userName ? ` — Bienvenue ${userName}` : ""}</p>
 
         {/* 2 boutons simulation */}
         <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 32 }}>
-          <button onClick={() => setActive("simu-ite")} style={{ ...btnP, padding: "18px 40px", fontSize: 17, background: C.bleu }}>🧱 Simulation ITE</button>
-          <button onClick={() => setActive("simu-pv")} style={{ ...btnP, padding: "18px 40px", fontSize: 17, background: C.success }}>☀️ Simulation PV</button>
+          <button onClick={() => setActive("simu-ite")} style={{ ...btnP, padding: "18px 40px", fontSize: 17, background: C.bleu }}>Simulation ITE</button>
+          <button onClick={() => setActive("simu-pv")} style={{ ...btnP, padding: "18px 40px", fontSize: 17, background: C.success }}>Simulation PV</button>
         </div>
       </div>
 
       {/* Icônes stats */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 14, marginBottom: 28 }}>
         {[
-          { icon: "💰", val: "40 à 70%", label: "d'aides sur le coût total" },
-          { icon: "🛡️", val: "10 à 25 ans", label: "de garantie" },
-          { icon: "📉", val: "−40 à 80%", label: "sur la facture énergie" },
-          { icon: "🏗️", val: "RGE", label: "Artisans certifiés" },
+          { icon: "—", val: "40 à 70%", label: "d'aides sur le coût total" },
+          { icon: "—", val: "10 à 25 ans", label: "de garantie" },
+          { icon: "—", val: "−40 à 80%", label: "sur la facture énergie" },
+          { icon: "—", val: "RGE", label: "Artisans certifiés" },
         ].map((s, i) => (
           <div key={i} style={{ ...card, textAlign: "center", padding: 18 }}>
             <div style={{ fontSize: 28, marginBottom: 6 }}>{s.icon}</div>
@@ -291,7 +296,7 @@ function SimuITE({ onSave }) {
     const ttc = m2 * prix;
     const cee = m2 * CEE_PAR_M2;
     const ht = Math.round(ttc / 1.055);
-    const tva = ttc - ht;
+    const tva = Math.max(0, ttc - ht);
     const totalAides = cee + aidesNom + BONUS_NATIONAL;
     const avecAides = Math.max(0, ttc - totalAides);
     return { m2, ttc, ht, tva, cee, aidesNom, bonus: BONUS_NATIONAL, totalAides, sansAides: ttc, avecAides, rac: avecAides };
@@ -332,7 +337,7 @@ function SimuITE({ onSave }) {
   return (
     <div style={{ padding: "24px 20px", maxWidth: 780, margin: "0 auto" }}>
       <ProgressBar step={step} titles={titles} />
-      <h2 style={{ fontFamily: FONT, fontSize: 20, color: C.bleu, fontWeight: 800, marginBottom: 4 }}>🧱 {titles[step]}</h2>
+      <h2 style={{ fontFamily: FONT, fontSize: 20, color: C.bleu, fontWeight: 800, marginBottom: 4 }}>{titles[step]}</h2>
       <p style={{ color: C.muted, fontSize: 13, fontFamily: FONT, marginBottom: 20 }}>Pas d'obligation de répondre à tout pour continuer.</p>
 
       <div style={{ ...card, marginBottom: 20 }}>
@@ -400,7 +405,7 @@ function SimuITE({ onSave }) {
               <p style={{ color: C.success, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Validation des prérequis avant finalisation</p>
             </div>
             <div style={{ width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-              {[{ l: "Aspect technique", icon: "🔧" }, { l: "Aspect motivation", icon: "💪" }, { l: "Aspect financier", icon: "💰" }].map((p, i) => (
+              {[{ l: "Aspect technique", icon: "✓" }, { l: "Aspect motivation", icon: "✓" }, { l: "Aspect financier", icon: "✓" }].map((p, i) => (
                 <div key={i} style={{ padding: 16, background: C.successBg, borderRadius: 8, border: `1px solid ${C.success}30`, textAlign: "center" }}>
                   <div style={{ fontSize: 28, marginBottom: 6 }}>{p.icon}</div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: C.success, fontFamily: FONT }}>{p.l}</div>
@@ -474,7 +479,7 @@ function SimuPV({ onSave }) {
   return (
     <div style={{ padding: "24px 20px", maxWidth: 780, margin: "0 auto" }}>
       <ProgressBar step={step} titles={titles} />
-      <h2 style={{ fontFamily: FONT, fontSize: 20, color: C.success, fontWeight: 800, marginBottom: 4 }}>☀️ {titles[step]}</h2>
+      <h2 style={{ fontFamily: FONT, fontSize: 20, color: C.success, fontWeight: 800, marginBottom: 4 }}>{titles[step]}</h2>
       <p style={{ color: C.muted, fontSize: 13, fontFamily: FONT, marginBottom: 20 }}>Pas d'obligation de répondre à tout pour continuer.</p>
 
       <div style={{ ...card, marginBottom: 20 }}>
@@ -528,7 +533,7 @@ function SimuPV({ onSave }) {
               <p style={{ color: C.success, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Validation des prérequis avant finalisation</p>
             </div>
             <div style={{ width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-              {[{ l: "Aspect technique", icon: "🔧" }, { l: "Aspect motivation", icon: "💪" }, { l: "Aspect financier", icon: "💰" }].map((p, i) => (
+              {[{ l: "Aspect technique", icon: "✓" }, { l: "Aspect motivation", icon: "✓" }, { l: "Aspect financier", icon: "✓" }].map((p, i) => (
                 <div key={i} style={{ padding: 16, background: C.successBg, borderRadius: 8, border: `1px solid ${C.success}30`, textAlign: "center" }}>
                   <div style={{ fontSize: 28, marginBottom: 6 }}>{p.icon}</div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: C.success, fontFamily: FONT }}>{p.l}</div>
@@ -631,7 +636,7 @@ function ResultPage({ type, result, form, onNew, onSave }) {
 
   return (
     <div style={{ padding: "32px 20px", maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-      <div style={{ width: 64, height: 64, background: C.bleuLight, borderRadius: 12, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}><span style={{ fontSize: 36 }}>🏛️</span></div>
+      <div style={{ width: 64, height: 64, background: C.bleuLight, borderRadius: 12, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}><span style={{ fontSize: 24, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
       <h2 style={{ fontFamily: FONT, fontSize: 24, color: C.bleu, fontWeight: 800, marginBottom: 6 }}>Résultat — Simulation {type}</h2>
       <p style={{ color: C.muted, fontFamily: FONT, marginBottom: 20 }}>{form.prenom} {form.nom} — {form.ville} {form.cp}</p>
 
@@ -678,7 +683,7 @@ function Dossiers({ dossiers, setDossiers }) {
         ))}
       </div>
       {filtered.length === 0 ? (
-        <div style={{ ...card, padding: 40, textAlign: "center" }}><div style={{ fontSize: 36, marginBottom: 10 }}>📂</div><p style={{ color: C.muted, fontFamily: FONT }}>Aucun dossier.</p></div>
+        <div style={{ ...card, padding: 40, textAlign: "center" }}><div style={{ fontSize: 36, marginBottom: 10 }}></div><p style={{ color: C.muted, fontFamily: FONT }}>Aucun dossier.</p></div>
       ) : filtered.map((d, i) => (
         <div key={i} style={{ ...card, padding: 14, marginBottom: 8, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
           <div style={{ flex: 1, minWidth: 150 }}>
@@ -723,7 +728,7 @@ function ExplicatifPage({ title, icon, avantages, composants, color, images, vid
         </div>
       )}
 
-      <h2 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 20 }}>{icon} {title}</h2>
+      <h2 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 20 }}>{title}</h2>
 
       {/* Layout : bulles animées à gauche, images à droite */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 28 }}>
@@ -826,7 +831,7 @@ const PV_VIDEOS = [
 function FicheITE() {
   return (
     <div style={{ padding: "28px 20px", maxWidth: 800, margin: "0 auto" }}>
-      <h2 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 16 }}>🧱 Subventions ITE 2026</h2>
+      <h2 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 16 }}>Subventions ITE 2026</h2>
       <div style={{ ...card, marginBottom: 14 }}>
         <h3 style={{ fontFamily: FONT, color: C.bleu, fontSize: 15, fontWeight: 700, marginBottom: 12 }}>MaPrimeRénov' — ITE</h3>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
@@ -858,7 +863,7 @@ function FicheITE() {
 function FichePV() {
   return (
     <div style={{ padding: "28px 20px", maxWidth: 800, margin: "0 auto" }}>
-      <h2 style={{ fontFamily: FONT, fontSize: 22, color: C.success, fontWeight: 800, marginBottom: 16 }}>☀️ Subventions PV 2026</h2>
+      <h2 style={{ fontFamily: FONT, fontSize: 22, color: C.success, fontWeight: 800, marginBottom: 16 }}>Subventions PV 2026</h2>
       <div style={{ ...card, marginBottom: 14 }}>
         <h3 style={{ fontFamily: FONT, color: C.info, fontSize: 15, fontWeight: 700, marginBottom: 12 }}>Grille tarifaire après subvention</h3>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
@@ -890,12 +895,29 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [active, setActive] = useState("accueil");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [dossiers, setDossiers] = useState([]);
+
+  // Charger les dossiers depuis localStorage pour cet utilisateur
+  const storageKey = user ? `dossiers_${user}` : null;
+  const [dossiers, setDossiers] = useState(() => {
+    if (!user) return [];
+    try { const d = localStorage.getItem(`dossiers_${user}`); return d ? JSON.parse(d) : []; } catch { return []; }
+  });
+
+  // Sauvegarder à chaque changement
+  const saveDossiers = (newDossiers) => {
+    setDossiers(newDossiers);
+    if (user) { try { localStorage.setItem(`dossiers_${user}`, JSON.stringify(newDossiers)); } catch {} }
+  };
+
+  const userName = user && USERS[user] ? USERS[user].name : "";
 
   const titles = { accueil: "Accueil", "simu-ite": "Simulation ITE", "simu-pv": "Simulation PV", dossiers: "Dossiers", "demo-ite": "Explicatif ITE", "demo-pv": "Explicatif PV", "fiche-ite": "Subventions ITE 2026", "fiche-pv": "Subventions PV 2026" };
 
-  if (!user) return <Login onLogin={setUser} />;
-  const addDossier = (d) => setDossiers(prev => [d, ...prev]);
+  if (!user) return <Login onLogin={(email) => {
+    setUser(email);
+    try { const d = localStorage.getItem(`dossiers_${email}`); if (d) setDossiers(JSON.parse(d)); else setDossiers([]); } catch { setDossiers([]); }
+  }} />;
+  const addDossier = (d) => { const nd = [{ ...d, commercial: userName }, ...dossiers]; saveDossiers(nd); };
 
   return (
     <div style={{ minHeight: "100vh", background: C.bg }}>
@@ -910,14 +932,14 @@ export default function App() {
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
       `}</style>
 
-      <Sidebar active={active} setActive={setActive} onLogout={() => setUser(null)} open={sidebarOpen} setOpen={setSidebarOpen} />
-      <TopBar setOpen={setSidebarOpen} title={titles[active] || "RénovÉnergie"} />
+      <Sidebar active={active} setActive={setActive} onLogout={() => { setUser(null); setDossiers([]); }} open={sidebarOpen} setOpen={setSidebarOpen} />
+      <TopBar setOpen={setSidebarOpen} title={titles[active] || "RénovÉnergie"} userName={userName} />
 
       <main>
-        {active === "accueil" && <Accueil setActive={setActive} />}
+        {active === "accueil" && <Accueil setActive={setActive} userName={userName} />}
         {active === "simu-ite" && <SimuITE onSave={addDossier} />}
         {active === "simu-pv" && <SimuPV onSave={addDossier} />}
-        {active === "dossiers" && <Dossiers dossiers={dossiers} setDossiers={setDossiers} />}
+        {active === "dossiers" && <Dossiers dossiers={dossiers} setDossiers={saveDossiers} />}
         {active === "demo-ite" && <ExplicatifPage title="Isolation Thermique par l'Extérieur" icon="🧱" avantages={ITE_AVANTAGES} composants={ITE_COMPOSANTS} color={C.bleu} images={ITE_IMAGES} videos={ITE_VIDEOS} />}
         {active === "demo-pv" && <ExplicatifPage title="Panneaux Solaires Photovoltaïques" icon="☀️" avantages={PV_AVANTAGES} composants={PV_COMPOSANTS} color={C.success} images={PV_IMAGES} videos={PV_VIDEOS} />}
         {active === "fiche-ite" && <FicheITE />}
