@@ -40,22 +40,22 @@ const CEE_PAR_M2 = 13;
 const BONUS_NATIONAL = 3000;
 
 const ITE_AVANTAGES = [
-  { icon: "—", text: "Réduction de la facture de 40 à 60%" },
-  { icon: "—", text: "Réduction des déperditions thermiques" },
-  { icon: "—", text: "Esthétique de la maison améliorée" },
-  { icon: "—", text: "Gain de 2 lettres dans le DPE" },
-  { icon: "—", text: "Plus-value immobilière de 15 à 20%" },
-  { icon: "—", text: "Confort de vie et santé améliorés" },
+  { icon: "📉", text: "Réduction de la facture de 40 à 60%" },
+  { icon: "🌡️", text: "Réduction des déperditions thermiques" },
+  { icon: "🏠", text: "Esthétique de la maison améliorée" },
+  { icon: "📊", text: "Gain de 2 lettres dans le DPE" },
+  { icon: "💰", text: "Plus-value immobilière de 15 à 20%" },
+  { icon: "❤️", text: "Confort de vie et santé améliorés" },
 ];
 
 const PV_AVANTAGES = [
-  { icon: "—", text: "Réduction de la facture de 75 à 80%" },
-  { icon: "—", text: "Énergie propre, renouvelable et gratuite" },
-  { icon: "—", text: "Valorisation du logement 15 à 20%" },
-  { icon: "—", text: "Gain dans le DPE de la maison" },
-  { icon: "—", text: "Plus-value immobilière 15 à 20%" },
-  { icon: "—", text: "Électricité sans émissions de gaz à effet de serre" },
-  { icon: "—", text: "Un pas vers la transition énergétique" },
+  { icon: "📉", text: "Réduction de la facture de 75 à 80%" },
+  { icon: "☀️", text: "Énergie propre, renouvelable et gratuite" },
+  { icon: "🏠", text: "Valorisation du logement 15 à 20%" },
+  { icon: "📊", text: "Gain dans le DPE de la maison" },
+  { icon: "💰", text: "Plus-value immobilière 15 à 20%" },
+  { icon: "🌍", text: "Électricité sans émissions de gaz à effet de serre" },
+  { icon: "🌱", text: "Un pas vers la transition énergétique" },
 ];
 
 const ITE_COMPOSANTS = [
