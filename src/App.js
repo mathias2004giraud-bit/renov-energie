@@ -142,7 +142,7 @@ function Login({ onLogin }) {
   const submit = () => { if (USERS[email] && USERS[email].pwd === pwd) onLogin(email); else setErr("Identifiants incorrects"); };
 
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 40%, #40916C 70%, #52B788 100%)" }}>
+    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, rgba(27,67,50,0.85), rgba(45,106,79,0.8)), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80') center/cover no-repeat" }}>
       <Tri />
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 5px)", padding: 24 }}>
         <div style={{ width: "100%", maxWidth: 440, ...card, padding: 40 }}>
