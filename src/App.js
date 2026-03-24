@@ -662,7 +662,7 @@ function Dossiers({ dossiers, setDossiers }) {
 // EXPLICATIFS ITE & PV (bulles animées + composants)
 // ═══════════════════════════════════════════════════════════════
 
-function ExplicatifPage({ title, icon, avantages, composants, color, images }) {
+function ExplicatifPage({ title, icon, avantages, composants, color, images, videos }) {
   const [selected, setSelected] = useState(null);
   return (
     <div style={{ padding: "28px 20px", maxWidth: 860, margin: "0 auto" }}>
@@ -699,11 +699,18 @@ function ExplicatifPage({ title, icon, avantages, composants, color, images }) {
       {/* Vidéos */}
       <h3 style={{ fontFamily: FONT, fontSize: 16, color: color, fontWeight: 700, marginBottom: 12 }}>Vidéos explicatives</h3>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14, marginBottom: 28 }}>
-        {[1, 2, 3].map(n => (
-          <div key={n} style={{ ...card, padding: 0, overflow: "hidden" }}>
-            <div style={{ width: "100%", aspectRatio: "16/9", background: C.bgAlt, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 8 }}>
-              <div style={{ width: 50, height: 50, borderRadius: "50%", background: `${color}15`, display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: 24 }}>▶️</span></div>
-              <div style={{ fontFamily: FONT, fontSize: 12, color: C.muted, fontWeight: 600 }}>Vidéo à venir</div>
+        {videos.map((v, i) => (
+          <div key={i} style={{ ...card, padding: 0, overflow: "hidden" }}>
+            <iframe
+              width="100%"
+              style={{ aspectRatio: "16/9", border: "none", display: "block" }}
+              src={`https://www.youtube.com/embed/${v.id}`}
+              title={v.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+            <div style={{ padding: "10px 12px" }}>
+              <div style={{ fontFamily: FONT, fontSize: 12, color: C.text, fontWeight: 700 }}>{v.title}</div>
             </div>
           </div>
         ))}
@@ -741,6 +748,18 @@ const PV_IMAGES = [
   { url: PV_IMG_MAISON_PV, alt: "Maison avec panneaux solaires" },
   { url: PV_IMG_INSTALL_PV, alt: "Installation panneaux photovoltaïques" },
   { url: PV_IMG_SCHEMA_PV, alt: "Schéma autoconsommation solaire" },
+];
+
+const ITE_VIDEOS = [
+  { id: "2C8gSIvNT1E", title: "Mise en œuvre ITE — Pose calée chevillée" },
+  { id: "ZfKqj3cFqYo", title: "Les étapes d'un chantier ITE complet" },
+  { id: "QKUXmsaV-yU", title: "Isolation thermique extérieure — Les bases" },
+];
+
+const PV_VIDEOS = [
+  { id: "DwLvIdxgJdQ", title: "Installation complète panneaux solaires" },
+  { id: "kS3reZ3cRkQ", title: "Tuto pose panneaux sur toiture tuiles" },
+  { id: "b4YvU3aYfhE", title: "Fonctionnement autoconsommation solaire" },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -842,8 +861,8 @@ export default function App() {
         {active === "simu-ite" && <SimuITE onSave={addDossier} />}
         {active === "simu-pv" && <SimuPV onSave={addDossier} />}
         {active === "dossiers" && <Dossiers dossiers={dossiers} setDossiers={setDossiers} />}
-        {active === "demo-ite" && <ExplicatifPage title="Isolation Thermique par l'Extérieur" icon="🧱" avantages={ITE_AVANTAGES} composants={ITE_COMPOSANTS} color={C.bleu} images={ITE_IMAGES} />}
-        {active === "demo-pv" && <ExplicatifPage title="Panneaux Solaires Photovoltaïques" icon="☀️" avantages={PV_AVANTAGES} composants={PV_COMPOSANTS} color={C.success} images={PV_IMAGES} />}
+        {active === "demo-ite" && <ExplicatifPage title="Isolation Thermique par l'Extérieur" icon="🧱" avantages={ITE_AVANTAGES} composants={ITE_COMPOSANTS} color={C.bleu} images={ITE_IMAGES} videos={ITE_VIDEOS} />}
+        {active === "demo-pv" && <ExplicatifPage title="Panneaux Solaires Photovoltaïques" icon="☀️" avantages={PV_AVANTAGES} composants={PV_COMPOSANTS} color={C.success} images={PV_IMAGES} videos={PV_VIDEOS} />}
         {active === "fiche-ite" && <FicheITE />}
         {active === "fiche-pv" && <FichePV />}
       </main>
