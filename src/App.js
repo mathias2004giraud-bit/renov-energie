@@ -276,7 +276,7 @@ function Accueil({ setActive }) {
 // SIMULATION ITE (3 étapes)
 // ═══════════════════════════════════════════════════════════════
 
-const ITE_INIT = { nom:"",prenom:"",cp:"",ville:"",couleur_crepis:"",annee:"",chauffage:"",ecs:"",vitrage:"",elec_install:"",m2:"",combles:"",occupants:"",enfants:"",facture_energie:"",facture_periode:"Annuelle",type_chauffage:"",age_chauffage:"",contrat:"",salaire:"",metier:"",credit:"",observation:"",m2_ite:"",prix_m2:"",aides_nom:"",aides_bonus:"" };
+const ITE_INIT = { nom:"",prenom:"",cp:"",ville:"",couleur_crepis:"",annee:"",chauffage:"",ecs:"",vitrage:"",elec_install:"",m2:"",combles:"",occupants:"",enfants:"",facture_energie:"",facture_periode:"Annuelle",type_chauffage:"",age_chauffage:"",contrat:"",salaire:"",metier:"",credit:"",observation:"",m2_ite:"",prix_m2:"",aides_nom:"",aides_bonus:"",nb_panneaux:"",puissance_pv:"6",facture_elec:"",conso_kw:"" };
 
 function SimuITE({ onSave }) {
   const [step, setStep] = useState(0);
@@ -297,16 +297,35 @@ function SimuITE({ onSave }) {
     return { m2, ttc, ht, tva, cee, aidesNom, bonus: BONUS_NATIONAL, totalAides, sansAides: ttc, avecAides, rac: avecAides };
   };
 
-  const finalize = () => {
-    const calc = computeITE();
-    const score = 60 + Math.floor(Math.random() * 21);
-    setResult({ calc, score });
-    setStep(3);
+  const computeRentabilite = () => {
+    const pw = parseFloat(f.puissance_pv) || 6;
+    const grille = PV_GRILLE.find(g => g.kw === pw) || PV_GRILLE[2];
+    const prixTTC = grille.prix;
+    const factureElec = parseFloat(f.facture_elec) || 1800;
+    const conso = parseFloat(f.conso_kw) || 5000;
+    const reduction = Math.round(factureElec * 0.8);
+    const mensAvant = Math.round(factureElec / 12);
+    const mensApres = Math.round((factureElec * 0.2) / 12);
+    const prodAnnuelle = pw * 12 * 365;
+    const surplus = Math.max(0, prodAnnuelle - conso);
+    const tarifRevente = factureElec > 1500 ? 0.14 : 0.18;
+    const reventeSurplus = Math.round(surplus * tarifRevente);
+    const mensFinancement = Math.round(prixTTC / (20 * 12));
+    const mensApresAides = Math.max(0, mensFinancement - 40);
+    return { pw, grille, prixTTC, factureElec, conso, reduction, mensAvant, mensApres, prodAnnuelle, surplus, tarifRevente, reventeSurplus, mensFinancement, mensApresAides };
   };
 
-  const titles = ["Faisabilité technique ITE", "Aides et subventions ITE", "Finalisation du dossier ITE"];
+  const finalize = () => {
+    const calcITE = computeITE();
+    const calcPV = computeRentabilite();
+    const score = 60 + Math.floor(Math.random() * 21);
+    setResult({ calcITE, calcPV, score });
+    setStep(4);
+  };
 
-  if (step === 3 && result) {
+  const titles = ["Faisabilité technique ITE", "Aides et subventions ITE", "Rentabilité & économies", "Finalisation du dossier ITE"];
+
+  if (step === 4 && result) {
     return <ResultPage type="ITE" result={result} form={f} onNew={() => { setF(ITE_INIT); setStep(0); setResult(null); }} onSave={onSave} />;
   }
 
@@ -357,6 +376,26 @@ function SimuITE({ onSave }) {
           </>)}
 
           {step === 2 && (<>
+            <div style={{ width: "100%", padding: "12px 16px", background: C.infoBg, borderRadius: 4, borderLeft: `4px solid ${C.info}` }}>
+              <p style={{ color: C.info, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Calcul de rentabilité et économies sur la facture</p>
+            </div>
+            <div style={{ width: "100%" }}>
+              <label style={labelStyle}>Puissance installée</label>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
+                {PV_GRILLE.map(g => (
+                  <button key={g.kw} onClick={() => u("puissance_pv", String(g.kw))} style={{ padding: "14px 8px", borderRadius: 6, cursor: "pointer", textAlign: "center", background: f.puissance_pv === String(g.kw) ? C.bleuLight : C.bgAlt, border: f.puissance_pv === String(g.kw) ? `2px solid ${C.bleu}` : `1px solid ${C.border}` }}>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: f.puissance_pv === String(g.kw) ? C.bleu : C.text, fontFamily: FONT }}>{g.label}</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: C.success, fontFamily: FONT, marginTop: 4 }}>{fmt(g.prix)}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <Field label="Facture électrique annuelle (€)" value={f.facture_elec} onChange={v=>u("facture_elec",v)} half type="number" placeholder="1800" />
+            <Field label="Consommation annuelle (kWh)" value={f.conso_kw} onChange={v=>u("conso_kw",v)} half type="number" placeholder="5000" />
+            {(parseFloat(f.facture_elec) > 0) && <PVCalcDisplay calc={computeRentabilite()} />}
+          </>)}
+
+          {step === 3 && (<>
             <div style={{ width: "100%", padding: "12px 16px", background: C.successBg, borderRadius: 4, borderLeft: `4px solid ${C.success}` }}>
               <p style={{ color: C.success, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Validation des prérequis avant finalisation</p>
             </div>
@@ -369,14 +408,14 @@ function SimuITE({ onSave }) {
                 </div>
               ))}
             </div>
-            <Field label="Observation du technicien" value={f.observation} onChange={v=>u("observation",v)} placeholder="Notes sur le dossier..." />
+            <Field label="Observation du technicien ITE" value={f.observation} onChange={v=>u("observation",v)} placeholder="Notes ITE..." />
           </>)}
         </div>
       </div>
 
       <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
         {step > 0 ? <button onClick={() => setStep(s => s - 1)} style={btnS}>← Précédent</button> : <div />}
-        {step < 2 ? <button onClick={() => setStep(s => s + 1)} style={btnP}>Suivant →</button> : <button onClick={finalize} style={{ ...btnP, background: C.success }}>Voir le résultat</button>}
+        {step < 3 ? <button onClick={() => setStep(s => s + 1)} style={btnP}>Suivant →</button> : <button onClick={finalize} style={{ ...btnP, background: C.success }}>Voir le résultat</button>}
       </div>
     </div>
   );
@@ -664,8 +703,26 @@ function Dossiers({ dossiers, setDossiers }) {
 
 function ExplicatifPage({ title, icon, avantages, composants, color, images, videos }) {
   const [selected, setSelected] = useState(null);
+  const [lightbox, setLightbox] = useState(null);
+
+  const openLightbox = (i) => setLightbox(i);
+  const closeLightbox = () => setLightbox(null);
+  const prevImg = () => setLightbox(i => (i > 0 ? i - 1 : images.length - 1));
+  const nextImg = () => setLightbox(i => (i < images.length - 1 ? i + 1 : 0));
+
   return (
     <div style={{ padding: "28px 20px", maxWidth: 860, margin: "0 auto" }}>
+      {/* LIGHTBOX */}
+      {lightbox !== null && (
+        <div onClick={closeLightbox} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+          <button onClick={e => { e.stopPropagation(); prevImg(); }} style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.15)", border: "none", color: "#fff", fontSize: 32, width: 48, height: 48, borderRadius: "50%", cursor: "pointer", fontWeight: 800 }}>‹</button>
+          <img src={images[lightbox].url} alt={images[lightbox].alt} onClick={e => e.stopPropagation()} style={{ maxWidth: "85vw", maxHeight: "85vh", borderRadius: 8, boxShadow: "0 8px 40px rgba(0,0,0,0.5)" }} />
+          <button onClick={e => { e.stopPropagation(); nextImg(); }} style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.15)", border: "none", color: "#fff", fontSize: 32, width: 48, height: 48, borderRadius: "50%", cursor: "pointer", fontWeight: 800 }}>›</button>
+          <button onClick={closeLightbox} style={{ position: "absolute", top: 16, right: 16, background: "rgba(255,255,255,0.15)", border: "none", color: "#fff", fontSize: 24, width: 40, height: 40, borderRadius: "50%", cursor: "pointer" }}>✕</button>
+          <div style={{ position: "absolute", bottom: 20, color: "#fff", fontFamily: FONT, fontSize: 14, fontWeight: 600 }}>{lightbox + 1} / {images.length} — {images[lightbox].alt}</div>
+        </div>
+      )}
+
       <h2 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 20 }}>{icon} {title}</h2>
 
       {/* Layout : bulles animées à gauche, images à droite */}
@@ -688,7 +745,7 @@ function ExplicatifPage({ title, icon, avantages, composants, color, images, vid
           <h3 style={{ fontFamily: FONT, fontSize: 16, color: color, fontWeight: 700, marginBottom: 12 }}>Illustrations</h3>
           <div style={{ display: "grid", gridTemplateColumns: images.length <= 3 ? "1fr 1fr" : "1fr 1fr", gap: 8 }}>
             {images.map((img, i) => (
-              <div key={i} style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${C.border}`, aspectRatio: "4/3" }}>
+              <div key={i} onClick={() => openLightbox(i)} style={{ borderRadius: 8, overflow: "hidden", border: `1px solid ${C.border}`, aspectRatio: "4/3", cursor: "pointer", transition: "transform 0.2s, box-shadow 0.2s" }} onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.03)"; e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.15)"; }} onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "none"; }}>
                 <img src={img.url} alt={img.alt} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
             ))}
