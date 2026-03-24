@@ -30,46 +30,46 @@ const USERS = {
 };
 
 const PV_GRILLE = [
-  { kw: 3.5, prix: 6900, label: "3,5 kWc" },
-  { kw: 4.5, prix: 8900, label: "4,5 kWc" },
-  { kw: 6, prix: 10900, label: "6 kWc" },
-  { kw: 9, prix: 12900, label: "9 kWc" },
+  { kw: 3.5, prix: 22390, label: "3,5 kWc" },
+  { kw: 4.5, prix: 25900, label: "4,5 kWc" },
+  { kw: 6, prix: 28900, label: "6 kWc" },
+  { kw: 9, prix: 31900, label: "9 kWc" },
 ];
 
 const CEE_PAR_M2 = 13;
 const BONUS_NATIONAL = 3000;
 
 const ITE_AVANTAGES = [
-  { icon: "📉", text: "Réduction de la facture de 40 à 60%" },
-  { icon: "🌡️", text: "Réduction des déperditions thermiques" },
-  { icon: "🏠", text: "Esthétique de la maison améliorée" },
-  { icon: "📊", text: "Gain de 2 lettres dans le DPE" },
-  { icon: "💰", text: "Plus-value immobilière de 15 à 20%" },
-  { icon: "❤️", text: "Confort de vie et santé améliorés" },
+  { icon: "—", text: "Réduction de la facture de 40 à 60%" },
+  { icon: "—", text: "Réduction des déperditions thermiques" },
+  { icon: "—", text: "Esthétique de la maison améliorée" },
+  { icon: "—", text: "Gain de 2 lettres dans le DPE" },
+  { icon: "—", text: "Plus-value immobilière de 15 à 20%" },
+  { icon: "—", text: "Confort de vie et santé améliorés" },
 ];
 
 const PV_AVANTAGES = [
-  { icon: "📉", text: "Réduction de la facture de 75 à 80%" },
-  { icon: "☀️", text: "Énergie propre, renouvelable et gratuite" },
-  { icon: "🏠", text: "Valorisation du logement 15 à 20%" },
-  { icon: "📊", text: "Gain dans le DPE de la maison" },
-  { icon: "💰", text: "Plus-value immobilière 15 à 20%" },
-  { icon: "🌍", text: "Électricité sans émissions de gaz à effet de serre" },
-  { icon: "🌱", text: "Un pas vers la transition énergétique" },
+  { icon: "—", text: "Réduction de la facture de 75 à 80%" },
+  { icon: "—", text: "Énergie propre, renouvelable et gratuite" },
+  { icon: "—", text: "Valorisation du logement 15 à 20%" },
+  { icon: "—", text: "Gain dans le DPE de la maison" },
+  { icon: "—", text: "Plus-value immobilière 15 à 20%" },
+  { icon: "—", text: "Électricité sans émissions de gaz à effet de serre" },
+  { icon: "—", text: "Un pas vers la transition énergétique" },
 ];
 
 const ITE_COMPOSANTS = [
-  { id: "isolant", nom: "Isolant PSE / Laine de roche", desc: "Panneaux rigides fixés sur le mur existant — supprime les ponts thermiques et réduit les pertes de chaleur jusqu'à 30%.", icon: "🧱", detail: "Épaisseur recommandée : 120 à 200mm. R ≥ 3.7 m².K/W." },
-  { id: "fixation", nom: "Fixation mécanique + colle", desc: "Double système de fixation : colle-plot + chevilles à frapper.", icon: "🔩", detail: "Résistance au vent certifiée DTU 55.2." },
-  { id: "armature", nom: "Sous-enduit + treillis d'armature", desc: "Fibre de verre noyée — protège l'isolant des chocs.", icon: "🛡️", detail: "Treillis 160g/m² résistant aux alcalis." },
-  { id: "finition", nom: "Enduit de finition décoratif", desc: "Large choix de couleurs et textures.", icon: "🎨", detail: "Garantie décennale. 200+ teintes." },
+  { id: "isolant", nom: "Isolant PSE / Laine de roche", desc: "Panneaux rigides fixés sur le mur existant — supprime les ponts thermiques et réduit les pertes de chaleur jusqu'à 30%.", icon: "—", detail: "Épaisseur recommandée : 120 à 200mm. R ≥ 3.7 m².K/W." },
+  { id: "fixation", nom: "Fixation mécanique + colle", desc: "Double système de fixation : colle-plot + chevilles à frapper.", icon: "—", detail: "Résistance au vent certifiée DTU 55.2." },
+  { id: "armature", nom: "Sous-enduit + treillis d'armature", desc: "Fibre de verre noyée — protège l'isolant des chocs.", icon: "—", detail: "Treillis 160g/m² résistant aux alcalis." },
+  { id: "finition", nom: "Enduit de finition décoratif", desc: "Large choix de couleurs et textures.", icon: "—", detail: "Garantie décennale. 200+ teintes." },
 ];
 
 const PV_COMPOSANTS = [
-  { id: "panneau", nom: "Panneaux monocristallins", desc: "Rendement supérieur à 21%. Garantie 25 ans.", icon: "☀️", detail: "375 à 500Wc/panneau. Dégradation < 0.5%/an." },
-  { id: "onduleur", nom: "Micro-onduleurs", desc: "Conversion DC/AC panneau par panneau.", icon: "⚡", detail: "Durée de vie 25 ans. Monitoring temps réel." },
-  { id: "structure", nom: "Structure de montage alu", desc: "Étanchéité garantie sur tous types de toiture.", icon: "🏗️", detail: "Tenue au vent 180 km/h. Certification CSTB." },
-  { id: "coffret", nom: "Coffret DC/AC + raccordement", desc: "Protection électrique complète.", icon: "🔌", detail: "Conformité NF C 15-100. Raccordement Enedis inclus." },
+  { id: "panneau", nom: "Panneaux monocristallins", desc: "Rendement supérieur à 21%. Garantie 25 ans.", icon: "—", detail: "375 à 500Wc/panneau. Dégradation < 0.5%/an." },
+  { id: "onduleur", nom: "Micro-onduleurs", desc: "Conversion DC/AC panneau par panneau.", icon: "—", detail: "Durée de vie 25 ans. Monitoring temps réel." },
+  { id: "structure", nom: "Structure de montage alu", desc: "Étanchéité garantie sur tous types de toiture.", icon: "—", detail: "Tenue au vent 180 km/h. Certification CSTB." },
+  { id: "coffret", nom: "Coffret DC/AC + raccordement", desc: "Protection électrique complète.", icon: "—", detail: "Conformité NF C 15-100. Raccordement Enedis inclus." },
 ];
 
 // ═══════════════════════════════════════════════════════════════
@@ -148,8 +148,8 @@ function Login({ onLogin }) {
         <div style={{ width: "100%", maxWidth: 440, ...card, padding: 40 }}>
           <div style={{ textAlign: "center", marginBottom: 28 }}>
             <div style={{ width: 56, height: 56, background: C.bleu, borderRadius: 10, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><span style={{ fontSize: 20, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
-            <h1 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 4 }}>RénovÉnergie</h1><p style={{ color: C.text, fontSize: 14, fontFamily: FONT, fontWeight: 600 }}>Accès Technicien</p>
-            <p style={{ color: C.muted, fontSize: 13, fontFamily: FONT }}>Pré-candidature au programme de la transition énergétique 2026</p>
+            <h1 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 4 }}>Vérisi</h1><p style={{ color: C.text, fontSize: 14, fontFamily: FONT, fontWeight: 600 }}>Accès Technicien</p>
+            <p style={{ color: C.muted, fontSize: 13, fontFamily: FONT }}>Simulation et accompagnement dans le cadre de la transition énergétique 2026</p>
           </div>
           <div style={{ marginBottom: 16 }}>
             <label style={labelStyle}>Email</label>
@@ -189,7 +189,7 @@ function Sidebar({ active, setActive, onLogout, open, setOpen }) {
         <Tri />
         <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 32, height: 32, background: C.bleu, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: 12, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
-          <div><div style={{ fontFamily: FONT, fontSize: 14, fontWeight: 800, color: C.bleu }}>RénovÉnergie</div><div style={{ fontFamily: FONT, fontSize: 10, color: C.muted }}>Programme d'État 2026</div></div>
+          <div><div style={{ fontFamily: FONT, fontSize: 14, fontWeight: 800, color: C.bleu }}>Vérisi</div><div style={{ fontFamily: FONT, fontSize: 10, color: C.muted }}>Transition Énergétique 2026</div></div>
         </div>
         <nav style={{ flex: 1, padding: "8px 10px", overflowY: "auto" }}>
           {items.map(s => (
@@ -209,7 +209,7 @@ function Sidebar({ active, setActive, onLogout, open, setOpen }) {
 function TopBar({ setOpen, title, userName }) {
   return (<><Tri /><header style={{ position: "sticky", top: 0, zIndex: 100, background: C.white, borderBottom: `2px solid ${C.bleu}`, padding: "10px 20px", display: "flex", alignItems: "center", gap: 12 }}>
     <button onClick={() => setOpen(true)} style={{ background: "none", border: "none", color: C.bleu, fontSize: 20, cursor: "pointer" }}>☰</button>
-    <span style={{ fontFamily: FONT, fontSize: 15, fontWeight: 700, color: C.bleu }}>{title}</span>
+    <span style={{ fontFamily: FONT, fontSize: 15, fontWeight: 700, color: C.text }}>{title}</span>
     <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10 }}>
       {userName && <span style={{ fontFamily: FONT, fontSize: 12, color: C.text, fontWeight: 600 }}>{userName}</span>}
       <span style={{ fontFamily: FONT, fontSize: 10, color: C.muted, fontWeight: 700 }}>RÉPUBLIQUE FRANÇAISE</span>
@@ -234,8 +234,8 @@ function Accueil({ setActive, userName }) {
         </div>
 
         <div style={{ width: 64, height: 64, background: C.bleu, borderRadius: 12, display: "inline-flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><span style={{ fontSize: 22, color: "#fff", fontWeight: 800, fontFamily: FONT }}>RE</span></div>
-        <h1 style={{ fontFamily: FONT, fontSize: "clamp(22px,5vw,34px)", color: C.bleu, fontWeight: 800, lineHeight: 1.2, marginBottom: 8 }}>Simulation au Programme Environnemental 2026</h1>
-        <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, marginBottom: 28, maxWidth: 500, margin: "0 auto 28px" }}>Pré-candidature au programme de la transition énergétique{userName ? ` — Bienvenue ${userName}` : ""}</p>
+        <h1 style={{ fontFamily: FONT, fontSize: "clamp(22px,5vw,34px)", color: C.text, fontWeight: 800, lineHeight: 1.2, marginBottom: 8 }}>Transition Énergétique 2026</h1>
+        <p style={{ fontFamily: FONT, fontSize: 14, color: C.muted, marginBottom: 28, maxWidth: 500, margin: "0 auto 28px" }}>Simulation et accompagnement — transition énergétique{userName ? ` — Bienvenue ${userName}` : ""}</p>
 
         {/* 2 boutons simulation */}
         <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 32 }}>
@@ -447,15 +447,15 @@ function SimuITE({ onSave }) {
               <p style={{ color: C.success, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Validation des prérequis avant finalisation</p>
             </div>
             <div style={{ width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-              {[{ l: "Aspect technique", icon: "✓" }, { l: "Aspect motivation", icon: "✓" }, { l: "Aspect financier", icon: "✓" }].map((p, i) => (
-                <div key={i} style={{ padding: 16, background: C.successBg, borderRadius: 8, border: `1px solid ${C.success}30`, textAlign: "center" }}>
-                  <div style={{ fontSize: 28, marginBottom: 6 }}>{p.icon}</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: C.success, fontFamily: FONT }}>{p.l}</div>
-                  <div style={{ fontSize: 11, color: C.success, marginTop: 4 }}>✓ Validé</div>
-                </div>
+              {[{ l: "Aspect technique", k: "valid_tech" }, { l: "Aspect motivation", k: "valid_motiv" }, { l: "Aspect financier", k: "valid_fin" }].map((p, i) => (
+                <button key={i} onClick={() => u(p.k, f[p.k] === "oui" ? "" : "oui")} style={{ padding: 16, background: f[p.k] === "oui" ? C.successBg : C.bgAlt, borderRadius: 8, border: f[p.k] === "oui" ? `2px solid ${C.success}` : `1px solid ${C.border}`, textAlign: "center", cursor: "pointer" }}>
+                  <div style={{ fontSize: 28, marginBottom: 6, color: f[p.k] === "oui" ? C.success : C.light }}>{f[p.k] === "oui" ? "✓" : "○"}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: f[p.k] === "oui" ? C.success : C.muted, fontFamily: FONT }}>{p.l}</div>
+                  <div style={{ fontSize: 11, color: f[p.k] === "oui" ? C.success : C.light, marginTop: 4 }}>{f[p.k] === "oui" ? "Validé" : "Cliquez pour valider"}</div>
+                </button>
               ))}
             </div>
-            <Field label="Observation du technicien ITE" value={f.observation} onChange={v=>u("observation",v)} placeholder="Notes ITE..." />
+            <Field label="Observation du technicien" value={f.observation} onChange={v=>u("observation",v)} placeholder="Notes..." />
           </>)}
         </div>
       </div>
@@ -586,15 +586,15 @@ function SimuPV({ onSave }) {
               <p style={{ color: C.success, fontSize: 13, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Validation des prérequis avant finalisation</p>
             </div>
             <div style={{ width: "100%", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-              {[{ l: "Aspect technique", icon: "✓" }, { l: "Aspect motivation", icon: "✓" }, { l: "Aspect financier", icon: "✓" }].map((p, i) => (
-                <div key={i} style={{ padding: 16, background: C.successBg, borderRadius: 8, border: `1px solid ${C.success}30`, textAlign: "center" }}>
-                  <div style={{ fontSize: 28, marginBottom: 6 }}>{p.icon}</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: C.success, fontFamily: FONT }}>{p.l}</div>
-                  <div style={{ fontSize: 11, color: C.success, marginTop: 4 }}>✓ Validé</div>
-                </div>
+              {[{ l: "Aspect technique", k: "valid_tech" }, { l: "Aspect motivation", k: "valid_motiv" }, { l: "Aspect financier", k: "valid_fin" }].map((p, i) => (
+                <button key={i} onClick={() => u(p.k, f[p.k] === "oui" ? "" : "oui")} style={{ padding: 16, background: f[p.k] === "oui" ? C.successBg : C.bgAlt, borderRadius: 8, border: f[p.k] === "oui" ? `2px solid ${C.success}` : `1px solid ${C.border}`, textAlign: "center", cursor: "pointer" }}>
+                  <div style={{ fontSize: 28, marginBottom: 6, color: f[p.k] === "oui" ? C.success : C.light }}>{f[p.k] === "oui" ? "✓" : "○"}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: f[p.k] === "oui" ? C.success : C.muted, fontFamily: FONT }}>{p.l}</div>
+                  <div style={{ fontSize: 11, color: f[p.k] === "oui" ? C.success : C.light, marginTop: 4 }}>{f[p.k] === "oui" ? "Validé" : "Cliquez pour valider"}</div>
+                </button>
               ))}
             </div>
-            <Field label="Observation du technicien" value={f.observation} onChange={v=>u("observation",v)} placeholder="Notes sur le dossier..." />
+            <Field label="Observation du technicien" value={f.observation} onChange={v=>u("observation",v)} placeholder="Notes..." />
           </>)}
         </div>
       </div>
@@ -662,7 +662,7 @@ function PVCalcDisplay({ calc }) {
       <div style={{ padding: 14, background: C.infoBg, borderRadius: 8, marginBottom: 14, textAlign: "center" }}>
         <div style={{ fontSize: 10, color: C.info, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase", marginBottom: 4 }}>Aides et subventions estimées</div>
         <div style={{ fontSize: 24, fontWeight: 800, color: C.info, fontFamily: FONT }}>{fmt(c.aides)}</div>
-        <div style={{ fontSize: 11, color: C.muted, fontFamily: FONT, marginTop: 4 }}>Calculé selon la facture énergétique</div>
+        <div style={{ fontSize: 11, color: C.muted, fontFamily: FONT, marginTop: 4 }}>Calculé selon la facture énergétique — Les aides sont nominatives</div>
       </div>
 
       {/* ÉTAPE 2 — Coût & mensualités */}
@@ -762,14 +762,14 @@ function ResultPage({ type, result, form, onNew, onSave }) {
 function Dossiers({ dossiers, setDossiers }) {
   const [filter, setFilter] = useState("tous");
   const filtered = filter === "tous" ? dossiers : dossiers.filter(d => d.status === filter);
-  const colors = { en_cours: C.info, accepte: C.success, refuse: C.rouge };
-  const labels = { en_cours: "En cours", accepte: "Accepté", refuse: "Refusé" };
+  const colors = { en_cours: C.info, attente_fi: "#B34000", signe: C.success, pose: C.bleuMid, refuse: C.rouge };
+  const labels = { en_cours: "En cours", attente_fi: "Attente FI", signe: "Signé", pose: "Posé", refuse: "Refusé" };
 
   return (
     <div style={{ padding: "24px 20px", maxWidth: 800, margin: "0 auto" }}>
       <h2 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 16 }}>Suivi des dossiers</h2>
       <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
-        {[{ k: "tous", l: "Tous", c: C.bleu }, { k: "en_cours", l: "En cours", c: C.info }, { k: "accepte", l: "Acceptés", c: C.success }, { k: "refuse", l: "Refusés", c: C.rouge }].map(x => (
+        {[{ k: "tous", l: "Tous", c: C.bleu }, { k: "en_cours", l: "En cours", c: C.info }, { k: "attente_fi", l: "Attente FI", c: "#B34000" }, { k: "signe", l: "Signés", c: C.success }, { k: "pose", l: "Posés", c: C.bleuMid }, { k: "refuse", l: "Refusés", c: C.rouge }].map(x => (
           <button key={x.k} onClick={() => setFilter(x.k)} style={{ padding: "8px 18px", borderRadius: 4, cursor: "pointer", fontFamily: FONT, fontSize: 12, fontWeight: 700, background: filter === x.k ? `${x.c}12` : C.white, border: filter === x.k ? `2px solid ${x.c}` : `1px solid ${C.border}`, color: filter === x.k ? x.c : C.muted }}>{x.l} ({x.k === "tous" ? dossiers.length : dossiers.filter(d => d.status === x.k).length})</button>
         ))}
       </div>
@@ -783,7 +783,7 @@ function Dossiers({ dossiers, setDossiers }) {
           </div>
           <div style={{ fontSize: 14, fontWeight: 800, fontFamily: FONT, color: C.bleu }}>{d.score}%</div>
           <div style={{ display: "flex", gap: 4 }}>
-            {["en_cours", "accepte", "refuse"].map(s => (
+            {["en_cours", "attente_fi", "signe", "pose", "refuse"].map(s => (
               <button key={s} onClick={() => setDossiers(prev => prev.map((dd, ii) => ii === dossiers.indexOf(d) ? { ...dd, status: s } : dd))} style={{ padding: "5px 12px", borderRadius: 4, fontSize: 10, fontWeight: 700, cursor: "pointer", fontFamily: FONT, background: d.status === s ? `${colors[s]}15` : "transparent", border: d.status === s ? `2px solid ${colors[s]}` : `1px solid ${C.border}`, color: d.status === s ? colors[s] : C.light }}>{labels[s]}</button>
             ))}
           </div>
@@ -858,7 +858,7 @@ function ExplicatifPage({ title, icon, avantages, composants, color, images, vid
               <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" }} src={`https://www.youtube.com/embed/${v.id}`} title={v.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
             ) : (
               <div style={{ width: "100%", aspectRatio: "16/9", background: C.bgAlt, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 8 }}>
-                <div style={{ width: 50, height: 50, borderRadius: "50%", background: `${color}15`, display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: 24 }}>▶️</span></div>
+                <div style={{ width: 50, height: 50, borderRadius: "50%", background: `${color}15`, display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ fontSize: 24, color: C.muted }}>▶</span></div>
                 <div style={{ fontFamily: FONT, fontSize: 12, color: C.muted, fontWeight: 600 }}>Vidéo à venir</div>
               </div>
             )}
@@ -1024,7 +1024,7 @@ export default function App() {
       `}</style>
 
       <Sidebar active={active} setActive={setActive} onLogout={() => { setUser(null); setDossiers([]); }} open={sidebarOpen} setOpen={setSidebarOpen} />
-      <TopBar setOpen={setSidebarOpen} title={titles[active] || "RénovÉnergie"} userName={userName} />
+      <TopBar setOpen={setSidebarOpen} title={titles[active] || "Vérisi"} userName={userName} />
 
       <main>
         {active === "accueil" && <Accueil setActive={setActive} userName={userName} />}
@@ -1043,7 +1043,7 @@ export default function App() {
           <div style={{ fontFamily: FONT, fontSize: 12, color: "#999", lineHeight: 2 }}>
             <div>* Les simulations sont indicatives et ne constituent pas un engagement contractuel.</div>
             <div>Conditions d'utilisation — Mentions légales — Contact : contact@renov-energie.fr</div>
-            <div style={{ marginTop: 8, fontSize: 10, color: "#666" }}>RénovÉnergie — Programme Transition Énergétique 2026</div>
+            <div style={{ marginTop: 8, fontSize: 10, color: "#666" }}>Vérisi — Programme Transition Énergétique 2026</div>
           </div>
         </div>
       </footer>
