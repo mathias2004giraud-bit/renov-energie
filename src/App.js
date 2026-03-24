@@ -142,7 +142,7 @@ function Login({ onLogin }) {
   const submit = () => { if (USERS[email] && USERS[email].pwd === pwd) onLogin(email); else setErr("Identifiants incorrects"); };
 
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, rgba(27,67,50,0.85), rgba(45,106,79,0.8)), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80') center/cover no-repeat" }}>
+    <div style={{ minHeight: "100vh", background: "linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.3)), url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&q=80') center/cover no-repeat" }}>
       <Tri />
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 5px)", padding: 24 }}>
         <div style={{ width: "100%", maxWidth: 440, ...card, padding: 40 }}>
@@ -216,10 +216,10 @@ function TopBar({ setOpen, title, userName }) {
     <span style={{ fontFamily: FONT, fontSize: 13, fontWeight: 600, color: C.text, marginLeft: 12 }}>{title}</span>
     <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
       {userName && <span style={{ fontFamily: FONT, fontSize: 12, color: C.text, fontWeight: 600 }}>{userName}</span>}
-      <img src={LOGO_QUALIPAC} alt="RGE" style={{ height: 24, borderRadius: 2 }} />
-      <img src={LOGO_QUALIBAT} alt="RGE" style={{ height: 24, borderRadius: 2 }} />
-      <img src={LOGO_QUALIPV} alt="RGE" style={{ height: 24, borderRadius: 2 }} />
-      <img src={LOGO_RGE} alt="RGE" style={{ height: 24, borderRadius: 2 }} />
+      <img src={LOGO_QUALIPAC} alt="RGE" style={{ height: 32, borderRadius: 3 }} />
+      <img src={LOGO_QUALIBAT} alt="RGE" style={{ height: 32, borderRadius: 3 }} />
+      <img src={LOGO_QUALIPV} alt="RGE" style={{ height: 32, borderRadius: 3 }} />
+      <img src={LOGO_RGE} alt="RGE" style={{ height: 32, borderRadius: 3 }} />
     </div>
   </header></>);
 }
