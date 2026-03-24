@@ -304,6 +304,21 @@ function SimuITE({ onSave }) {
     const prixTTC = grille.prix;
     const factureElec = parseFloat(f.facture_elec) || 1800;
     const conso = parseFloat(f.conso_kw) || 5000;
+    const duree = parseFloat(f.duree_financement) || 20;
+
+    // ÉTAPE 1 — Aides (entre 7900 et 12900, inversement proportionnel à la facture)
+    const aideMin = 7900; const aideMax = 12900;
+    const factureBasse = 800; const factureHaute = 3000;
+    const ratio = Math.max(0, Math.min(1, (factureElec - factureBasse) / (factureHaute - factureBasse)));
+    const aides = Math.round(aideMax - ratio * (aideMax - aideMin));
+
+    // ÉTAPE 2 — Coût & mensualités
+    const prixSansAides = prixTTC;
+    const prixAvecAides = Math.max(0, prixTTC - aides);
+    const mensSansAides = Math.round(prixTTC / (duree * 12));
+    const mensAvecAides = Math.max(0, mensSansAides - 120);
+
+    // ÉTAPE 3 — Revente surplus & autofinancement
     const reduction = Math.round(factureElec * 0.8);
     const mensAvant = Math.round(factureElec / 12);
     const mensApres = Math.round((factureElec * 0.2) / 12);
@@ -311,9 +326,11 @@ function SimuITE({ onSave }) {
     const surplus = Math.max(0, prodAnnuelle - conso);
     const tarifRevente = factureElec > 1500 ? 0.14 : 0.18;
     const reventeSurplus = Math.round(surplus * tarifRevente);
-    const mensFinancement = Math.round(prixTTC / (20 * 12));
-    const mensApresAides = Math.max(0, mensFinancement - 40);
-    return { pw, grille, prixTTC, factureElec, conso, reduction, mensAvant, mensApres, prodAnnuelle, surplus, tarifRevente, reventeSurplus, mensFinancement, mensApresAides };
+    const reventeParMois = Math.round(reventeSurplus / 12);
+    const autofinancement = mensSansAides > 0 ? Math.min(100, Math.round(((mensSansAides - 40) / mensSansAides) * 100)) : 80;
+    const resteACharge = 40;
+
+    return { pw, grille, prixTTC, factureElec, conso, duree, aides, prixSansAides, prixAvecAides, mensSansAides, mensAvecAides, reduction, mensAvant, mensApres, prodAnnuelle, surplus, tarifRevente, reventeSurplus, reventeParMois, autofinancement, resteACharge };
   };
 
   const finalize = () => {
@@ -426,7 +443,7 @@ function SimuITE({ onSave }) {
 // SIMULATION PV (3 étapes)
 // ═══════════════════════════════════════════════════════════════
 
-const PV_INIT = { nom:"",prenom:"",cp:"",ville:"",habitation:"",annee:"",elec_install:"",chauffage:"",ecs:"",vitrage:"",type_chauffage:"",age_chauffage:"",m2:"",combles:"",occupants:"",enfants:"",facture_energie:"",facture_periode:"Annuelle",metier:"",salaire:"",credit:"",observation:"",puissance:"6",facture_elec:"",conso_kw:"" };
+const PV_INIT = { nom:"",prenom:"",cp:"",ville:"",habitation:"",annee:"",elec_install:"",chauffage:"",ecs:"",vitrage:"",type_chauffage:"",age_chauffage:"",m2:"",combles:"",occupants:"",enfants:"",facture_energie:"",facture_periode:"Annuelle",metier:"",salaire:"",credit:"",observation:"",puissance:"6",facture_elec:"",conso_kw:"",duree_financement:"20" };
 
 function SimuPV({ onSave }) {
   const [step, setStep] = useState(0);
@@ -438,13 +455,23 @@ function SimuPV({ onSave }) {
     const pw = parseFloat(f.puissance) || 6;
     const grille = PV_GRILLE.find(g => g.kw === pw) || PV_GRILLE[2];
     const prixTTC = grille.prix;
-    const ht = Math.round(prixTTC / 1.1);
-    const tva = prixTTC - ht;
     const factureElec = parseFloat(f.facture_elec) || 1800;
     const conso = parseFloat(f.conso_kw) || 5000;
-    // Subventions dynamiques liées à la facture
-    const factureFactor = factureElec > 2000 ? 0.85 : factureElec > 1200 ? 1 : 1.15;
-    const subBase = prixTTC;
+    const duree = parseFloat(f.duree_financement) || 20;
+
+    // ÉTAPE 1 — Aides (entre 7900 et 12900, inversement proportionnel à la facture)
+    const aideMin = 7900; const aideMax = 12900;
+    const factureBasse = 800; const factureHaute = 3000;
+    const ratio = Math.max(0, Math.min(1, (factureElec - factureBasse) / (factureHaute - factureBasse)));
+    const aides = Math.round(aideMax - ratio * (aideMax - aideMin));
+
+    // ÉTAPE 2 — Coût & mensualités
+    const prixSansAides = prixTTC;
+    const prixAvecAides = Math.max(0, prixTTC - aides);
+    const mensSansAides = Math.round(prixTTC / (duree * 12));
+    const mensAvecAides = Math.max(0, mensSansAides - 120);
+
+    // ÉTAPE 3 — Revente surplus & autofinancement
     const reduction = Math.round(factureElec * 0.8);
     const mensAvant = Math.round(factureElec / 12);
     const factApres = Math.round(factureElec * 0.2);
@@ -453,10 +480,11 @@ function SimuPV({ onSave }) {
     const surplus = Math.max(0, prodAnnuelle - conso);
     const tarifRevente = factureElec > 1500 ? 0.14 : 0.18;
     const reventeSurplus = Math.round(surplus * tarifRevente);
-    const mensFinancement = Math.round(prixTTC / (20 * 12));
-    const mensApresAides = Math.max(0, mensFinancement - 40);
-    const autoconsoTotal = Math.min(prodAnnuelle, conso);
-    return { pw, grille, prixTTC, ht, tva, factureElec, conso, reduction, mensAvant, factApres, mensApres, prodAnnuelle, surplus, reventeSurplus, mensFinancement, mensApresAides, autoconsoTotal, tarifRevente };
+    const reventeParMois = Math.round(reventeSurplus / 12);
+    const autofinancement = mensSansAides > 0 ? Math.min(100, Math.round(((mensSansAides - 40) / mensSansAides) * 100)) : 80;
+    const resteACharge = 40;
+
+    return { pw, grille, prixTTC, factureElec, conso, duree, aides, prixSansAides, prixAvecAides, mensSansAides, mensAvecAides, reduction, mensAvant, factApres, mensApres, prodAnnuelle, surplus, reventeSurplus, reventeParMois, tarifRevente, autofinancement, resteACharge };
   };
 
   const finalize = () => {
@@ -599,27 +627,63 @@ function PVCalcDisplay({ calc }) {
   const c = calc;
   return (
     <div style={{ width: "100%", padding: 18, background: C.bg, borderRadius: 8, border: `1px solid ${C.border}` }}>
+      {/* ÉTAPE 1 — Aides */}
+      <div style={{ padding: 14, background: C.infoBg, borderRadius: 8, marginBottom: 14, textAlign: "center" }}>
+        <div style={{ fontSize: 10, color: C.info, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase", marginBottom: 4 }}>Aides et subventions estimées</div>
+        <div style={{ fontSize: 24, fontWeight: 800, color: C.info, fontFamily: FONT }}>{fmt(c.aides)}</div>
+        <div style={{ fontSize: 11, color: C.muted, fontFamily: FONT, marginTop: 4 }}>Calculé selon la facture énergétique</div>
+      </div>
+
+      {/* ÉTAPE 2 — Coût & mensualités */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
-        <div style={{ textAlign: "center", padding: 12, background: C.infoBg, borderRadius: 8 }}><div style={{ fontSize: 10, color: C.info, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Prix TTC ({c.grille.label})</div><div style={{ fontSize: 20, fontWeight: 800, color: C.info, fontFamily: FONT, marginTop: 2 }}>{fmt(c.prixTTC)}</div></div>
-        <div style={{ textAlign: "center", padding: 12, background: C.successBg, borderRadius: 8 }}><div style={{ fontSize: 10, color: C.success, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Réduction facture (80%)</div><div style={{ fontSize: 20, fontWeight: 800, color: C.success, fontFamily: FONT, marginTop: 2 }}>{fmt(c.reduction)}/an</div></div>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
-        <div style={{ textAlign: "center", padding: 10, background: C.warningBg, borderRadius: 8 }}><div style={{ fontSize: 10, color: C.rouge, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Mensualité AVANT</div><div style={{ fontSize: 18, fontWeight: 800, color: C.rouge, fontFamily: FONT, marginTop: 2 }}>{fmt(c.mensAvant)}/mois</div></div>
-        <div style={{ textAlign: "center", padding: 10, background: C.successBg, borderRadius: 8 }}><div style={{ fontSize: 10, color: C.success, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Mensualité APRÈS</div><div style={{ fontSize: 18, fontWeight: 800, color: C.success, fontFamily: FONT, marginTop: 2 }}>{fmt(c.mensApres)}/mois</div></div>
-      </div>
-      <div style={{ padding: 14, background: `${C.warning}08`, borderRadius: 8, border: `1px solid ${C.warning}20`, marginBottom: 10 }}>
-        <div style={{ fontSize: 10, color: C.warning, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase", marginBottom: 4 }}>Revente de surplus</div>
-        <div style={{ fontSize: 12, color: C.muted, fontFamily: FONT, lineHeight: 1.6 }}>Production : {fmtN(c.prodAnnuelle)} kWh/an — Conso : {fmtN(c.conso)} kWh — Surplus : {fmtN(c.surplus)} kWh (tarif {c.tarifRevente}€/kWh)</div>
-        <div style={{ fontSize: 18, fontWeight: 800, color: C.warning, fontFamily: FONT, marginTop: 4 }}>≈ {fmt(c.reventeSurplus)}/an</div>
-      </div>
-      <div style={{ padding: 14, background: C.bleuLight, borderRadius: 8 }}>
-        <div style={{ fontSize: 10, color: C.bleu, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase", marginBottom: 4 }}>Financement sur 20 ans</div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div><div style={{ fontSize: 11, color: C.muted, fontFamily: FONT }}>Mensualité brute</div><div style={{ fontSize: 16, fontWeight: 800, color: C.text, fontFamily: FONT }}>{fmt(c.mensFinancement)}/mois</div></div>
-          <div style={{ fontSize: 22, color: C.light }}>→</div>
-          <div><div style={{ fontSize: 11, color: C.success, fontFamily: FONT }}>Après réinjection aides</div><div style={{ fontSize: 16, fontWeight: 800, color: C.success, fontFamily: FONT }}>{fmt(c.mensApresAides)}/mois</div></div>
+        <div style={{ textAlign: "center", padding: 12, background: `${C.rouge}08`, borderRadius: 8, border: `1px solid ${C.rouge}20` }}>
+          <div style={{ fontSize: 10, color: C.rouge, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Prix sans aides</div>
+          <div style={{ fontSize: 20, fontWeight: 800, color: C.rouge, fontFamily: FONT, marginTop: 2 }}>{fmt(c.prixSansAides)}</div>
         </div>
-        <div style={{ fontSize: 11, color: C.muted, fontFamily: FONT, marginTop: 8, fontStyle: "italic" }}>Le surplus de revente couvre la mensualité du financement (+40€ de marge)</div>
+        <div style={{ textAlign: "center", padding: 12, background: C.successBg, borderRadius: 8, border: `1px solid ${C.success}20` }}>
+          <div style={{ fontSize: 10, color: C.success, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Prix avec aides</div>
+          <div style={{ fontSize: 20, fontWeight: 800, color: C.success, fontFamily: FONT, marginTop: 2 }}>{fmt(c.prixAvecAides)}</div>
+        </div>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
+        <div style={{ textAlign: "center", padding: 10, background: C.bgAlt, borderRadius: 8 }}>
+          <div style={{ fontSize: 10, color: C.muted, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Mensualité sans aides</div>
+          <div style={{ fontSize: 18, fontWeight: 800, color: C.text, fontFamily: FONT, marginTop: 2 }}>{fmt(c.mensSansAides)}/mois</div>
+        </div>
+        <div style={{ textAlign: "center", padding: 10, background: C.successBg, borderRadius: 8 }}>
+          <div style={{ fontSize: 10, color: C.success, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase" }}>Mensualité avec aides</div>
+          <div style={{ fontSize: 18, fontWeight: 800, color: C.success, fontFamily: FONT, marginTop: 2 }}>{fmt(c.mensAvecAides)}/mois</div>
+          <div style={{ fontSize: 10, color: C.muted, fontFamily: FONT, marginTop: 2 }}>Après réinjection de 120 €</div>
+        </div>
+      </div>
+
+      {/* ÉTAPE 3 — Revente surplus & autofinancement */}
+      <div style={{ padding: 14, background: `${C.warning}08`, borderRadius: 8, border: `1px solid ${C.warning}20`, marginBottom: 10 }}>
+        <div style={{ fontSize: 10, color: C.warning, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase", marginBottom: 4 }}>Revente du surplus</div>
+        <div style={{ fontSize: 12, color: C.muted, fontFamily: FONT, lineHeight: 1.6 }}>
+          Production : {fmtN(c.prodAnnuelle)} kWh/an — Consommation : {fmtN(c.conso)} kWh — Surplus : {fmtN(c.surplus)} kWh
+        </div>
+        <div style={{ fontSize: 18, fontWeight: 800, color: C.warning, fontFamily: FONT, marginTop: 4 }}>{fmt(c.reventeSurplus)}/an soit {fmt(c.reventeParMois)}/mois</div>
+      </div>
+
+      {/* Résultat final — Autofinancement */}
+      <div style={{ padding: 16, background: C.bleuLight, borderRadius: 8, border: `1px solid ${C.bleu}20` }}>
+        <div style={{ fontSize: 10, color: C.bleu, fontWeight: 700, fontFamily: FONT, textTransform: "uppercase", marginBottom: 8 }}>Autofinancement du projet</div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 10, color: C.muted, fontFamily: FONT }}>Réduction facture</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: C.success, fontFamily: FONT }}>{fmt(c.reduction)}/an</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 10, color: C.muted, fontFamily: FONT }}>Autofinancement</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: C.bleu, fontFamily: FONT }}>{c.autofinancement}%</div>
+          </div>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 10, color: C.muted, fontFamily: FONT }}>Reste à charge</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: C.bleu, fontFamily: FONT }}>{c.resteACharge} €/mois</div>
+          </div>
+        </div>
       </div>
     </div>
   );
