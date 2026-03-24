@@ -24,10 +24,9 @@ const PV_IMG_SCHEMA_PV = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gA
 
 const USERS = {
   "mathias@renov.fr": { pwd: "renov2026", name: "Mathias" },
-  "commercial2@renov.fr": { pwd: "renov2026", name: "Commercial 2" },
-  "commercial3@renov.fr": { pwd: "renov2026", name: "Commercial 3" },
+  "thomas@renov.fr": { pwd: "renov2026", name: "Thomas" },
+  "sacha@renov.fr": { pwd: "renov2026", name: "Sacha" },
   "admin@renov.fr": { pwd: "admin2026", name: "Admin" },
-  "demo@renov.fr": { pwd: "demo2026", name: "Démo" },
 };
 
 const PV_GRILLE = [
@@ -162,9 +161,6 @@ function Login({ onLogin }) {
           </div>
           {err && <div style={{ color: C.rouge, fontSize: 13, fontFamily: FONT, marginBottom: 14, textAlign: "center", padding: "10px", background: C.warningBg, borderRadius: 4 }}>{err}</div>}
           <button onClick={submit} style={{ ...btnP, width: "100%" }}>Se connecter</button>
-          <div style={{ marginTop: 16, padding: 12, background: C.infoBg, borderRadius: 4, borderLeft: `4px solid ${C.bleu}` }}>
-            <p style={{ color: C.bleu, fontSize: 11, fontFamily: FONT, margin: 0, fontWeight: 600 }}>Démo : demo@renov.fr / demo2026</p>
-          </div>
         </div>
       </div>
     </div>
