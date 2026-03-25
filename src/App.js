@@ -181,72 +181,61 @@ function TopBar({ setOpen, title, userName }) {
 // ═══════════════════════════════════════════════════════════════
 
 function GovFooter() {
+  // Marianne bonnet phrygien SVG inline
+  const MarianneSVG = () => (
+    <svg width="50" height="56" viewBox="0 0 50 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M25 2C18 2 12 6 9 12C6 18 5 26 7 32C9 38 14 42 18 46H32C36 42 41 38 43 32C45 26 44 18 41 12C38 6 32 2 25 2Z" fill="#000091"/>
+      <path d="M25 8C20 8 16 11 14 15C12 19 11 24 13 28C15 32 18 35 21 38H29C32 35 35 32 37 28C39 24 38 19 36 15C34 11 30 8 25 8Z" fill="#FFF"/>
+      <ellipse cx="25" cy="48" rx="10" ry="6" fill="#000091"/>
+      <rect x="15" y="50" width="20" height="4" rx="2" fill="#E1000F"/>
+    </svg>
+  );
+
   return (
     <footer style={{ background: "#FFF", marginTop: 40, borderTop: "2px solid #000091" }}>
       <Tri />
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 24px 20px" }}>
-        {/* Bloc logos + liens gouvernementaux — style gov exact */}
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 20, marginBottom: 24, paddingBottom: 24, borderBottom: "1px solid #DDD" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-            {/* Mini drapeau FR + RÉPUBLIQUE FRANÇAISE */}
-            <div>
-              <div style={{ display: "flex", gap: 2, marginBottom: 6 }}>
-                <div style={{ width: 12, height: 16, background: "#000091" }} />
-                <div style={{ width: 12, height: 16, background: "#FFF", border: "1px solid #DDD" }} />
-                <div style={{ width: 12, height: 16, background: "#E1000F" }} />
+        {/* Bloc logos + liens */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 20, marginBottom: 24, paddingBottom: 24, borderBottom: "1px solid #DDD" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            {/* Logo RGE tout à gauche */}
+            <img src={LOGO_RGE_BIG} alt="RGE Reconnu Garant Environnement" style={{ height: 60, borderRadius: 4 }} />
+            <div style={{ width: 1, height: 50, background: "#DDD" }} />
+            {/* Marianne */}
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <MarianneSVG />
+              <div>
+                <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 800, color: "#161616", lineHeight: 1.2 }}>RÉPUBLIQUE</div>
+                <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 800, color: "#161616", lineHeight: 1.2 }}>FRANÇAISE</div>
+                <div style={{ fontFamily: FONT, fontSize: 9, color: "#666", marginTop: 3, fontStyle: "italic" }}>Liberté · Égalité · Fraternité</div>
               </div>
-              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 800, color: "#161616", lineHeight: 1.2 }}>RÉPUBLIQUE</div>
-              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 800, color: "#161616", lineHeight: 1.2 }}>FRANÇAISE</div>
-              <div style={{ fontFamily: FONT, fontSize: 9, color: "#666", marginTop: 3, fontStyle: "italic" }}>Liberté</div>
-              <div style={{ fontFamily: FONT, fontSize: 9, color: "#666", fontStyle: "italic" }}>Égalité</div>
-              <div style={{ fontFamily: FONT, fontSize: 9, color: "#666", fontStyle: "italic" }}>Fraternité</div>
             </div>
-            {/* Logo ANAH */}
-            <div style={{ borderLeft: "1px solid #DDD", paddingLeft: 16 }}>
-              <img src={LOGO_RGE_BIG} alt="RGE" style={{ height: 60, borderRadius: 4 }} />
-            </div>
-            <div style={{ borderLeft: "1px solid #DDD", paddingLeft: 16 }}>
-              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: "#161616" }}>Agence</div>
-              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: "#161616" }}>nationale</div>
+            <div style={{ width: 1, height: 50, background: "#DDD" }} />
+            {/* ANAH */}
+            <div>
+              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: "#161616" }}>Agence nationale</div>
               <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: "#161616" }}>de l'habitat <span style={{ fontSize: 10, color: "#666" }}>Anah</span></div>
             </div>
           </div>
-          <div style={{ display: "flex", gap: 28, flexWrap: "wrap", alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
             {["info.gouv.fr", "service-public.gouv.fr", "legifrance.gouv.fr", "data.gouv.fr"].map(l => (
               <a key={l} href={`https://${l}`} target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT, fontSize: 13, color: "#161616", textDecoration: "none", fontWeight: 500 }}>{l} ↗</a>
             ))}
           </div>
         </div>
 
-        {/* Bannière Services Publics — réplique exacte */}
+        {/* Bannière Services Publics — propre */}
         <div style={{ border: "1px solid #DDD", marginBottom: 24, overflow: "hidden", background: "#FFF" }}>
-          <div style={{ display: "flex", alignItems: "center", minHeight: 90, position: "relative" }}>
-            <div style={{ position: "relative", width: 160, height: 90, flexShrink: 0, overflow: "hidden" }}>
-              <div style={{ position: "absolute", top: 28, left: -20, width: 200, height: 20, background: "#000091", transform: "rotate(-8deg)" }} />
+          <div style={{ display: "flex", alignItems: "center", minHeight: 80 }}>
+            <div style={{ width: 180, height: 80, background: "linear-gradient(135deg, #000091 0%, #000091 100%)", position: "relative", flexShrink: 0 }}>
+              <div style={{ position: "absolute", top: 10, left: 10, width: 160, height: 14, background: "#000091", transform: "rotate(-6deg)" }} />
             </div>
-            <div style={{ fontFamily: FONT, fontSize: 24, fontWeight: 900, color: "#161616", letterSpacing: 1, marginRight: 16, lineHeight: 1.1 }}>
-              <div>SERVICES</div>
-              <div>PUBLICS</div>
+            <div style={{ fontFamily: FONT, fontSize: 22, fontWeight: 900, color: "#161616", letterSpacing: 1, padding: "0 20px", lineHeight: 1.1 }}>
+              SERVICES<br/>PUBLICS
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 2, marginRight: 16, marginLeft: 8 }}>
-              <div style={{ display: "flex", gap: 1 }}>
-                <div style={{ width: 8, height: 12, background: "#000091" }} />
-                <div style={{ width: 8, height: 12, background: "#FFF", border: "1px solid #DDD" }} />
-                <div style={{ width: 8, height: 12, background: "#E1000F" }} />
-              </div>
-              <div style={{ display: "flex", gap: 1, marginLeft: 6 }}>
-                <div style={{ width: 6, height: 8, background: "#000091" }} />
-                <div style={{ width: 6, height: 8, background: "#FFF", border: "1px solid #DDD" }} />
-                <div style={{ width: 6, height: 8, background: "#E1000F" }} />
-              </div>
+            <div style={{ flex: 1, background: "#B3B3E6", padding: "20px 28px", display: "flex", alignItems: "center", justifyContent: "center", alignSelf: "stretch" }}>
+              <div style={{ fontFamily: FONT, fontSize: 17, fontWeight: 800, color: "#161616" }}>Retrouvez nos engagements et nos résultats !</div>
             </div>
-            <div style={{ flex: 1, background: "#B3B3E6", padding: "20px 28px", display: "flex", alignItems: "center", justifyContent: "center", alignSelf: "stretch", clipPath: "polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)" }}>
-              <div style={{ fontFamily: FONT, fontSize: 18, fontWeight: 800, color: "#161616" }}>Retrouvez nos engagements et nos résultats !</div>
-            </div>
-          </div>
-          <div style={{ display: "flex", justifyContent: "center", padding: "4px 0 8px", gap: 2 }}>
-            <div style={{ width: 10, height: 10, background: "#000091", borderRadius: 2 }} />
-            <div style={{ width: 10, height: 10, background: "#E1000F", borderRadius: 2 }} />
           </div>
         </div>
 
@@ -256,7 +245,6 @@ function GovFooter() {
             <span key={l} style={{ fontFamily: FONT, fontSize: 12, color: "#666" }}>{l}</span>
           ))}
         </div>
-
         <div style={{ fontFamily: FONT, fontSize: 11, color: "#999", lineHeight: 1.8, paddingTop: 12, borderTop: "1px solid #EEE" }}>
           <div>Sauf mention contraire, tous les contenus de ce site sont sous licence etalab-2.0 — V 2.0</div>
           <div>* Les simulations sont indicatives et ne constituent pas un engagement contractuel.</div>
@@ -283,7 +271,8 @@ function Accueil({ setActive, userName }) {
       {/* 2 blocs ITE / PV avec fonds images */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 32 }}>
         {/* BLOC ITE */}
-        <div style={{ borderRadius: 12, overflow: "hidden", minHeight: 360, background: "linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)", padding: 28, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <div>
+        <div style={{ borderRadius: 12, overflow: "hidden", minHeight: 320, background: "linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)", padding: 28, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>🏠</div>
@@ -306,11 +295,13 @@ function Accueil({ setActive, userName }) {
               </div>
             ))}
           </div>
-          <button onClick={() => setActive("simu-ite")} style={{ ...btnP, width: "100%", background: "#000", fontSize: 17, padding: "16px 0", borderRadius: 6 }}>Lancer la simulation ITE</button>
+          </div>
         </div>
+        <button onClick={() => setActive("simu-ite")} style={{ ...btnS, width: "100%", padding: "16px 0", fontSize: 17, borderRadius: 6, marginTop: -1 }}>Lancer la simulation ITE</button>
 
         {/* BLOC PV */}
-        <div style={{ borderRadius: 12, overflow: "hidden", minHeight: 360, background: "linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)", padding: 28, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <div>
+        <div style={{ borderRadius: 12, overflow: "hidden", minHeight: 320, background: "linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)", padding: 28, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>☀️</div>
@@ -333,7 +324,9 @@ function Accueil({ setActive, userName }) {
               </div>
             ))}
           </div>
-          <button onClick={() => setActive("simu-pv")} style={{ ...btnP, width: "100%", background: "#000", fontSize: 17, padding: "16px 0", borderRadius: 6 }}>Lancer la simulation PV</button>
+          </div>
+          </div>
+        <button onClick={() => setActive("simu-pv")} style={{ ...btnS, width: "100%", padding: "16px 0", fontSize: 17, borderRadius: 6, marginTop: -1 }}>Lancer la simulation PV</button>
         </div>
       </div>
 
