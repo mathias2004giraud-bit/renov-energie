@@ -268,12 +268,11 @@ function Accueil({ setActive, userName }) {
         <p style={{ fontFamily: FONT, fontSize: 15, color: C.muted, maxWidth: 550, margin: "0 auto" }}>Transition Énergétique{userName ? ` — Bienvenue ${userName}` : ""}</p>
       </div>
 
-      {/* 2 blocs ITE / PV avec fonds images */}
+      {/* 2 colonnes ITE / PV */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 32 }}>
-        {/* BLOC ITE */}
-        <div>
-        <div style={{ borderRadius: 12, overflow: "hidden", minHeight: 320, background: "linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)", padding: 28, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <div>
+        {/* COLONNE ITE */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ borderRadius: "12px 12px 0 0", overflow: "hidden", flex: 1, background: "linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)", padding: 28 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>🏠</div>
               <div>
@@ -281,28 +280,26 @@ function Accueil({ setActive, userName }) {
                 <h2 style={{ fontFamily: FONT, fontSize: 26, color: "#FFF", fontWeight: 800, margin: 0 }}>Simulation ITE</h2>
               </div>
             </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+              {[
+                { val: "40-60%", lab: "d'économies énergétiques" },
+                { val: "15 ans", lab: "garantie d'État" },
+                { val: "+80%", lab: "confort amélioré" },
+                { val: "+2 lettres", lab: "DPE gagnées" },
+              ].map((s, i) => (
+                <div key={i} style={{ background: "rgba(255,255,255,0.12)", borderRadius: 8, padding: "12px 10px", textAlign: "center", border: "1px solid rgba(255,255,255,0.1)" }}>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: "#FFF", fontFamily: FONT }}>{s.val}</div>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.8)", fontFamily: FONT, marginTop: 2 }}>{s.lab}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
-            {[
-              { val: "40-60%", lab: "d'économies énergétiques" },
-              { val: "15 ans", lab: "garantie d'État" },
-              { val: "+80%", lab: "confort amélioré" },
-              { val: "+2 lettres", lab: "DPE gagnées" },
-            ].map((s, i) => (
-              <div key={i} style={{ background: "rgba(255,255,255,0.12)", borderRadius: 8, padding: "12px 10px", textAlign: "center", border: "1px solid rgba(255,255,255,0.1)" }}>
-                <div style={{ fontSize: 20, fontWeight: 800, color: "#FFF", fontFamily: FONT }}>{s.val}</div>
-                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.8)", fontFamily: FONT, marginTop: 2 }}>{s.lab}</div>
-              </div>
-            ))}
-          </div>
-          </div>
+          <button onClick={() => setActive("simu-ite")} style={{ width: "100%", padding: "16px 0", fontSize: 17, fontWeight: 700, fontFamily: FONT, cursor: "pointer", background: C.white, color: C.bleu, border: `2px solid ${C.bleu}`, borderRadius: "0 0 12px 12px", borderTop: "none" }}>Lancer la simulation ITE</button>
         </div>
-        <button onClick={() => setActive("simu-ite")} style={{ ...btnS, width: "100%", padding: "16px 0", fontSize: 17, borderRadius: 6, marginTop: -1 }}>Lancer la simulation ITE</button>
 
-        {/* BLOC PV */}
-        <div>
-        <div style={{ borderRadius: 12, overflow: "hidden", minHeight: 320, background: "linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)", padding: 28, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-          <div>
+        {/* COLONNE PV */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ borderRadius: "12px 12px 0 0", overflow: "hidden", flex: 1, background: "linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)", padding: 28 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>☀️</div>
               <div>
@@ -310,23 +307,21 @@ function Accueil({ setActive, userName }) {
                 <h2 style={{ fontFamily: FONT, fontSize: 26, color: "#FFF", fontWeight: 800, margin: 0 }}>Simulation PV</h2>
               </div>
             </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+              {[
+                { val: "70-80%", lab: "économie sur la facture" },
+                { val: "15-20%", lab: "plus-value immobilière" },
+                { val: "25 ans", lab: "garantie" },
+                { val: "100%", lab: "autoconsommation" },
+              ].map((s, i) => (
+                <div key={i} style={{ background: "rgba(255,255,255,0.12)", borderRadius: 8, padding: "12px 10px", textAlign: "center", border: "1px solid rgba(255,255,255,0.1)" }}>
+                  <div style={{ fontSize: 20, fontWeight: 800, color: "#FFF", fontFamily: FONT }}>{s.val}</div>
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.8)", fontFamily: FONT, marginTop: 2 }}>{s.lab}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
-            {[
-              { val: "70-80%", lab: "économie sur la facture" },
-              { val: "15-20%", lab: "plus-value immobilière" },
-              { val: "25 ans", lab: "garantie" },
-              { val: "100%", lab: "autoconsommation" },
-            ].map((s, i) => (
-              <div key={i} style={{ background: "rgba(255,255,255,0.12)", borderRadius: 8, padding: "12px 10px", textAlign: "center", border: "1px solid rgba(255,255,255,0.1)" }}>
-                <div style={{ fontSize: 20, fontWeight: 800, color: "#FFF", fontFamily: FONT }}>{s.val}</div>
-                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.8)", fontFamily: FONT, marginTop: 2 }}>{s.lab}</div>
-              </div>
-            ))}
-          </div>
-          </div>
-          </div>
-        <button onClick={() => setActive("simu-pv")} style={{ ...btnS, width: "100%", padding: "16px 0", fontSize: 17, borderRadius: 6, marginTop: -1 }}>Lancer la simulation PV</button>
+          <button onClick={() => setActive("simu-pv")} style={{ width: "100%", padding: "16px 0", fontSize: 17, fontWeight: 700, fontFamily: FONT, cursor: "pointer", background: C.white, color: C.bleu, border: `2px solid ${C.bleu}`, borderRadius: "0 0 12px 12px", borderTop: "none" }}>Lancer la simulation PV</button>
         </div>
       </div>
 
