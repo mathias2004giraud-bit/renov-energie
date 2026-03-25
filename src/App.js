@@ -91,7 +91,54 @@ function Login({ onLogin }) {
   const submit = () => { if (USERS[email] && USERS[email].pwd === pwd) onLogin(email); else setErr("Identifiants incorrects"); };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundImage: `linear-gradient(to bottom, #e8f5e9 0%, #c8e6c9 50%, transparent 50%), url(${LOGIN_BG})`, backgroundPosition: "center bottom", backgroundSize: "100% auto", backgroundRepeat: "no-repeat", backgroundColor: "#e8f5e9" }}>
+    <div style={{ minHeight: "100vh", background: "linear-gradient(170deg, #e8f5e9 0%, #c8e6c9 40%, #a5d6a7 70%, #81c784 100%)", position: "relative", overflow: "hidden" }}>
+      {/* Illustrations enfantines SVG en arrière-plan */}
+      <svg style={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "45%", opacity: 0.25 }} viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+        {/* Sol */}
+        <ellipse cx="600" cy="300" rx="700" ry="60" fill="#4caf50"/>
+        {/* Arbre gauche */}
+        <rect x="120" y="160" width="16" height="80" rx="4" fill="#795548"/>
+        <circle cx="128" cy="140" r="45" fill="#388e3c"/>
+        <circle cx="108" cy="155" r="30" fill="#43a047"/>
+        <circle cx="148" cy="150" r="32" fill="#2e7d32"/>
+        {/* Arbre droit */}
+        <rect x="980" y="150" width="18" height="90" rx="4" fill="#795548"/>
+        <circle cx="989" cy="125" r="50" fill="#388e3c"/>
+        <circle cx="965" cy="145" r="35" fill="#43a047"/>
+        <circle cx="1015" cy="140" r="38" fill="#2e7d32"/>
+        {/* Petit arbre */}
+        <rect x="350" y="200" width="10" height="50" rx="3" fill="#795548"/>
+        <circle cx="355" cy="185" r="28" fill="#66bb6a"/>
+        {/* Maison */}
+        <rect x="520" y="180" width="120" height="80" rx="4" fill="#ffcc80"/>
+        <polygon points="520,180 580,130 640,180" fill="#e57373"/>
+        <rect x="555" y="210" width="30" height="50" fill="#795548"/>
+        <rect x="530" y="195" width="20" height="20" fill="#81d4fa"/>
+        <rect x="610" y="195" width="20" height="20" fill="#81d4fa"/>
+        {/* Soleil */}
+        <circle cx="1050" cy="60" r="45" fill="#ffd54f"/>
+        <circle cx="1050" cy="60" r="35" fill="#ffee58"/>
+        {/* Nuages */}
+        <ellipse cx="200" cy="70" rx="60" ry="25" fill="#fff" opacity="0.6"/>
+        <ellipse cx="240" cy="60" rx="45" ry="20" fill="#fff" opacity="0.6"/>
+        <ellipse cx="750" cy="50" rx="55" ry="22" fill="#fff" opacity="0.5"/>
+        <ellipse cx="790" cy="42" rx="40" ry="18" fill="#fff" opacity="0.5"/>
+        {/* Famille simplifiée */}
+        <circle cx="440" cy="210" r="12" fill="#ffcc80"/>{/* tête parent */}
+        <rect x="432" y="222" width="16" height="30" rx="4" fill="#42a5f5"/>
+        <circle cx="470" cy="215" r="10" fill="#ffcc80"/>{/* tête parent 2 */}
+        <rect x="463" y="225" width="14" height="25" rx="4" fill="#ef5350"/>
+        <circle cx="455" cy="225" r="8" fill="#ffcc80"/>{/* enfant */}
+        <rect x="449" y="233" width="12" height="20" rx="3" fill="#ffd54f"/>
+        {/* Éolienne */}
+        <rect x="830" y="140" width="6" height="100" fill="#bdbdbd"/>
+        <polygon points="833,140 833,100 860,135" fill="#e0e0e0"/>
+        <polygon points="833,140 810,115 833,130" fill="#e0e0e0"/>
+        <polygon points="833,140 850,165 833,155" fill="#e0e0e0"/>
+        {/* Panneau solaire */}
+        <rect x="700" y="200" width="50" height="30" rx="3" fill="#1565c0" transform="rotate(-15,725,215)"/>
+        <rect x="720" y="230" width="6" height="30" fill="#bdbdbd"/>
+      </svg>
       <Tri />
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 5px)", padding: 24 }}>
         <div style={{ width: "100%", maxWidth: 440, ...card, padding: 40, backdropFilter: "blur(10px)", background: "rgba(255,255,255,0.95)" }}>
