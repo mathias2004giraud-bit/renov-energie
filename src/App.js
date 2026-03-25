@@ -275,15 +275,17 @@ function GovFooter() {
           </div>
         </div>
 
-        {/* Bannière Services Publics — bleu blanc rouge */}
-        <div style={{ marginBottom: 24, overflow: "hidden", borderRadius: 8 }}>
+        {/* Bannière Services Publics — tiers égaux bleu blanc rouge */}
+        <div style={{ marginBottom: 24, overflow: "hidden", borderRadius: 8, border: "1px solid #DDD" }}>
           <div style={{ display: "flex", alignItems: "stretch", minHeight: 80 }}>
-            <div style={{ width: 200, background: "#000091", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px 20px" }}>
+            <div style={{ flex: 1, background: "#000091", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px 20px" }}>
               <div style={{ fontFamily: FONT, fontSize: 20, fontWeight: 900, color: "#FFF", letterSpacing: 1, lineHeight: 1.1, textAlign: "center" }}>SERVICES<br/>PUBLICS</div>
             </div>
-            <div style={{ width: 8, background: "#FFF" }} />
-            <div style={{ flex: 1, background: "#E1000F", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px 28px" }}>
-              <div style={{ fontFamily: FONT, fontSize: 17, fontWeight: 800, color: "#FFF" }}>Retrouvez nos engagements et nos résultats !</div>
+            <div style={{ flex: 1, background: "#FFF", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px 20px" }}>
+              <div style={{ fontFamily: FONT, fontSize: 15, fontWeight: 700, color: "#161616", textAlign: "center" }}>Retrouvez nos engagements</div>
+            </div>
+            <div style={{ flex: 1, background: "#E1000F", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px 20px" }}>
+              <div style={{ fontFamily: FONT, fontSize: 15, fontWeight: 700, color: "#FFF", textAlign: "center" }}>et nos résultats !</div>
             </div>
           </div>
         </div>
@@ -323,7 +325,6 @@ function Accueil({ setActive, userName }) {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ borderRadius: "12px 12px 0 0", overflow: "hidden", flex: 1, background: "linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)", padding: 28 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>🏠</div>
               <div>
                 <div style={{ fontFamily: FONT, fontSize: 11, color: "rgba(255,255,255,0.7)", textTransform: "uppercase", letterSpacing: 2 }}>Isolation Thermique Extérieure</div>
                 <h2 style={{ fontFamily: FONT, fontSize: 26, color: "#FFF", fontWeight: 800, margin: 0 }}>Simulation ITE</h2>
@@ -350,7 +351,6 @@ function Accueil({ setActive, userName }) {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ borderRadius: "12px 12px 0 0", overflow: "hidden", flex: 1, background: "linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)", padding: 28 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>☀️</div>
               <div>
                 <div style={{ fontFamily: FONT, fontSize: 11, color: "rgba(255,255,255,0.7)", textTransform: "uppercase", letterSpacing: 2 }}>Panneaux Photovoltaïques</div>
                 <h2 style={{ fontFamily: FONT, fontSize: 26, color: "#FFF", fontWeight: 800, margin: 0 }}>Simulation PV</h2>
@@ -426,7 +426,7 @@ function SimuITE({ onSave }) {
     const ttc = parseFloat(f.prix_ttc) || 0;
     const cee = m2 * CEE_PAR_M2;
     const enfants = parseInt(f.enfants) || 0;
-    const bonus = enfants >= 2 ? BONUS_NATIONAL : 0;
+    const bonus = BONUS_NATIONAL;
     const totalAides = cee + bonus;
     const avecAides = Math.max(0, ttc - totalAides);
     const dur = parseFloat(f.duree_ite) || 15;
