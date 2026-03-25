@@ -183,7 +183,8 @@ function Sidebar({ active, setActive, onLogout, open, setOpen }) {
       <aside style={{ position: "fixed", top: 0, left: open ? 0 : -300, width: 280, height: "100vh", background: C.white, borderRight: `1px solid ${C.border}`, zIndex: 200, transition: "left 0.3s", display: "flex", flexDirection: "column" }}>
         <Tri />
         <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.border}` }}>
-          <div style={{ fontFamily: FONT, fontSize: 16, fontWeight: 800, color: C.bleu }}>Vérisi</div>
+          <div style={{ display: "flex", gap: 3, marginBottom: 6 }}><div style={{ width: 10, height: 14, background: "#000091" }} /><div style={{ width: 10, height: 14, background: "#FFF", border: "1px solid #DDD" }} /><div style={{ width: 10, height: 14, background: "#E1000F" }} /></div>
+          <div style={{ fontFamily: FONT, fontSize: 12, fontWeight: 800, color: C.text, lineHeight: 1.2 }}>RÉPUBLIQUE FRANÇAISE</div>
           <div style={{ fontFamily: FONT, fontSize: 10, color: C.muted }}>Transition Énergétique 2026</div>
         </div>
         <nav style={{ flex: 1, padding: "8px 10px", overflowY: "auto" }}>
@@ -204,9 +205,12 @@ function Sidebar({ active, setActive, onLogout, open, setOpen }) {
 function TopBar({ setOpen, title, userName }) {
   return (<><Tri /><header style={{ position: "sticky", top: 0, zIndex: 100, background: C.white, borderBottom: `1px solid ${C.border}`, padding: "8px 20px", display: "flex", alignItems: "center", gap: 12 }}>
     <button onClick={() => setOpen(true)} style={{ background: "none", border: "none", color: C.bleu, fontSize: 20, cursor: "pointer" }}>☰</button>
-    <div style={{ borderLeft: `3px solid ${C.bleu}`, paddingLeft: 10, marginLeft: 4 }}>
-      <div style={{ fontFamily: FONT, fontSize: 14, fontWeight: 800, color: C.text }}>Vérisi</div>
-      <div style={{ fontFamily: FONT, fontSize: 10, color: C.muted }}>Transition Énergétique 2026</div>
+    <div style={{ display: "flex", alignItems: "center", gap: 8, marginLeft: 4 }}>
+      <div style={{ display: "flex", gap: 2 }}><div style={{ width: 8, height: 12, background: "#000091" }} /><div style={{ width: 8, height: 12, background: "#FFF", border: "1px solid #DDD" }} /><div style={{ width: 8, height: 12, background: "#E1000F" }} /></div>
+      <div>
+        <div style={{ fontFamily: FONT, fontSize: 11, fontWeight: 800, color: C.text, lineHeight: 1.1 }}>RÉPUBLIQUE</div>
+        <div style={{ fontFamily: FONT, fontSize: 11, fontWeight: 800, color: C.text, lineHeight: 1.1 }}>FRANÇAISE</div>
+      </div>
     </div>
     <div style={{ marginLeft: 12 }}>
       <div style={{ fontFamily: FONT, fontSize: 12, fontWeight: 800, color: "#000" }}>Simulation au Programme Gouvernemental 2026</div>
@@ -229,16 +233,6 @@ function TopBar({ setOpen, title, userName }) {
 // ═══════════════════════════════════════════════════════════════
 
 function GovFooter() {
-  // Marianne bonnet phrygien SVG inline
-  const MarianneSVG = () => (
-    <svg width="50" height="56" viewBox="0 0 50 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M25 2C18 2 12 6 9 12C6 18 5 26 7 32C9 38 14 42 18 46H32C36 42 41 38 43 32C45 26 44 18 41 12C38 6 32 2 25 2Z" fill="#000091"/>
-      <path d="M25 8C20 8 16 11 14 15C12 19 11 24 13 28C15 32 18 35 21 38H29C32 35 35 32 37 28C39 24 38 19 36 15C34 11 30 8 25 8Z" fill="#FFF"/>
-      <ellipse cx="25" cy="48" rx="10" ry="6" fill="#000091"/>
-      <rect x="15" y="50" width="20" height="4" rx="2" fill="#E1000F"/>
-    </svg>
-  );
-
   return (
     <footer style={{ background: "#FFF", marginTop: 40, borderTop: "2px solid #000091" }}>
       <Tri />
@@ -249,14 +243,18 @@ function GovFooter() {
             {/* Logo RGE tout à gauche */}
             <img src={LOGO_RGE_BIG} alt="RGE Reconnu Garant Environnement" style={{ height: 60, borderRadius: 4 }} />
             <div style={{ width: 1, height: 50, background: "#DDD" }} />
-            {/* Marianne */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <MarianneSVG />
-              <div>
-                <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 800, color: "#161616", lineHeight: 1.2 }}>RÉPUBLIQUE</div>
-                <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 800, color: "#161616", lineHeight: 1.2 }}>FRANÇAISE</div>
-                <div style={{ fontFamily: FONT, fontSize: 9, color: "#666", marginTop: 3, fontStyle: "italic" }}>Liberté · Égalité · Fraternité</div>
+            {/* Drapeau FR + RÉPUBLIQUE FRANÇAISE — style service-public.gouv.fr */}
+            <div>
+              <div style={{ display: "flex", gap: 2, marginBottom: 6 }}>
+                <div style={{ width: 12, height: 16, background: "#000091" }} />
+                <div style={{ width: 12, height: 16, background: "#FFF", border: "1px solid #DDD" }} />
+                <div style={{ width: 12, height: 16, background: "#E1000F" }} />
               </div>
+              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 800, color: "#161616", lineHeight: 1.2 }}>RÉPUBLIQUE</div>
+              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 800, color: "#161616", lineHeight: 1.2 }}>FRANÇAISE</div>
+              <div style={{ fontFamily: FONT, fontSize: 9, color: "#666", marginTop: 3, fontStyle: "italic" }}>Liberté</div>
+              <div style={{ fontFamily: FONT, fontSize: 9, color: "#666", fontStyle: "italic" }}>Égalité</div>
+              <div style={{ fontFamily: FONT, fontSize: 9, color: "#666", fontStyle: "italic" }}>Fraternité</div>
             </div>
             <div style={{ width: 1, height: 50, background: "#DDD" }} />
             {/* ANAH */}
@@ -819,7 +817,7 @@ export default function App() {
       `}</style>
 
       <Sidebar active={active} setActive={setActive} onLogout={() => { setUser(null); setDossiers([]); }} open={sidebarOpen} setOpen={setSidebarOpen} />
-      <TopBar setOpen={setSidebarOpen} title={titles[active] || "Vérisi"} userName={userName} />
+      <TopBar setOpen={setSidebarOpen} title={titles[active] || "Accueil"} userName={userName} />
 
       <main>
         {active === "accueil" && <Accueil setActive={setActive} userName={userName} />}
