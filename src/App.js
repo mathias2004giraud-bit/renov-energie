@@ -91,7 +91,7 @@ function Login({ onLogin }) {
   const submit = () => { if (USERS[email] && USERS[email].pwd === pwd) onLogin(email); else setErr("Identifiants incorrects"); };
 
   return (
-    <div style={{ minHeight: "100vh", background: `url(${LOGIN_BG}) center center / cover no-repeat fixed` }}>
+    <div style={{ minHeight: "100vh", backgroundImage: `linear-gradient(to bottom, #e8f5e9 0%, #c8e6c9 50%, transparent 50%), url(${LOGIN_BG})`, backgroundPosition: "center bottom", backgroundSize: "100% auto", backgroundRepeat: "no-repeat", backgroundColor: "#e8f5e9" }}>
       <Tri />
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 5px)", padding: 24 }}>
         <div style={{ width: "100%", maxWidth: 440, ...card, padding: 40, backdropFilter: "blur(10px)", background: "rgba(255,255,255,0.95)" }}>
