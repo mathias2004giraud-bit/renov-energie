@@ -22,8 +22,8 @@ const PV_IMG_SCHEMA_PV = "data:image/svg+xml," + encodeURIComponent('<svg xmlns=
 
 const USERS = {
   "mathias@renov.fr": { pwd: "renov2026", name: "Mathias" },
-  "thomas@renov.fr": { pwd: "renov2026", name: "Thomas" },
-  "sacha@renov.fr": { pwd: "renov2026", name: "Sacha" },
+  "thomas@renov.fr": { pwd: "renov2026", name: "Thomas MORENO" },
+  "sacha@renov.fr": { pwd: "renov2026", name: "Sacha MERLIN" },
   "admin@renov.fr": { pwd: "admin2026", name: "Admin" },
 };
 
@@ -96,7 +96,6 @@ function Login({ onLogin }) {
         <div style={{ width: "100%", maxWidth: 440, ...card, padding: 40, backdropFilter: "blur(10px)", background: "rgba(255,255,255,0.95)" }}>
           <div style={{ textAlign: "center", marginBottom: 28 }}>
             <div style={{ fontSize: 11, color: C.muted, fontFamily: FONT, textTransform: "uppercase", letterSpacing: 2, marginBottom: 8 }}>Portail Technicien</div>
-            <h1 style={{ fontFamily: FONT, fontSize: 22, color: C.bleu, fontWeight: 800, marginBottom: 4 }}>Vérisi</h1>
             <p style={{ color: C.muted, fontSize: 13, fontFamily: FONT }}>Simulation au Programme Gouvernemental 2026</p>
           </div>
           <div style={{ marginBottom: 16 }}>
@@ -161,10 +160,13 @@ function TopBar({ setOpen, title, userName }) {
       <div style={{ fontFamily: FONT, fontSize: 14, fontWeight: 800, color: C.text }}>Vérisi</div>
       <div style={{ fontFamily: FONT, fontSize: 10, color: C.muted }}>Transition Énergétique 2026</div>
     </div>
-    <span style={{ fontFamily: FONT, fontSize: 13, fontWeight: 600, color: C.text, marginLeft: 12 }}>{title}</span>
+    <div style={{ marginLeft: 12 }}>
+      <div style={{ fontFamily: FONT, fontSize: 12, fontWeight: 800, color: "#000" }}>Simulation au Programme Gouvernemental 2026</div>
+      <div style={{ fontFamily: FONT, fontSize: 11, fontWeight: 600, color: C.muted }}>{title}</div>
+    </div>
     <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
       <div style={{ textAlign: "right", marginRight: 8 }}>
-        <div style={{ fontFamily: FONT, fontSize: 10, color: C.muted, textTransform: "uppercase", letterSpacing: 1 }}>Portail Technicien</div>
+        <div style={{ fontFamily: FONT, fontSize: 10, color: C.muted, textTransform: "uppercase", letterSpacing: 1 }}>Portail Technicien — MAR</div>
         {userName && <div style={{ fontFamily: FONT, fontSize: 12, color: C.text, fontWeight: 600 }}>{userName}</div>}
       </div>
       <img src={LOGO_QUALIPAC} alt="RGE" style={{ height: 30, borderRadius: 3 }} />
@@ -180,51 +182,84 @@ function TopBar({ setOpen, title, userName }) {
 
 function GovFooter() {
   return (
-    <footer style={{ background: "#1E1E1E", marginTop: 40 }}>
-      {/* Bande tricolore en haut du footer */}
+    <footer style={{ background: "#FFF", marginTop: 40, borderTop: "2px solid #000091" }}>
       <Tri />
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 24px 20px" }}>
-        {/* Bloc logos + liens gouvernementaux */}
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 20, marginBottom: 24, paddingBottom: 24, borderBottom: "1px solid #444" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <img src={LOGO_RGE_BIG} alt="RGE Reconnu Garant Environnement" style={{ height: 56, borderRadius: 4 }} />
-            <div style={{ width: 1, height: 40, background: "#444" }} />
+        {/* Bloc logos + liens gouvernementaux — style gov exact */}
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 20, marginBottom: 24, paddingBottom: 24, borderBottom: "1px solid #DDD" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            {/* Mini drapeau FR + RÉPUBLIQUE FRANÇAISE */}
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 14, fontWeight: 800, color: "#FFF", lineHeight: 1.2 }}>RÉPUBLIQUE</div>
-              <div style={{ fontFamily: FONT, fontSize: 14, fontWeight: 800, color: "#FFF", lineHeight: 1.2 }}>FRANÇAISE</div>
-              <div style={{ fontFamily: FONT, fontSize: 9, color: "#AAA", marginTop: 2 }}>Liberté · Égalité · Fraternité</div>
+              <div style={{ display: "flex", gap: 2, marginBottom: 6 }}>
+                <div style={{ width: 12, height: 16, background: "#000091" }} />
+                <div style={{ width: 12, height: 16, background: "#FFF", border: "1px solid #DDD" }} />
+                <div style={{ width: 12, height: 16, background: "#E1000F" }} />
+              </div>
+              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 800, color: "#161616", lineHeight: 1.2 }}>RÉPUBLIQUE</div>
+              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 800, color: "#161616", lineHeight: 1.2 }}>FRANÇAISE</div>
+              <div style={{ fontFamily: FONT, fontSize: 9, color: "#666", marginTop: 3, fontStyle: "italic" }}>Liberté</div>
+              <div style={{ fontFamily: FONT, fontSize: 9, color: "#666", fontStyle: "italic" }}>Égalité</div>
+              <div style={{ fontFamily: FONT, fontSize: 9, color: "#666", fontStyle: "italic" }}>Fraternité</div>
             </div>
-            <div style={{ width: 1, height: 40, background: "#444" }} />
-            <div>
-              <div style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, color: "#FFF" }}>Agence nationale</div>
-              <div style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, color: "#FFF" }}>de l'habitat</div>
+            {/* Logo ANAH */}
+            <div style={{ borderLeft: "1px solid #DDD", paddingLeft: 16 }}>
+              <img src={LOGO_RGE_BIG} alt="RGE" style={{ height: 60, borderRadius: 4 }} />
+            </div>
+            <div style={{ borderLeft: "1px solid #DDD", paddingLeft: 16 }}>
+              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: "#161616" }}>Agence</div>
+              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: "#161616" }}>nationale</div>
+              <div style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: "#161616" }}>de l'habitat <span style={{ fontSize: 10, color: "#666" }}>Anah</span></div>
             </div>
           </div>
-          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 28, flexWrap: "wrap", alignItems: "center" }}>
             {["info.gouv.fr", "service-public.gouv.fr", "legifrance.gouv.fr", "data.gouv.fr"].map(l => (
-              <a key={l} href={`https://${l}`} target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT, fontSize: 12, color: "#CCC", textDecoration: "none" }}>{l} ↗</a>
+              <a key={l} href={`https://${l}`} target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT, fontSize: 13, color: "#161616", textDecoration: "none", fontWeight: 500 }}>{l} ↗</a>
             ))}
           </div>
         </div>
 
-        {/* Bannière Services Publics */}
-        <div style={{ background: "linear-gradient(135deg, #000091 0%, #000091 35%, #8B8BF0 35%, #8B8BF0 100%)", borderRadius: 8, padding: "20px 28px", marginBottom: 24, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-          <div style={{ fontFamily: FONT, fontSize: 22, fontWeight: 800, color: "#FFF" }}>SERVICES PUBLICS</div>
-          <div style={{ fontFamily: FONT, fontSize: 16, fontWeight: 700, color: "#FFF" }}>Retrouvez nos engagements et nos résultats !</div>
+        {/* Bannière Services Publics — réplique exacte */}
+        <div style={{ border: "1px solid #DDD", marginBottom: 24, overflow: "hidden", background: "#FFF" }}>
+          <div style={{ display: "flex", alignItems: "center", minHeight: 90, position: "relative" }}>
+            <div style={{ position: "relative", width: 160, height: 90, flexShrink: 0, overflow: "hidden" }}>
+              <div style={{ position: "absolute", top: 28, left: -20, width: 200, height: 20, background: "#000091", transform: "rotate(-8deg)" }} />
+            </div>
+            <div style={{ fontFamily: FONT, fontSize: 24, fontWeight: 900, color: "#161616", letterSpacing: 1, marginRight: 16, lineHeight: 1.1 }}>
+              <div>SERVICES</div>
+              <div>PUBLICS</div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 2, marginRight: 16, marginLeft: 8 }}>
+              <div style={{ display: "flex", gap: 1 }}>
+                <div style={{ width: 8, height: 12, background: "#000091" }} />
+                <div style={{ width: 8, height: 12, background: "#FFF", border: "1px solid #DDD" }} />
+                <div style={{ width: 8, height: 12, background: "#E1000F" }} />
+              </div>
+              <div style={{ display: "flex", gap: 1, marginLeft: 6 }}>
+                <div style={{ width: 6, height: 8, background: "#000091" }} />
+                <div style={{ width: 6, height: 8, background: "#FFF", border: "1px solid #DDD" }} />
+                <div style={{ width: 6, height: 8, background: "#E1000F" }} />
+              </div>
+            </div>
+            <div style={{ flex: 1, background: "#B3B3E6", padding: "20px 28px", display: "flex", alignItems: "center", justifyContent: "center", alignSelf: "stretch", clipPath: "polygon(8% 0%, 100% 0%, 100% 100%, 0% 100%)" }}>
+              <div style={{ fontFamily: FONT, fontSize: 18, fontWeight: 800, color: "#161616" }}>Retrouvez nos engagements et nos résultats !</div>
+            </div>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center", padding: "4px 0 8px", gap: 2 }}>
+            <div style={{ width: 10, height: 10, background: "#000091", borderRadius: 2 }} />
+            <div style={{ width: 10, height: 10, background: "#E1000F", borderRadius: 2 }} />
+          </div>
         </div>
 
         {/* Liens bas de page */}
-        <div style={{ display: "flex", gap: 24, flexWrap: "wrap", marginBottom: 16 }}>
-          {["Plan du site", "Accessibilité", "Mentions légales", "Données personnelles", "Gestion des cookies"].map(l => (
-            <span key={l} style={{ fontFamily: FONT, fontSize: 11, color: "#999" }}>{l}</span>
+        <div style={{ display: "flex", gap: 24, flexWrap: "wrap", marginBottom: 16, paddingTop: 16, borderTop: "1px solid #DDD" }}>
+          {["Plan du site", "Accessibilité : partiellement conforme", "Mentions légales", "Données personnelles", "Gestion des cookies", "Paramètres d'affichage"].map(l => (
+            <span key={l} style={{ fontFamily: FONT, fontSize: 12, color: "#666" }}>{l}</span>
           ))}
         </div>
 
-        {/* Phrase de fin */}
-        <div style={{ fontFamily: FONT, fontSize: 10, color: "#666", lineHeight: 1.8 }}>
+        <div style={{ fontFamily: FONT, fontSize: 11, color: "#999", lineHeight: 1.8, paddingTop: 12, borderTop: "1px solid #EEE" }}>
+          <div>Sauf mention contraire, tous les contenus de ce site sont sous licence etalab-2.0 — V 2.0</div>
           <div>* Les simulations sont indicatives et ne constituent pas un engagement contractuel.</div>
-          <div>Programme d'accompagnement et d'orientation au vue de la transition énergétique 2026</div>
-          <div style={{ marginTop: 4 }}>Vérisi — Tous droits réservés — V 2.0</div>
         </div>
       </div>
     </footer>
@@ -241,14 +276,14 @@ function Accueil({ setActive, userName }) {
       {/* HERO — Titre principal */}
       <div style={{ textAlign: "center", padding: "40px 0 28px" }}>
         <div style={{ fontFamily: FONT, fontSize: 11, color: C.muted, textTransform: "uppercase", letterSpacing: 3, marginBottom: 10 }}>Programme d'accompagnement et d'orientation</div>
-        <h1 style={{ fontFamily: FONT, fontSize: "clamp(24px,5vw,38px)", color: C.bleu, fontWeight: 800, lineHeight: 1.2, marginBottom: 8 }}>Simulation au Programme Gouvernemental 2026</h1>
+        <h1 style={{ fontFamily: FONT, fontSize: "clamp(24px,5vw,38px)", color: "#000", fontWeight: 800, lineHeight: 1.2, marginBottom: 8 }}>Simulation au Programme Gouvernemental 2026</h1>
         <p style={{ fontFamily: FONT, fontSize: 15, color: C.muted, maxWidth: 550, margin: "0 auto" }}>Transition Énergétique{userName ? ` — Bienvenue ${userName}` : ""}</p>
       </div>
 
       {/* 2 blocs ITE / PV avec fonds images */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 32 }}>
         {/* BLOC ITE */}
-        <div style={{ borderRadius: 12, overflow: "hidden", minHeight: 360, background: "linear-gradient(135deg, #1B3A4B 0%, #2D6A4F 40%, #40916C 70%, #52B788 100%)", padding: 28, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+        <div style={{ borderRadius: 12, overflow: "hidden", minHeight: 360, background: "linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)", padding: 28, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>🏠</div>
@@ -271,7 +306,7 @@ function Accueil({ setActive, userName }) {
               </div>
             ))}
           </div>
-          <button onClick={() => setActive("simu-ite")} style={{ ...btnP, width: "100%", background: "#000091", fontSize: 17, padding: "16px 0", borderRadius: 6 }}>Lancer la simulation ITE</button>
+          <button onClick={() => setActive("simu-ite")} style={{ ...btnP, width: "100%", background: "#000", fontSize: 17, padding: "16px 0", borderRadius: 6 }}>Lancer la simulation ITE</button>
         </div>
 
         {/* BLOC PV */}
@@ -298,7 +333,7 @@ function Accueil({ setActive, userName }) {
               </div>
             ))}
           </div>
-          <button onClick={() => setActive("simu-pv")} style={{ ...btnP, width: "100%", background: "#18753C", fontSize: 17, padding: "16px 0", borderRadius: 6 }}>Lancer la simulation PV</button>
+          <button onClick={() => setActive("simu-pv")} style={{ ...btnP, width: "100%", background: "#000", fontSize: 17, padding: "16px 0", borderRadius: 6 }}>Lancer la simulation PV</button>
         </div>
       </div>
 
@@ -457,9 +492,10 @@ function SimuPV({ onSave }) {
     const factureElec = parseFloat(f.facture_elec) || 1800;
     const prixAvecAides = Math.max(0, prixTTC - aides);
     const mensSansAides = Math.round(prixTTC / (20 * 12));
-    const mensAvecAides = Math.max(0, Math.round(prixAvecAides / (20 * 12)));
-    const reduction = Math.round(factureElec * 0.8);
-    return { pw, grille, prixTTC, aides, prixAvecAides, mensSansAides, mensAvecAides, reduction, factureElec };
+    const mensAvecAides = 40;
+    const tauxReduction = 80 + Math.round(Math.random() * 10);
+    const reduction = Math.round(factureElec * (tauxReduction / 100));
+    return { pw, grille, prixTTC, aides, prixAvecAides, mensSansAides, mensAvecAides, reduction, factureElec, tauxReduction };
   };
 
   const finalize = () => {
