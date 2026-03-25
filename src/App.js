@@ -221,9 +221,14 @@ function TopBar({ setOpen, title, userName }) {
         <div style={{ fontFamily: FONT, fontSize: 10, color: C.muted, textTransform: "uppercase", letterSpacing: 1 }}>Portail Technicien — MAR</div>
         {userName && <div style={{ fontFamily: FONT, fontSize: 12, color: C.text, fontWeight: 600 }}>{userName}</div>}
       </div>
-      <img src={LOGO_QUALIPAC} alt="RGE" style={{ height: 30, borderRadius: 3 }} />
-      <img src={LOGO_QUALIBAT} alt="RGE" style={{ height: 30, borderRadius: 3 }} />
-      <img src={LOGO_RGE} alt="RGE" style={{ height: 30, borderRadius: 3 }} />
+      <img src={LOGO_QUALIPAC} alt="QualiPAC" style={{ height: 30, borderRadius: 3 }} onError={e => { e.target.style.display="none"; }} />
+      <img src={LOGO_QUALIBAT} alt="Qualibat" style={{ height: 30, borderRadius: 3 }} onError={e => { e.target.style.display="none"; }} />
+      <img src={LOGO_RGE} alt="RGE" style={{ height: 30, borderRadius: 3 }} onError={e => { e.target.style.display="none"; }} />
+      <div style={{ display: "flex", gap: 4 }}>
+        {["QualiPAC", "Qualibat", "RGE"].map(l => (
+          <div key={l} style={{ padding: "4px 8px", background: "#000091", borderRadius: 4, fontFamily: FONT, fontSize: 9, fontWeight: 700, color: "#FFF" }}>{l}</div>
+        ))}
+      </div>
     </div>
   </header></>);
 }
@@ -270,17 +275,15 @@ function GovFooter() {
           </div>
         </div>
 
-        {/* Bannière Services Publics — propre */}
-        <div style={{ border: "1px solid #DDD", marginBottom: 24, overflow: "hidden", background: "#FFF" }}>
-          <div style={{ display: "flex", alignItems: "center", minHeight: 80 }}>
-            <div style={{ width: 180, height: 80, background: "linear-gradient(135deg, #000091 0%, #000091 100%)", position: "relative", flexShrink: 0 }}>
-              <div style={{ position: "absolute", top: 10, left: 10, width: 160, height: 14, background: "#000091", transform: "rotate(-6deg)" }} />
+        {/* Bannière Services Publics — bleu blanc rouge */}
+        <div style={{ marginBottom: 24, overflow: "hidden", borderRadius: 8 }}>
+          <div style={{ display: "flex", alignItems: "stretch", minHeight: 80 }}>
+            <div style={{ width: 200, background: "#000091", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px 20px" }}>
+              <div style={{ fontFamily: FONT, fontSize: 20, fontWeight: 900, color: "#FFF", letterSpacing: 1, lineHeight: 1.1, textAlign: "center" }}>SERVICES<br/>PUBLICS</div>
             </div>
-            <div style={{ fontFamily: FONT, fontSize: 22, fontWeight: 900, color: "#161616", letterSpacing: 1, padding: "0 20px", lineHeight: 1.1 }}>
-              SERVICES<br/>PUBLICS
-            </div>
-            <div style={{ flex: 1, background: "#B3B3E6", padding: "20px 28px", display: "flex", alignItems: "center", justifyContent: "center", alignSelf: "stretch" }}>
-              <div style={{ fontFamily: FONT, fontSize: 17, fontWeight: 800, color: "#161616" }}>Retrouvez nos engagements et nos résultats !</div>
+            <div style={{ width: 8, background: "#FFF" }} />
+            <div style={{ flex: 1, background: "#E1000F", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px 28px" }}>
+              <div style={{ fontFamily: FONT, fontSize: 17, fontWeight: 800, color: "#FFF" }}>Retrouvez nos engagements et nos résultats !</div>
             </div>
           </div>
         </div>
