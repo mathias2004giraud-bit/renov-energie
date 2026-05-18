@@ -238,14 +238,14 @@ function Accueil({setActive,userName}){
       </div>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:32}}>
         <div style={{display:"flex",flexDirection:"column"}}>
-          <div style={{flex:1,background:"linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)",padding:28,borderBottom:"none"}}>
-            <div style={{fontFamily:FONT,fontSize:11,color:"rgba(255,255,255,0.7)",textTransform:"uppercase",letterSpacing:2,marginBottom:6}}>Isolation Thermique Extérieure</div>
-            <h2 style={{fontFamily:FONT,fontSize:26,color:"#FFF",fontWeight:800,margin:"0 0 16px"}}>Simulation ITE</h2>
+          <div style={{flex:1,background:"transparent",padding:28,border:`2px solid ${C.bleu}`,borderBottom:"none"}}>
+            <div style={{fontFamily:FONT,fontSize:11,color:C.muted,textTransform:"uppercase",letterSpacing:2,marginBottom:6}}>Isolation Thermique Extérieure</div>
+            <h2 style={{fontFamily:FONT,fontSize:26,color:C.bleu,fontWeight:800,margin:"0 0 16px"}}>Simulation ITE</h2>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
               {[{v:"40-60%",l:"d'économies énergétiques"},{v:"15 ans",l:"garantie"},{v:"+80%",l:"confort amélioré"},{v:"+2 lettres",l:"DPE gagnées"}].map((s,i)=>(
-                <div key={i} style={{background:"rgba(255,255,255,0.12)",borderRadius:6,padding:"12px 10px",textAlign:"center",border:"1px solid rgba(255,255,255,0.08)"}}>
-                  <div style={{fontSize:20,fontWeight:800,color:"#FFF",fontFamily:FONT}}>{s.v}</div>
-                  <div style={{fontSize:10,color:"rgba(255,255,255,0.8)",fontFamily:FONT,marginTop:2}}>{s.l}</div>
+                <div key={i} style={{background:"transparent",borderRadius:6,padding:"12px 10px",textAlign:"center",border:`1px solid ${C.bleu}40`}}>
+                  <div style={{fontSize:20,fontWeight:800,color:C.bleu,fontFamily:FONT}}>{s.v}</div>
+                  <div style={{fontSize:10,color:C.muted,fontFamily:FONT,marginTop:2}}>{s.l}</div>
                 </div>
               ))}
             </div>
@@ -253,14 +253,14 @@ function Accueil({setActive,userName}){
           <button onClick={()=>setActive("simu-ite")} style={{width:"100%",padding:"16px 0",fontSize:17,fontWeight:700,fontFamily:FONT,cursor:"pointer",background:C.white,color:C.bleu,border:`2px solid ${C.bleu}`,borderTop:"none"}}>Lancer la simulation ITE</button>
         </div>
         <div style={{display:"flex",flexDirection:"column"}}>
-          <div style={{flex:1,background:"linear-gradient(135deg, #003566 0%, #001D3D 30%, #0077B6 65%, #00B4D8 100%)",padding:28}}>
-            <div style={{fontFamily:FONT,fontSize:11,color:"rgba(255,255,255,0.7)",textTransform:"uppercase",letterSpacing:2,marginBottom:6}}>Panneaux Photovoltaïques</div>
-            <h2 style={{fontFamily:FONT,fontSize:26,color:"#FFF",fontWeight:800,margin:"0 0 16px"}}>Simulation PV</h2>
+          <div style={{flex:1,background:"transparent",padding:28,border:`2px solid ${C.bleu}`,borderBottom:"none"}}>
+            <div style={{fontFamily:FONT,fontSize:11,color:C.muted,textTransform:"uppercase",letterSpacing:2,marginBottom:6}}>Panneaux Photovoltaïques</div>
+            <h2 style={{fontFamily:FONT,fontSize:26,color:C.bleu,fontWeight:800,margin:"0 0 16px"}}>Simulation PV</h2>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
               {[{v:"70-80%",l:"économie sur la facture"},{v:"15-20%",l:"plus-value immobilière"},{v:"25 ans",l:"garantie"},{v:"100%",l:"autoconsommation"}].map((s,i)=>(
-                <div key={i} style={{background:"rgba(255,255,255,0.12)",borderRadius:6,padding:"12px 10px",textAlign:"center",border:"1px solid rgba(255,255,255,0.08)"}}>
-                  <div style={{fontSize:20,fontWeight:800,color:"#FFF",fontFamily:FONT}}>{s.v}</div>
-                  <div style={{fontSize:10,color:"rgba(255,255,255,0.8)",fontFamily:FONT,marginTop:2}}>{s.l}</div>
+                <div key={i} style={{background:"transparent",borderRadius:6,padding:"12px 10px",textAlign:"center",border:`1px solid ${C.bleu}40`}}>
+                  <div style={{fontSize:20,fontWeight:800,color:C.bleu,fontFamily:FONT}}>{s.v}</div>
+                  <div style={{fontSize:10,color:C.muted,fontFamily:FONT,marginTop:2}}>{s.l}</div>
                 </div>
               ))}
             </div>
