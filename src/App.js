@@ -170,9 +170,6 @@ function TopBar({setOpen,title,userName}){
     <div style={{marginLeft:12}}><div style={{fontFamily:FONT,fontSize:12,fontWeight:800,color:"#000"}}>Simulation au Programme Gouvernemental 2026</div><div style={{fontFamily:FONT,fontSize:11,fontWeight:600,color:C.muted}}>{title}</div></div>
     <div style={{marginLeft:"auto",display:"flex",alignItems:"center",gap:8}}>
       <div style={{textAlign:"right",marginRight:8}}><div style={{fontFamily:FONT,fontSize:10,color:C.muted,textTransform:"uppercase",letterSpacing:1}}>Portail Technicien — MAR</div>{userName&&<div style={{fontFamily:FONT,fontSize:12,color:C.text,fontWeight:600}}>{userName}</div>}</div>
-      <img src={LOGO_QUALIPAC} alt="Q" style={{height:28,borderRadius:3}}/>
-      <img src={LOGO_QUALIBAT} alt="Q" style={{height:28,borderRadius:3}}/>
-      <img src={LOGO_RGE} alt="R" style={{height:28,borderRadius:3}}/>
     </div>
   </header></>);
 }
