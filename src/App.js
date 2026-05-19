@@ -468,7 +468,7 @@ function Dossiers({dossiers,setDossiers}){
 const ITE_AVANTAGES=["Réduction de la facture de 40 à 60%","Réduction des déperditions thermiques","Esthétique de la maison améliorée","Gain de 2 lettres dans le DPE","Plus-value immobilière de 15 à 20%","Confort de vie et santé améliorés"];
 const PV_AVANTAGES=["Réduction de la facture de 75 à 80%","Énergie propre, renouvelable et gratuite","Valorisation du logement 15 à 20%","Gain dans le DPE de la maison","Plus-value immobilière 15 à 20%","Électricité sans émissions de gaz à effet de serre","Un pas vers la transition énergétique"];
 
-function ExplicatifPage({title,avantages,color}){
+function ExplicatifPage({title,avantages,color,photos=[]}){
   return (
     <div style={{padding:"28px 20px",maxWidth:860,margin:"0 auto"}}>
       <h2 style={{fontFamily:FONT,fontSize:22,color:C.bleu,fontWeight:800,marginBottom:20}}>{title}</h2>
@@ -477,6 +477,18 @@ function ExplicatifPage({title,avantages,color}){
           {avantages.map((a,i)=>(<div key={i} style={{...card,padding:14,display:"flex",alignItems:"center",gap:10}}><div style={{width:28,height:28,background:`${color}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:color,flexShrink:0}}>✓</div><div style={{fontFamily:FONT,fontSize:13,color:C.text,fontWeight:600}}>{a}</div></div>))}
         </div>
       </div>
+      {photos.length>0&&(
+        <div style={{marginTop:32}}>
+          <h3 style={{fontFamily:FONT,fontSize:16,color:color,fontWeight:700,marginBottom:12}}>Nos réalisations</h3>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(240px, 1fr))",gap:12}}>
+            {photos.map((src,i)=>(
+              <div key={i} style={{border:`1px solid ${C.border}`,background:C.white,overflow:"hidden"}}>
+                <img src={`/image%20renov/${src}`} alt={`Réalisation ${i+1}`} loading="lazy" style={{width:"100%",height:180,objectFit:"cover",display:"block"}} onError={e=>{e.target.style.display="none";}}/>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -505,8 +517,8 @@ export default function App(){
         {active==="simu-ite"&&<SimuITE onSave={addDossier}/>}
         {active==="simu-pv"&&<SimuPV onSave={addDossier}/>}
         {active==="dossiers"&&<Dossiers dossiers={dossiers} setDossiers={setDossiers}/>}
-        {active==="demo-ite"&&<ExplicatifPage title="Isolation Thermique par l'Extérieur" avantages={ITE_AVANTAGES} color={C.bleu}/>}
-        {active==="demo-pv"&&<ExplicatifPage title="Panneaux Solaires Photovoltaïques" avantages={PV_AVANTAGES} color={C.success}/>}
+        {active==="demo-ite"&&<ExplicatifPage title="Isolation Thermique par l'Extérieur" avantages={ITE_AVANTAGES} color={C.bleu} photos={["pv-1.jpg","pv-2.jpg","pv-3.jpg"]}/>}
+        {active==="demo-pv"&&<ExplicatifPage title="Panneaux Solaires Photovoltaïques" avantages={PV_AVANTAGES} color={C.success} photos={["pv-1.jpg","pv-2.jpg","pv-3.jpg","pv-4.jpg","pv-5.jpg","pv-6.jpg"]}/>}
         {active==="fiche-ite"&&<FicheITE/>}
         {active==="fiche-pv"&&<FichePV/>}
       </main>
