@@ -24,11 +24,23 @@ const USERS = {
 };
 
 const PV_GRILLE = [
-  { kw: 3.5, prix: 22390, sub: 6900, label: "3,5 kWc" },
-  { kw: 4.5, prix: 25900, sub: 8900, label: "4,5 kWc" },
-  { kw: 6, prix: 28900, sub: 9900, label: "6 kWc" },
-  { kw: 9, prix: 31900, sub: 11900, label: "9 kWc" },
+  { kw: 3.5, prix: 23900, sub: 6900, label: "3,5 kWc" },
+  { kw: 4.5, prix: 27900, sub: 8900, label: "4,5 kWc" },
+  { kw: 6, prix: 30900, sub: 9900, label: "6 kWc" },
+  { kw: 9, prix: 36900, sub: 10900, label: "9 kWc" },
 ];
+// Table des aides selon palier de salaire : [≤p1, ≤p2, ≤p3, >p3]
+const PV_AIDES_TABLE = {
+  "3.5": [6900, 6200, 5600, 4900],
+  "4.5": [8900, 8200, 7600, 6900],
+  "6":   [9900, 9200, 8600, 7900],
+  "9":   [10900, 10200, 9600, 8900],
+};
+// Prix TTC de référence par puissance
+const PV_PRIX_REF = { "3.5": 23900, "4.5": 27900, "6": 30900, "9": 36900 };
+const TVA_RATE = 1.20;
+const DUREE_MOIS = 180; // 15 ans, fixe
+const MARGE_REVENTE = 10; // €, fixe
 const CEE_PAR_M2 = 13;
 const BONUS_NATIONAL = 3000;
 
@@ -52,7 +64,7 @@ function Field({label,value,onChange,type="text",placeholder="",half=false,optio
       {options ? (
         <select value={value} onChange={e=>onChange(e.target.value)} style={{...inputStyle,appearance:"auto"}}><option value="">— Choisir —</option>{options.map(o=><option key={o} value={o}>{o}</option>)}</select>
       ) : (
-        <input type={type} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} style={inputStyle} autoComplete="off" name={`f_${Math.random().toString(36).slice(2)}`}/>
+        <input type={type} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} style={inputStyle} autoComplete="off" name={`f_${label.replace(/[^a-z0-9]/gi,"_")}`}/>
       )}
     </div>
   );
@@ -298,7 +310,7 @@ function SimuITE({onSave}){
   const[step,setStep]=useState(0);const[f,setF]=useState(ITE_INIT);const[result,setResult]=useState(null);
   const u=(k,v)=>setF(p=>({...p,[k]:v}));
   const computeITE=()=>{const m2=parseFloat(f.m2_ite)||0;const ttc=parseFloat(f.prix_ttc)||0;const cee=m2*CEE_PAR_M2;const bonus=BONUS_NATIONAL;const totalAides=cee+bonus;const avecAides=Math.max(0,ttc-totalAides);const dur=parseFloat(f.duree_ite)||15;const mensSansAides=Math.round(ttc/(dur*12));const mensAvecAides=Math.max(0,Math.round(avecAides/(dur*12)));return{m2,ttc,cee,bonus,totalAides,avecAides,mensSansAides,mensAvecAides,dur};};
-  const finalize=()=>{const calc=computeITE();const score=60+Math.floor(Math.random()*21);setResult({calc,score});setStep(3);};
+  const finalize=()=>{const calc=computeITE();setResult({calc});setStep(3);};
   const titles=["Faisabilité technique","Aides et subventions","Finalisation"];
   if(step===3&&result)return <ResultPage type="ITE" result={result} form={f} onNew={()=>{setF(ITE_INIT);setStep(0);setResult(null);}} onSave={onSave}/>;
   return (
@@ -322,22 +334,56 @@ function SimuITE({onSave}){
 // SIMULATION PV
 // ═══════════════════════════════════════════════════════════════
 
-const PV_INIT = {nom:"",prenom:"",cp:"",ville:"",annee:"",chauffage:"",m2:"",occupants:"",salaire:"",credit:"",observation:"",puissance:"6",facture_elec:"",conso_kw:""};
+const PV_INIT = {nom:"",prenom:"",cp:"",ville:"",annee:"",chauffage:"",m2:"",occupants:"",salaire:"",credit:"",observation:"",puissance:"6",facture_elec:"",conso_kw:"",prix_ttc:"30900",prix_ht:"25750",tva:"5150",palier1:"1500",palier2:"2500",palier3:"3500",mensualite_initiale:""};
 
 function SimuPV({onSave}){
   const[step,setStep]=useState(0);const[f,setF]=useState(PV_INIT);const[result,setResult]=useState(null);
   const u=(k,v)=>setF(p=>({...p,[k]:v}));
-  const computePV=()=>{const pw=parseFloat(f.puissance)||6;const grille=PV_GRILLE.find(g=>g.kw===pw)||PV_GRILLE[2];const prixTTC=grille.prix;const aides=grille.sub;const factureElec=parseFloat(f.facture_elec)||1800;const prixAvecAides=Math.max(0,prixTTC-aides);const mensSansAides=Math.round(prixTTC/(20*12));const mensAvecAides=40;const tauxReduction=80+Math.round(Math.random()*10);const reduction=Math.round(factureElec*(tauxReduction/100));return{pw,grille,prixTTC,aides,prixAvecAides,mensSansAides,mensAvecAides,reduction,factureElec,tauxReduction};};
-  const finalize=()=>{const calc=computePV();const score=60+Math.floor(Math.random()*21);setResult({calc,score});setStep(3);};
+  const selectPuissance=(kw)=>{const ttc=PV_PRIX_REF[kw]||0;const ht=Math.round(ttc/TVA_RATE);const tva=ttc-ht;setF(p=>({...p,puissance:kw,prix_ttc:String(ttc),prix_ht:String(ht),tva:String(tva)}));};
+  const computePV=()=>{const pw=f.puissance;const prixTTC=parseFloat(f.prix_ttc)||0;const prixHT=parseFloat(f.prix_ht)||0;const tva=parseFloat(f.tva)||0;const salaire=parseFloat(f.salaire)||0;const p1=parseFloat(f.palier1)||1500;const p2=parseFloat(f.palier2)||2500;const p3=parseFloat(f.palier3)||3500;const mensInit=parseFloat(f.mensualite_initiale)||0;const aidesTable=PV_AIDES_TABLE[pw]||PV_AIDES_TABLE["6"];let aideBareme;if(salaire<=p1)aideBareme=aidesTable[0];else if(salaire<=p2)aideBareme=aidesTable[1];else if(salaire<=p3)aideBareme=aidesTable[2];else aideBareme=aidesTable[3];const aideFinale=aideBareme+tva;const prixFinal=Math.max(0,prixTTC-aideFinale);const mensualiteFinale=Math.round(prixFinal/DUREE_MOIS);const revente=mensualiteFinale+MARGE_REVENTE;return{pw,prixTTC,prixHT,tva,salaire,aideBareme,aideFinale,prixFinal,mensualiteFinale,revente,mensInit};};
+  const finalize=()=>{const calc=computePV();setResult({calc});setStep(3);};
   const titles=["Faisabilité technique","Calcul rentabilité","Finalisation"];
   if(step===3&&result)return <ResultPage type="PV" result={result} form={f} onNew={()=>{setF(PV_INIT);setStep(0);setResult(null);}} onSave={onSave}/>;
+  const canShowCalc=parseFloat(f.salaire)>0&&parseFloat(f.prix_ttc)>0;
   return (
     <div style={{padding:"24px 20px",maxWidth:780,margin:"0 auto"}}>
       <ProgressBar step={step} titles={titles}/>
       <h2 style={{fontFamily:FONT,fontSize:20,color:C.success,fontWeight:800,marginBottom:20}}>{titles[step]}</h2>
       <div style={{...card,marginBottom:20}}><div style={{display:"flex",flexWrap:"wrap",gap:14}}>
-        {step===0&&(<><Field label="Nom" value={f.nom} onChange={v=>u("nom",v)} half/><Field label="Prénom" value={f.prenom} onChange={v=>u("prenom",v)} half/><Field label="Code postal" value={f.cp} onChange={v=>u("cp",v)} half/><Field label="Ville" value={f.ville} onChange={v=>u("ville",v)} half/><Field label="Année construction" value={f.annee} onChange={v=>u("annee",v)} half/><Field label="Chauffage" value={f.chauffage} onChange={v=>u("chauffage",v)} half options={["Gaz","Électrique","Fioul","Bois","PAC"]}/><Field label="Surface (m²)" value={f.m2} onChange={v=>u("m2",v)} half type="number"/><Field label="Occupants" value={f.occupants} onChange={v=>u("occupants",v)} half type="number"/><Field label="Salaire net/mois (€)" value={f.salaire} onChange={v=>u("salaire",v)} half type="number"/><Field label="Crédits en cours (€/mois)" value={f.credit} onChange={v=>u("credit",v)} half type="number"/></>)}
-        {step===1&&(<><div style={{width:"100%"}}><label style={labelStyle}>Puissance installée</label><div style={{display:"grid",gridTemplateColumns:"repeat(4, 1fr)",gap:8}}>{PV_GRILLE.map(g=>(<button key={g.kw} onClick={()=>u("puissance",String(g.kw))} style={{padding:"14px 8px",cursor:"pointer",textAlign:"center",background:f.puissance===String(g.kw)?C.bleuLight:C.bgAlt,border:f.puissance===String(g.kw)?`2px solid ${C.bleu}`:`1px solid ${C.border}`}}><div style={{fontSize:16,fontWeight:800,color:f.puissance===String(g.kw)?C.bleu:C.text,fontFamily:FONT}}>{g.label}</div><div style={{fontSize:13,fontWeight:700,color:C.success,fontFamily:FONT,marginTop:4}}>{fmt(g.prix)}</div><div style={{fontSize:10,color:C.info,fontFamily:FONT}}>Aide : {fmt(g.sub)}</div></button>))}</div></div><Field label="Facture élec. annuelle (€)" value={f.facture_elec} onChange={v=>u("facture_elec",v)} half type="number"/><Field label="Conso annuelle (kWh)" value={f.conso_kw} onChange={v=>u("conso_kw",v)} half type="number"/>{(parseFloat(f.facture_elec)>0)&&(()=>{const c=computePV();return(<div style={{width:"100%",display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}><div style={{textAlign:"center",padding:12,background:C.infoBg}}><div style={{fontSize:10,color:C.info,fontWeight:700}}>Aides / Subventions</div><div style={{fontSize:20,fontWeight:800,color:C.info}}>{fmt(c.aides)}</div></div><div style={{textAlign:"center",padding:12,background:C.successBg}}><div style={{fontSize:10,color:C.success,fontWeight:700}}>Prix après aides</div><div style={{fontSize:20,fontWeight:800,color:C.success}}>{fmt(c.prixAvecAides)}</div></div><div style={{textAlign:"center",padding:12,background:C.bgAlt}}><div style={{fontSize:10,color:C.muted,fontWeight:700}}>Sans aides</div><div style={{fontSize:18,fontWeight:800}}>{fmt(c.mensSansAides)}/mois</div></div><div style={{textAlign:"center",padding:12,background:C.successBg,border:`1px solid ${C.success}30`}}><div style={{fontSize:10,color:C.success,fontWeight:700}}>Avec aides</div><div style={{fontSize:18,fontWeight:800,color:C.success}}>{fmt(c.mensAvecAides)}/mois</div></div></div>);})()}</>)}
+        {step===0&&(<><Field label="Nom" value={f.nom} onChange={v=>u("nom",v)} half/><Field label="Prénom" value={f.prenom} onChange={v=>u("prenom",v)} half/><Field label="Code postal" value={f.cp} onChange={v=>u("cp",v)} half/><Field label="Ville" value={f.ville} onChange={v=>u("ville",v)} half/><Field label="Année construction" value={f.annee} onChange={v=>u("annee",v)} half/><Field label="Chauffage" value={f.chauffage} onChange={v=>u("chauffage",v)} half options={["Gaz","Électrique","Fioul","Bois","PAC"]}/><Field label="Surface (m²)" value={f.m2} onChange={v=>u("m2",v)} half type="number"/><Field label="Occupants" value={f.occupants} onChange={v=>u("occupants",v)} half type="number"/><Field label="Crédits en cours (€/mois)" value={f.credit} onChange={v=>u("credit",v)} half type="number"/></>)}
+        {step===1&&(<>
+          <div style={{width:"100%"}}>
+            <label style={labelStyle}>Puissance installée (clic = pré-remplit prix)</label>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(4, 1fr)",gap:8}}>{PV_GRILLE.map(g=>(<button key={g.kw} onClick={()=>selectPuissance(String(g.kw))} style={{padding:"14px 8px",cursor:"pointer",textAlign:"center",background:f.puissance===String(g.kw)?C.bleuLight:C.bgAlt,border:f.puissance===String(g.kw)?`2px solid ${C.bleu}`:`1px solid ${C.border}`}}><div style={{fontSize:16,fontWeight:800,color:f.puissance===String(g.kw)?C.bleu:C.text,fontFamily:FONT}}>{g.label}</div><div style={{fontSize:13,fontWeight:700,color:C.success,fontFamily:FONT,marginTop:4}}>{fmt(PV_PRIX_REF[String(g.kw)])}</div></button>))}</div>
+          </div>
+          <Field label="Prix TTC (€)" value={f.prix_ttc} onChange={v=>u("prix_ttc",v)} half type="number"/>
+          <Field label="Prix HT (€)" value={f.prix_ht} onChange={v=>u("prix_ht",v)} half type="number"/>
+          <Field label="TVA (€)" value={f.tva} onChange={v=>u("tva",v)} half type="number"/>
+          <Field label="Salaire net/mois (€)" value={f.salaire} onChange={v=>u("salaire",v)} half type="number"/>
+          <Field label="Palier 1 (€)" value={f.palier1} onChange={v=>u("palier1",v)} half type="number"/>
+          <Field label="Palier 2 (€)" value={f.palier2} onChange={v=>u("palier2",v)} half type="number"/>
+          <Field label="Palier 3 (€)" value={f.palier3} onChange={v=>u("palier3",v)} half type="number"/>
+          <Field label="Mensualité initiale (€/mois, saisie)" value={f.mensualite_initiale} onChange={v=>u("mensualite_initiale",v)} half type="number"/>
+          {canShowCalc&&(()=>{const c=computePV();return(
+            <div style={{width:"100%",display:"flex",flexDirection:"column",gap:10,marginTop:10}}>
+              <div style={{padding:14,background:C.infoBg,border:`1px solid ${C.info}40`}}>
+                <div style={{fontSize:11,color:C.info,fontWeight:800,marginBottom:8,textTransform:"uppercase",letterSpacing:1}}>Bloc Aides</div>
+                <div style={{fontFamily:FONT,fontSize:13,color:C.text,lineHeight:1.8}}>Aide barème : <strong>{fmt(c.aideBareme)}</strong></div>
+                <div style={{fontFamily:FONT,fontSize:13,color:C.text,lineHeight:1.6}}>+ TVA réinjectée : <strong>{fmt(c.tva)}</strong></div>
+                <div style={{fontFamily:FONT,fontSize:16,marginTop:4,color:C.info,fontWeight:800}}>= Aide finale : {fmt(c.aideFinale)}</div>
+              </div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+                <div style={{textAlign:"center",padding:12,background:C.bgAlt}}><div style={{fontSize:10,color:C.muted,fontWeight:700}}>Mensualité initiale (saisie)</div><div style={{fontSize:18,fontWeight:800}}>{fmt(c.mensInit)}/mois</div></div>
+                <div style={{textAlign:"center",padding:12,background:C.successBg,border:`1px solid ${C.success}30`}}><div style={{fontSize:10,color:C.success,fontWeight:700}}>Mensualité finale (auto)</div><div style={{fontSize:18,fontWeight:800,color:C.success}}>{fmt(c.mensualiteFinale)}/mois</div></div>
+              </div>
+              <div style={{padding:14,background:C.successBg,border:`2px solid ${C.success}`,textAlign:"center"}}>
+                <div style={{fontSize:11,color:C.success,fontWeight:800,marginBottom:4,textTransform:"uppercase",letterSpacing:1}}>Revente surplus</div>
+                <div style={{fontSize:22,fontWeight:800,color:C.success,fontFamily:FONT}}>{fmt(c.revente)}/mois</div>
+                <div style={{fontSize:11,color:C.text,fontFamily:FONT,marginTop:4}}>Couvre 100% de la mensualité (+{MARGE_REVENTE}€)</div>
+              </div>
+            </div>
+          );})()}
+        </>)}
         {step===2&&(<><Field label="Observation du technicien" value={f.observation} onChange={v=>u("observation",v)}/></>)}
       </div></div>
       <div style={{display:"flex",justifyContent:"space-between",gap:12}}>
@@ -347,26 +393,51 @@ function SimuPV({onSave}){
     </div>
   );
 }
-
 // ═══════════════════════════════════════════════════════════════
 // RESULT PAGE
 // ═══════════════════════════════════════════════════════════════
 
 function ResultPage({type,result,form,onNew,onSave}){
-  const{score}=result;const saved=useRef(false);
-  const handleSave=(status)=>{if(!saved.current){saved.current=true;onSave({...form,score,status,type,date:new Date().toLocaleDateString("fr-FR")});}};
+  const calc=result.calc||{};const saved=useRef(false);
+  const handleSave=(status)=>{if(!saved.current){saved.current=true;onSave({...form,score:100,status,type,date:new Date().toLocaleDateString("fr-FR")});}};
+  const isPV=type==="PV";
   return (
-    <div style={{padding:"32px 20px",maxWidth:700,margin:"0 auto",textAlign:"center"}}>
+    <div style={{padding:"32px 20px",maxWidth:760,margin:"0 auto",textAlign:"center"}}>
       <h2 style={{fontFamily:FONT,fontSize:24,color:C.bleu,fontWeight:800,marginBottom:6}}>Résultat — Simulation {type}</h2>
       <p style={{color:C.muted,fontFamily:FONT,marginBottom:20}}>{form.prenom} {form.nom} — {form.ville} {form.cp}</p>
-      <div style={{...card,padding:24,marginBottom:20,borderLeft:`4px solid ${C.bleu}`}}>
-        <div style={{fontSize:12,color:C.muted,fontFamily:FONT,fontWeight:700,textTransform:"uppercase",marginBottom:14}}>Tube d'éligibilité</div>
-        <div style={{position:"relative",height:40,background:C.bgAlt,overflow:"hidden",marginBottom:8}}><div style={{position:"absolute",top:0,left:0,height:"100%",width:`${score}%`,background:`linear-gradient(90deg, ${C.info}, ${C.success})`,transition:"width 1.5s"}}/><div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,fontWeight:800,color:C.white,fontFamily:FONT,textShadow:"0 1px 3px rgba(0,0,0,0.4)"}}>{score}%</div></div>
+      <div style={{...card,padding:20,marginBottom:16,background:C.successBg,border:`2px solid ${C.success}`}}>
+        <div style={{fontSize:14,fontWeight:800,color:C.success,fontFamily:FONT,textTransform:"uppercase",letterSpacing:1}}>✓ Dossier éligible</div>
+        <div style={{fontSize:15,color:C.text,fontFamily:FONT,marginTop:6}}>Projet réalisable à 100%</div>
       </div>
-      <div style={{...card,padding:20,marginBottom:20,background:C.successBg,border:`1px solid ${C.success}30`}}>
-        <h3 style={{fontFamily:FONT,fontSize:20,color:C.success,fontWeight:800,marginBottom:6}}>Félicitations !</h3>
-        <p style={{fontFamily:FONT,fontSize:15,color:C.text}}>Votre projet est réalisable à environ <strong style={{color:C.bleu,fontSize:18}}>{score}%</strong>.</p>
-      </div>
+      {isPV&&calc.prixTTC&&(
+        <div style={{textAlign:"left",marginBottom:16}}>
+          <div style={{...card,marginBottom:10}}>
+            <div style={{fontSize:11,color:C.muted,fontWeight:800,textTransform:"uppercase",letterSpacing:1,marginBottom:8}}>Prix installation</div>
+            <div style={{fontFamily:FONT,fontSize:14,lineHeight:1.8}}>TTC : <strong>{fmt(calc.prixTTC)}</strong></div>
+            <div style={{fontFamily:FONT,fontSize:14,lineHeight:1.6}}>HT : <strong>{fmt(calc.prixHT)}</strong></div>
+            <div style={{fontFamily:FONT,fontSize:14,lineHeight:1.6}}>TVA : <strong>{fmt(calc.tva)}</strong></div>
+          </div>
+          <div style={{...card,marginBottom:10,background:C.infoBg,border:`1px solid ${C.info}40`}}>
+            <div style={{fontSize:11,color:C.info,fontWeight:800,textTransform:"uppercase",letterSpacing:1,marginBottom:8}}>Aides</div>
+            <div style={{fontFamily:FONT,fontSize:14,lineHeight:1.8}}>Aide barème : <strong>{fmt(calc.aideBareme)}</strong></div>
+            <div style={{fontFamily:FONT,fontSize:14,lineHeight:1.6}}>+ TVA réinjectée : <strong>{fmt(calc.tva)}</strong></div>
+            <div style={{fontFamily:FONT,fontSize:16,color:C.info,fontWeight:800,marginTop:4}}>= Aide finale : {fmt(calc.aideFinale)}</div>
+            <div style={{fontFamily:FONT,fontSize:13,marginTop:8,color:C.muted}}>Prix après aides : <strong>{fmt(calc.prixFinal)}</strong></div>
+          </div>
+          <div style={{...card,marginBottom:10}}>
+            <div style={{fontSize:11,color:C.muted,fontWeight:800,textTransform:"uppercase",letterSpacing:1,marginBottom:8}}>Mensualité</div>
+            <div style={{fontFamily:FONT,fontSize:14,lineHeight:1.8}}>Initiale (saisie) : <strong>{fmt(calc.mensInit)}/mois</strong></div>
+            <div style={{fontFamily:FONT,fontSize:16,color:C.success,fontWeight:800,marginTop:4}}>Finale (auto) : {fmt(calc.mensualiteFinale)}/mois</div>
+            <div style={{fontFamily:FONT,fontSize:11,color:C.muted,marginTop:4}}>Calcul : ({fmt(calc.prixFinal)} ÷ 180 mois)</div>
+          </div>
+          <div style={{...card,background:C.successBg,border:`2px solid ${C.success}`}}>
+            <div style={{fontSize:11,color:C.success,fontWeight:800,textTransform:"uppercase",letterSpacing:1,marginBottom:8}}>Revente surplus</div>
+            <div style={{fontFamily:FONT,fontSize:22,color:C.success,fontWeight:800}}>{fmt(calc.revente)}/mois</div>
+            <div style={{fontFamily:FONT,fontSize:13,marginTop:6}}>Couvre 100% de la mensualité (+{MARGE_REVENTE}€)</div>
+            <div style={{fontFamily:FONT,fontSize:12,color:C.text,marginTop:10,fontStyle:"italic"}}>→ Vous gagnez {MARGE_REVENTE}€/mois pour avoir des panneaux solaires.</div>
+          </div>
+        </div>
+      )}
       <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
         <button onClick={()=>{handleSave("en_cours");onNew();}} style={btnP}>Enregistrer & Nouveau</button>
         <button onClick={onNew} style={btnS}>Nouvelle simulation</button>
@@ -374,7 +445,6 @@ function ResultPage({type,result,form,onNew,onSave}){
     </div>
   );
 }
-
 // ═══════════════════════════════════════════════════════════════
 // DOSSIERS
 // ═══════════════════════════════════════════════════════════════
