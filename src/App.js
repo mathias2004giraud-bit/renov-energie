@@ -340,7 +340,7 @@ function SimuPV({onSave}){
   const[step,setStep]=useState(0);const[f,setF]=useState(PV_INIT);const[result,setResult]=useState(null);
   const u=(k,v)=>setF(p=>({...p,[k]:v}));
   const selectPuissance=(kw)=>{const ttc=PV_PRIX_REF[kw]||0;const ht=Math.round(ttc/TVA_RATE);const tva=ttc-ht;setF(p=>({...p,puissance:kw,prix_ttc:String(ttc),prix_ht:String(ht),tva:String(tva)}));};
-  const computePV=()=>{const pw=f.puissance;const prixTTC=parseFloat(f.prix_ttc)||0;const prixHT=parseFloat(f.prix_ht)||0;const tva=parseFloat(f.tva)||0;const salaire=parseFloat(f.salaire)||0;const p1=parseFloat(f.palier1)||1500;const p2=parseFloat(f.palier2)||2500;const p3=parseFloat(f.palier3)||3500;const mensInit=parseFloat(f.mensualite_initiale)||0;const aidesTable=PV_AIDES_TABLE[pw]||PV_AIDES_TABLE["6"];let aideBareme;if(salaire<=p1)aideBareme=aidesTable[0];else if(salaire<=p2)aideBareme=aidesTable[1];else if(salaire<=p3)aideBareme=aidesTable[2];else aideBareme=aidesTable[3];const aideFinale=aideBareme+tva;const prixFinal=Math.max(0,prixTTC-aideFinale);const mensualiteFinale=Math.round(prixFinal/DUREE_MOIS);const revente=mensualiteFinale+MARGE_REVENTE;return{pw,prixTTC,prixHT,tva,salaire,aideBareme,aideFinale,prixFinal,mensualiteFinale,revente,mensInit};};
+  const computePV=()=>{const pw=f.puissance;const prixTTC=parseFloat(f.prix_ttc)||0;const prixHT=parseFloat(f.prix_ht)||0;const tva=parseFloat(f.tva)||0;const salaire=parseFloat(f.salaire)||0;const p1=parseFloat(f.palier1)||1500;const p2=parseFloat(f.palier2)||2500;const p3=parseFloat(f.palier3)||3500;const mensInit=parseFloat(f.mensualite_initiale)||0;const aidesTable=PV_AIDES_TABLE[pw]||PV_AIDES_TABLE["6"];let aideBareme;if(salaire<=p1)aideBareme=aidesTable[0];else if(salaire<=p2)aideBareme=aidesTable[1];else if(salaire<=p3)aideBareme=aidesTable[2];else aideBareme=aidesTable[3];const aideFinale=aideBareme;const prixFinal=Math.max(0,prixTTC-aideFinale);const mensualiteFinale=Math.round(prixFinal/DUREE_MOIS);const revente=mensualiteFinale+MARGE_REVENTE;return{pw,prixTTC,prixHT,tva,salaire,aideBareme,aideFinale,prixFinal,mensualiteFinale,revente,mensInit};};
   const finalize=()=>{const calc=computePV();setResult({calc});setStep(3);};
   const titles=["Faisabilité technique","Calcul rentabilité","Finalisation"];
   if(step===3&&result)return <ResultPage type="PV" result={result} form={f} onNew={()=>{setF(PV_INIT);setStep(0);setResult(null);}} onSave={onSave}/>;
@@ -368,9 +368,7 @@ function SimuPV({onSave}){
             <div style={{width:"100%",display:"flex",flexDirection:"column",gap:10,marginTop:10}}>
               <div style={{padding:14,background:C.infoBg,border:`1px solid ${C.info}40`}}>
                 <div style={{fontSize:11,color:C.info,fontWeight:800,marginBottom:8,textTransform:"uppercase",letterSpacing:1}}>Bloc Aides</div>
-                <div style={{fontFamily:FONT,fontSize:13,color:C.text,lineHeight:1.8}}>Aide barème : <strong>{fmt(c.aideBareme)}</strong></div>
-                <div style={{fontFamily:FONT,fontSize:13,color:C.text,lineHeight:1.6}}>+ TVA réinjectée : <strong>{fmt(c.tva)}</strong></div>
-                <div style={{fontFamily:FONT,fontSize:16,marginTop:4,color:C.info,fontWeight:800}}>= Aide finale : {fmt(c.aideFinale)}</div>
+                <div style={{fontFamily:FONT,fontSize:16,color:C.info,fontWeight:800}}>Aide totale (TVA incluse) : {fmt(c.aideFinale)}</div>
               </div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
                 <div style={{textAlign:"center",padding:12,background:C.bgAlt}}><div style={{fontSize:10,color:C.muted,fontWeight:700}}>Mensualité initiale (saisie)</div><div style={{fontSize:18,fontWeight:800}}>{fmt(c.mensInit)}/mois</div></div>
@@ -419,9 +417,7 @@ function ResultPage({type,result,form,onNew,onSave}){
           </div>
           <div style={{...card,marginBottom:10,background:C.infoBg,border:`1px solid ${C.info}40`}}>
             <div style={{fontSize:11,color:C.info,fontWeight:800,textTransform:"uppercase",letterSpacing:1,marginBottom:8}}>Aides</div>
-            <div style={{fontFamily:FONT,fontSize:14,lineHeight:1.8}}>Aide barème : <strong>{fmt(calc.aideBareme)}</strong></div>
-            <div style={{fontFamily:FONT,fontSize:14,lineHeight:1.6}}>+ TVA réinjectée : <strong>{fmt(calc.tva)}</strong></div>
-            <div style={{fontFamily:FONT,fontSize:16,color:C.info,fontWeight:800,marginTop:4}}>= Aide finale : {fmt(calc.aideFinale)}</div>
+            <div style={{fontFamily:FONT,fontSize:16,color:C.info,fontWeight:800}}>Aide totale (TVA incluse) : {fmt(calc.aideFinale)}</div>
             <div style={{fontFamily:FONT,fontSize:13,marginTop:8,color:C.muted}}>Prix après aides : <strong>{fmt(calc.prixFinal)}</strong></div>
           </div>
           <div style={{...card,marginBottom:10}}>
