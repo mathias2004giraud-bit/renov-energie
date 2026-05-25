@@ -518,7 +518,7 @@ export default function App(){
         {active==="simu-pv"&&<SimuPV onSave={addDossier}/>}
         {active==="dossiers"&&<Dossiers dossiers={dossiers} setDossiers={setDossiers}/>}
         {active==="demo-ite"&&<ExplicatifPage title="Isolation Thermique par l'Extérieur" avantages={ITE_AVANTAGES} color={C.bleu} photos={["pv-1.jpg","pv-2.jpg","pv-3.jpg"]}/>}
-        {active==="demo-pv"&&<ExplicatifPage title="Panneaux Solaires Photovoltaïques" avantages={PV_AVANTAGES} color={C.success} photos={["pv-1.jpg","pv-2.jpg","pv-3.jpg","pv-4.jpg","pv-5.jpg","pv-6.jpg"]}/>}
+        {active==="demo-pv"&&<ExplicatifPage title="Panneaux Solaires Photovoltaïques" avantages={PV_AVANTAGES} color={C.success} photos={["pv-1.jpg","pv-2.jpg","pv-3.jpg","pv-4.jpg","pv-5.jpg","pv-6.jpg","pv-7.jpg","pv-8.jpg"]}/>}
         {active==="fiche-ite"&&<FicheITE/>}
         {active==="fiche-pv"&&<FichePV/>}
       </main>
