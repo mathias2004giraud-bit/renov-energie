@@ -468,24 +468,35 @@ function Dossiers({dossiers,setDossiers}){
 const ITE_AVANTAGES=["Réduction de la facture de 40 à 60%","Réduction des déperditions thermiques","Esthétique de la maison améliorée","Gain de 2 lettres dans le DPE","Plus-value immobilière de 15 à 20%","Confort de vie et santé améliorés"];
 const PV_AVANTAGES=["Réduction de la facture de 75 à 80%","Énergie propre, renouvelable et gratuite","Valorisation du logement 15 à 20%","Gain dans le DPE de la maison","Plus-value immobilière 15 à 20%","Électricité sans émissions de gaz à effet de serre","Un pas vers la transition énergétique"];
 
-function ExplicatifPage({title,avantages,color,photos=[]}){
+const PV_VISUELS = [
+  { img: "/image%20renov/pv-plusvalue.jpg", txt: "GAIN ET PLUS-VALUE IMMOBILIÈRE DE LA MAISON : entre 14 à 27 %" },
+  { img: "/image%20renov/pv-energie-verte.jpg", txt: "INVESTISSEZ DANS UNE ÉNERGIE VERTE ET ÉCO-RESPONSABLE" },
+  { img: "/image%20renov/pv-dpe.jpg", txt: "GAIN AU NIVEAU DU DPE : 1 à 2 lettres gagnées" },
+  { img: "/image%20renov/pv-autoconso.jpg", txt: "AUTOCONSOMMATION À 100% + AUTONOMIE" },
+  { img: "/image%20renov/pv-autofinancement.jpg", txt: "AUTOFINANCEMENT 100%" },
+];
+
+function ExplicatifPage({title,avantages,color,visuels=null}){
   return (
     <div style={{padding:"28px 20px",maxWidth:860,margin:"0 auto"}}>
       <h2 style={{fontFamily:FONT,fontSize:22,color:C.bleu,fontWeight:800,marginBottom:20}}>{title}</h2>
-      <div><h3 style={{fontFamily:FONT,fontSize:16,color:color,fontWeight:700,marginBottom:12}}>Avantages</h3>
-        <div style={{display:"flex",flexDirection:"column",gap:8}}>
-          {avantages.map((a,i)=>(<div key={i} style={{...card,padding:14,display:"flex",alignItems:"center",gap:10}}><div style={{width:28,height:28,background:`${color}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:color,flexShrink:0}}>✓</div><div style={{fontFamily:FONT,fontSize:13,color:C.text,fontWeight:600}}>{a}</div></div>))}
-        </div>
-      </div>
-      {photos.length>0&&(
-        <div style={{marginTop:32}}>
-          <h3 style={{fontFamily:FONT,fontSize:16,color:color,fontWeight:700,marginBottom:12}}>Nos réalisations</h3>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill, minmax(240px, 1fr))",gap:12}}>
-            {photos.map((src,i)=>(
-              <div key={i} style={{border:`1px solid ${C.border}`,background:C.white,overflow:"hidden"}}>
-                <img src={`/image%20renov/${src}`} alt={`Réalisation ${i+1}`} loading="lazy" style={{width:"100%",height:180,objectFit:"cover",display:"block"}} onError={e=>{e.target.style.display="none";}}/>
+      {visuels ? (
+        <div style={{display:"flex",flexDirection:"column",gap:20}}>
+          {visuels.map((b,i)=>(
+            <div key={i} style={{...card,padding:0,overflow:"hidden"}}>
+              <img src={b.img} alt={b.txt} style={{width:"100%",height:280,objectFit:"contain",background:"#FAFAFA",display:"block",borderBottom:`1px solid ${C.border}`}}/>
+              <div style={{padding:"16px 20px",display:"flex",alignItems:"center",gap:12}}>
+                <div style={{width:32,height:32,background:`${color}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,fontWeight:800,color:color,flexShrink:0}}>✓</div>
+                <div style={{fontFamily:FONT,fontSize:15,color:C.text,fontWeight:700,lineHeight:1.4}}>{b.txt}</div>
               </div>
-            ))}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>
+          <h3 style={{fontFamily:FONT,fontSize:16,color:color,fontWeight:700,marginBottom:12}}>Avantages</h3>
+          <div style={{display:"flex",flexDirection:"column",gap:8}}>
+            {avantages.map((a,i)=>(<div key={i} style={{...card,padding:14,display:"flex",alignItems:"center",gap:10}}><div style={{width:28,height:28,background:`${color}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:color,flexShrink:0}}>✓</div><div style={{fontFamily:FONT,fontSize:13,color:C.text,fontWeight:600}}>{a}</div></div>))}
           </div>
         </div>
       )}
@@ -510,7 +521,6 @@ const FAKE_DOSSIERS=genFakeDossiers();
 export default function App(){
   const[user,setUser]=useState(null);const[active,setActive]=useState("accueil");const[sidebarOpen,setSidebarOpen]=useState(false);const[dossiers,setDossiers]=useState(FAKE_DOSSIERS);
   const userName=user&&USERS[user]?USERS[user].name:"";
-  const titles={accueil:"Accueil","simu-ite":"Simulation ITE","simu-pv":"Simulation PV",dossiers:"Dossiers","demo-ite":"Explicatif ITE","demo-pv":"Explicatif PV","fiche-ite":"Subventions ITE","fiche-pv":"Subventions PV"};
   if(!user)return <Login onLogin={setUser}/>;
   const addDossier=d=>setDossiers(prev=>[{...d,commercial:userName},...prev]);
   return (
@@ -524,7 +534,7 @@ export default function App(){
         {active==="simu-pv"&&<SimuPV onSave={addDossier}/>}
         {active==="dossiers"&&<Dossiers dossiers={dossiers} setDossiers={setDossiers}/>}
         {active==="demo-ite"&&<ExplicatifPage title="Isolation Thermique par l'Extérieur" avantages={ITE_AVANTAGES} color={C.bleu} photos={["pv-1.jpg","pv-2.jpg","pv-3.jpg"]}/>}
-        {active==="demo-pv"&&<ExplicatifPage title="Panneaux Solaires Photovoltaïques" avantages={PV_AVANTAGES} color={C.success} photos={["pv-1.jpg","pv-2.jpg","pv-3.jpg","pv-4.jpg","pv-5.jpg","pv-6.jpg","pv-7.jpg","pv-8.jpg"]}/>}
+        {active==="demo-pv"&&<ExplicatifPage title="Panneaux Solaires Photovoltaïques" color={C.success} visuels={PV_VISUELS}/>}
         {active==="fiche-ite"&&<FicheITE/>}
         {active==="fiche-pv"&&<FichePV/>}
       </main>
