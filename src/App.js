@@ -521,6 +521,7 @@ const FAKE_DOSSIERS=genFakeDossiers();
 export default function App(){
   const[user,setUser]=useState(null);const[active,setActive]=useState("accueil");const[sidebarOpen,setSidebarOpen]=useState(false);const[dossiers,setDossiers]=useState(FAKE_DOSSIERS);
   const userName=user&&USERS[user]?USERS[user].name:"";
+  const titles={accueil:"Accueil","simu-ite":"Simulation ITE","simu-pv":"Simulation PV",dossiers:"Dossiers","demo-ite":"Explicatif ITE","demo-pv":"Explicatif PV","fiche-ite":"Subventions ITE","fiche-pv":"Subventions PV"};
   if(!user)return <Login onLogin={setUser}/>;
   const addDossier=d=>setDossiers(prev=>[{...d,commercial:userName},...prev]);
   return (
